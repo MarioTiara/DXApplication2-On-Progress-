@@ -1,33 +1,33 @@
 @{
-    var grid = Html.DevExpress().DataView(
-        settings =>{
-
+    var View = Html.DevExpress().DataView(
+    settings =>
+    {
         settings.Name = "dataView";
-        settings.KeyFieldName = "VEHICLE_SID";
         settings.CallbackRouteValues = new { Controller = "CampReportDev", Action = "Grid" };
         settings.SettingsTableLayout.RowsPerPage = 2;
         settings.Width = Unit.Percentage(100);
         settings.PagerAlign = PagerAlign.Justify;
         settings.SetItemTemplateContent(
-            c => {
+            c =>
+            {
                 ViewContext.Writer.Write(
-                "<table>"+
-                    "<tr>"+
-                    "<td colspan=\"2\">"+
-                         "<img src=\"" + url.content(databinder.eval(c.dataitem, "PhotoUrl" ).tostring()) + "\" alt=\"\" />"
-                    "</td>"+
-                   "</tr>"+
-                "</table>"
-
-
+                    "<table>" +
+                        "<tr>" +
+                            "<td colspan=\"2\">" +
+                                "<img src=\"" + Url.Content(DataBinder.Eval(c.DataItem, "PhotoUrl").ToString()) + "\" alt=\"\" />" +
+                            "</td>" +
+                        "</tr>" +
+                    "</table>"
                 );
-
-        
-
-      
-
-       
-     
+            }
+        );
+        settings.PagerSettings.ShowNumericButtons = true;
+        settings.PagerSettings.AllButton.Visible = false;
+        settings.PagerSettings.Summary.Visible = false;
+        settings.PagerSettings.PageSizeItemSettings.Visible = true;
+        settings.PagerSettings.PageSizeItemSettings.ShowAllItem = true;
     });
+
 }
 
+@View.Bind(ViewBag.Datas).GetHtml()
