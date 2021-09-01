@@ -1,0 +1,14 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "detailGrid_" + ViewData["ORDER_NUMBER"];
+    settings.CallbackRouteValues = new { Controller = "HistoryShippment", Action = "MasterDetailDetailPartial", ORDER_NUMBER = ViewData["ORDER_NUMBER"] };
+    settings.Width = Unit.Percentage(100);
+    settings.KeyFieldName = "ORDER_NUMBER";
+    settings.Columns.Add("ORDER_NUMBER");
+    settings.Columns.Add("HISTORY_DATE").PropertiesEdit.DisplayFormatString = "d";
+    settings.Columns.Add("HISTORY_LOCATION");
+    settings.Columns.Add("STATUS");
+    settings.SettingsDetail.MasterGridName = "masterGrid";
+    DevExpress.Web.Demos.GridViewFeaturesHelper.SetupGlobalGridViewBehavior(settings);
+  
+}).Bind(ViewBag.DataDetail).GetHtml()

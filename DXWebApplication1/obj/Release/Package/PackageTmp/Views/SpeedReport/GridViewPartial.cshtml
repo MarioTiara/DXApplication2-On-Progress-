@@ -1,0 +1,174 @@
+@*@Html.Action("getEvent");*@
+
+<style>
+    .table-responsives {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #ddd;
+    }
+
+    .tdCombo {
+        text-align: left;
+        padding: 3px;
+    }
+</style>
+<div class="container" style="float:right !important;">
+
+    <table class="table-responsives">
+        <tr>
+            <td class="tdCombo">Vehicle Number</td>
+            <td class="tdCombo">
+                @Html.DevExpress().ComboBox(settings =>
+                    {
+                        settings.Name = "comboboxvehicle";
+                        settings.Width = 180;
+                        settings.SelectedIndex = 0;
+                        settings.Properties.DropDownWidth = 180;
+                        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                        settings.Properties.CallbackPageSize = 30;
+                        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                        settings.Properties.TextFormatString = "{0}";
+                        settings.Properties.ValueField = "VEHICLE_SID";
+                        settings.Properties.ValueType = typeof(string);
+                        settings.Properties.Columns.Add("REG_NO", "REG_NO", 80);
+                        settings.Properties.ClientInstanceName = "comboboxvehicle";
+                    }).BindList(ViewBag.Data).GetHtml()
+            </td>
+            <td class="tdCombo">From</td>
+            <td class="tdCombo">
+
+
+                @Html.DevExpress().DateEdit(settings =>
+                   {
+                       //DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+                       settings.Name = "fromdate";
+                       settings.Properties.UseMaskBehavior = true;
+                       settings.Properties.DisplayFormatString = "yyyy/MM/dd HH:mm:ss";
+                       settings.Properties.EditFormatString = "yyyy/MM/dd HH:mm:ss";
+                       settings.Properties.TimeSectionProperties.Visible = true;
+                       settings.Properties.TimeSectionProperties.Adaptive = true;
+                       settings.Properties.TimeSectionProperties.TimeEditProperties.DisplayFormatString = "HH:mm:ss";
+                       settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormatString = "HH:mm:ss";
+                       settings.Date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd" + " " + "00:00:00"), "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                       settings.Width = Unit.Percentage(100);
+                       settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                       settings.Properties.ClientInstanceName = "fromdate";
+                   }).GetHtml()
+
+            </td>
+            <td class="tdCombo">To</td>
+            <td class="tdCombo">
+                @Html.DevExpress().DateEdit(settings =>
+                {
+
+                    settings.Name = "todate";
+                    settings.Properties.UseMaskBehavior = true;
+                    settings.Properties.DisplayFormatString = "yyyy/MM/dd HH:mm:ss";
+                    settings.Properties.EditFormatString = "yyyy/MM/dd HH:mm:ss";
+                    settings.Properties.TimeSectionProperties.Visible = true;
+                    settings.Properties.TimeSectionProperties.Adaptive = true;
+                    settings.Properties.TimeSectionProperties.TimeEditProperties.DisplayFormatString = "HH:mm:ss";
+                    settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormatString = "HH:mm:ss";
+                    settings.Date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd" + " " + "23:59:59"), "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    settings.Width = Unit.Percentage(100);
+                    settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                    settings.Properties.ClientInstanceName = "todate";
+                }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(settings =>
+                   {
+                       settings.Name = "btnSearch";
+                       settings.Width = 100;
+                       settings.Text = "Search";
+                       settings.ClientSideEvents.Click = "function(s, e){ onClickSearch(s, e); }";
+                   }).GetHtml()
+
+            </td>
+        </tr>
+    </table>
+    <div class="divElement">
+        @Html.DevExpress().LoadingPanel(
+                    settings =>
+                    {
+                        settings.Name = "LoadingPanel";
+                        settings.Modal = true;
+                        settings.ContainerElementID = "LoadingPanel";
+
+                    }
+                ).GetHtml()
+    </div>
+
+    @Html.DevExpress().CallbackPanel(
+                            settings =>
+                            {
+                                settings.Name = "CallbackPanel";
+                                settings.CallbackRouteValues = new { Controller = "VehicleInGeofence", Action = "ExamplePartial" };
+                                settings.SettingsLoadingPanel.Enabled = false;
+                                settings.ClientSideEvents.BeginCallback = "function(s, e) { LoadingPanel.Show(); }";
+                                settings.ClientSideEvents.EndCallback = "function(s, e) { LoadingPanel.Hide(); }";
+                            }
+                        ).GetHtml()
+
+</div>
+<div id="containers" class="containers">
+    @*@Html.Partial("_GridView1Partial")*@
+</div>
+<script>
+    function onClick(s, e) {
+        //console.log(s);
+        //console.log(e);
+
+        //var vec = comboboxvehicle.GetValue();
+        //var frdate = fromdate.GetText();
+        //var todt = todate.GetText();
+
+        //var Data = { VehicleSid: vec, FROM_DATE: frdate, TO_DATE: todt };
+        //var targetUrl = s.submitUrl + "/" + Data;
+        //s.submitUrl = targetUrl;
+    }
+
+
+
+
+
+    function onClickSearch(s, e) {
+        try{
+            var vec = comboboxvehicle.GetValue();
+            var frdate = fromdate.GetText();
+            var todt = todate.GetText();
+            @*var baseUrl = "@Url.Action("getEvent", "EventReport")" + "?VehicleSid=" + vec + "&FROM_DATE=" + frdate + "&TO_DATE=" + todt;
+            window.location.href = baseUrl;*@
+
+            $.ajax({
+                url: '@Url.Action("getEvent", "SpeedReport")',
+                type: 'POST',
+                data: { VehicleSid: vec, FROM_DATE: frdate, TO_DATE: todt },
+                beforeSend: function () {
+                    CallbackPanel.PerformCallback();
+                },
+                success: function (data) {
+                   // $('#loader').hide();
+                    $("#containers").html(data);
+                }
+            });
+        }catch(err){
+         
+        }
+
+
+    }
+
+    function CmbVehicle(s, e) {
+        comboboxvehicle.GetValue();
+        comboboxvehicle.PerformCallback(s.GetValue());
+    }
+    function CmbFromDate(s, e) {
+        fromdate.GetText();
+        fromdate.PerformCallback(s.GetText());
+    }
+    function CmbToDate(s, e) {
+        todate.GetText();
+        todate.PerformCallback(s.GetText());
+    }
+</script>

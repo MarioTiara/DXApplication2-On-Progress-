@@ -1,0 +1,757 @@
+﻿body {
+  /*overflow-x: scroll; /* Show scrollbars */
+  overflow:auto;
+}   
+
+.table-responsives {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #ddd;
+    }
+
+    .tdCombo {
+        text-align: left;
+        padding: 3px;
+    }
+
+    .divElement {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
+        width: 100px;
+        height: 100px;
+       
+    }
+
+    
+    .leaflet-createGeo > .leaflet-draw{
+       margin-left: 10px ;
+        margin-top : 74px;
+    }
+
+.leaflet-createGeo > #mapMenu{
+        margin-right : 5px;       
+        margin-top : 10px;
+    }
+
+.leaflet-control-layers {
+    top: 55px;
+
+}
+
+
+.table-responsive-map {
+    padding: 20px 0 20px 0 !important;
+}
+.leaflet-control-layers-toggle {
+    width: 30px !important;
+    height: 30px !important;
+    background-size: 17px 17px;
+}
+.leaflet-top .leaflet-left {
+    margin-top: 150px !important;
+}
+table.dataTable thead th div.DataTables_sort_wrapper span {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    right: -5px;
+}
+.leaflet-tooltip {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+#map {
+    position: fixed !important;
+    height: 100%;
+    width: 100%;
+    font-size: 13px;
+}
+
+.sidenav {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1 !important;
+    top: 55px;
+    right: 0;
+    bottom: 0;
+    background-color: #F5F5F5;
+    overflow-y: scroll;
+}
+
+.sidenav::-webkit-scrollbar {
+    display: none;
+}
+
+.sidenav {
+  -ms-overflow-style: none;
+}
+
+.tab {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    height: 36px;
+    width: 48px;
+}
+
+.tab.detail {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab.detail button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    height: 36px;
+    width: 72px;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.btnClose {
+    background-color: #3c517b;
+    color: white;
+    position: fixed;
+    border: none;
+    bottom: 0;
+    width: 300px;
+    height: 32px;
+}
+
+.contentSubmain {
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.contentMain {
+    display: none;
+    padding: 8px 8px;
+    border: none;
+    height: 100%;
+    border-top: none;
+}
+
+.information-row {
+    display: flexbox;
+    width: 100%;
+    overflow-y: hidden;
+    align-items: center;
+    height: 36px;
+    border-bottom: 1px solid rgba(33, 37, 41, 0.125);
+}
+
+.oviewLabel {
+    float: left;
+    padding: 8px;
+}
+
+.oviewValue {
+    float: right;
+    padding: 8px;
+}
+
+.containerCard {
+    padding: 2px;
+    margin-bottom:5px !important;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 6px;
+    color: white;
+    width: 80px;
+    margin: auto;
+    cursor: pointer;
+}
+
+.containerCard:hover {
+    opacity: 0.8;
+}
+
+p {
+    margin: auto;
+    padding: 8px;
+    font-size: 15px;
+}
+
+#containerPie {
+    height: 230px;
+    margin: 0 auto;
+}
+
+#cardTable {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+.ofgoensnMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #808080 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #e6e6e6 1px, #bfbfbf 10%, #808080, #bfbfbf 100%);
+}
+.ofgoensnPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #808080;
+    top: 0.025em;
+}
+
+.ofguetsnMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #0000ff inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 30% 30%, #ccccff 1px, #8080ff 10%, #0000ff, #8080ff 100%);
+}
+.ofguetsnPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #0000ff;
+    top: 0.025em;
+}
+
+.ofguefsnMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #000000 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #cccccc 1px, #808080 10%, #000000, #808080 100%);
+}
+.ofguefsnPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #000000;
+    top: 0.025em;
+}
+
+.otgdensnMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #ff0066 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #ffcce0 1px, #ff80b3 10%, #ff0066, #808080 100%);
+}
+.otgdensnPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #ff0066;
+    top: 0.025em;
+}
+
+.otgueosovsMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #604020 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #f2e6d9 1px, #bf8040 10%, #604020, #bf8040 100%);
+}
+.otgueosovsPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #604020;
+    top: 0.025em;
+}
+
+.otguensnldMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #ffff00 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #ffffcc 1px, #ffff80 10%, #ffff00, #ffff80 100%);
+}
+.otguensnldPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #ffff00;
+    top: 0.025em;
+}
+
+.otguenswtgMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #ff6600 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #ffe0cc 1px, #ffb380 10%, #ff6600, #ffb380 100%);
+}
+.otguenswtgPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #ff6600;
+    top: 0.025em;
+}
+
+.otguensondMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #006600 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #ccffcc 1px, #00e600 10%, #006600, #00e600 100%);
+}
+.otguensondPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #006600;
+    top: 0.025em;
+}
+
+.otguensovnMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #00284d inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #cce6ff 1px, #0069cc 10%, #00284d, #0069cc 100%);
+}
+.otguensovnPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #00284d;
+    top: 0.025em;
+}
+
+.otguensabnMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #cc0000 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #ffcccc 1px, #ff4d4d 10%, #cc0000, #ff4d4d 100%);
+}
+.otguensabnPulse:after {
+    content: '';
+    position: absolute;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    background: none;
+    animation: pulse 2s ease-out infinite;
+    box-shadow: 0px 0px 0px 2px #cc0000;
+    top: 0.025em;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+.ofgoensnHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #808080;
+}
+
+.ofguetsnHead {
+	margin: -0.725em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 6px solid #0000ff;
+}
+
+.ofguefsnHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #000000;
+}
+
+.otgdensnHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #ff0066;
+}
+
+.otgueosovsHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #604020;
+}
+
+.otguensnldHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #ffff00;
+}
+
+.otguenswtgHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #ff6600;
+}
+
+.otguensondHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #006600;
+}
+
+.otguensovnHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #00284d;
+}
+
+.otguensabnHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #cc0000;
+}
+
+.markerLabel {
+    border: 1px solid black;
+    width: auto;
+    font-size: 10px !important;
+    position: absolute;
+    text-align: center;
+    border-radius: 10px !important;
+    padding: 0px 4px 0px 4px !important;
+    color: black;
+}
+
+thead {
+    text-align: center;
+}
+
+.ui-dialog .ui-dialog-content .ui-widget-content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+
+.inputHi {
+    margin: auto;
+	width: 14px;
+    height: 14px;
+	border-radius: 50%;
+    background: #00FF00;
+}
+
+.inputLo {
+    margin: auto;
+	width: 14px;
+    height: 14px;
+	border-radius: 50%;
+    background: #FF0000;
+}
+
+.td-regno {
+    text-align: left;
+}
+.td-imei {
+    text-align: center;
+}
+.td-lastupdate {
+    text-align: center;
+}
+.td-speed {
+    text-align: right;
+}
+.td-odo {
+    text-align: right;
+}
+.td-polygon {
+    text-align: left;
+}
+.td-location {
+    text-align: left;
+}
+.td-input1 {
+    text-align: center;
+}
+.td-input2 {
+    text-align: center;
+}
+.td-input3 {
+    text-align: center;
+}
+
+.btn-outline-secondary {
+    width: 75px;
+}
+
+.engineLabel .leaflet-popup-tip, .engineLabel .leaflet-popup-content-wrapper {
+    font-size: 11px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.accuLabel .leaflet-popup-tip, .accuLabel .leaflet-popup-content-wrapper {
+    font-size: 11px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.vehiclehiMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #0000ff inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 30% 30%, #ccccff 1px, #8080ff 10%, #0000ff, #8080ff 100%);
+}
+
+.vehicleloMarker {
+	cursor: pointer;
+	position: absolute !important;
+	border-radius: 50%;
+	width: 14px !important;
+	height: 14px !important;
+	box-shadow: 0px 0px 0px 1px #000000 inset, 0px 0px 0px 1px #ffffff;
+	background: radial-gradient(circle at 32% 32%, #cccccc 1px, #808080 10%, #000000, #808080 100%);
+}
+
+.vehiclehiHead {
+	margin: -0.725em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 6px solid #0000ff;
+}
+
+.vehicleloHead {
+	margin: -0.75em auto;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid #000000;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.engonMarker {
+    font-size: 11px !important;
+    border-radius: 50%;
+    box-shadow: 0px 0px 0px 1px #00FF00;
+    color: #00FF00;
+    line-height: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    text-align: center;
+    display: inline-block;
+    background-color: black;
+}
+
+.engofMarker {
+    font-size: 11px !important;
+    border-radius: 50%;
+    box-shadow: 0px 0px 0px 1px #FF0000;
+    color: #FF0000;
+    line-height: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    text-align: center;
+    display: inline-block;
+    background-color: black;
+}
+
+
+.accuGreen {
+    font-size: 11px !important;
+    border-radius: 50%;
+    box-shadow: 0px 0px 0px 1px #00FF00;
+    color: #00FF00;
+    line-height: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    text-align: center;
+    display: inline-block;
+    background-color: black;
+}
+
+.accuRed {
+    font-size: 11px !important;
+    border-radius: 50%;
+    box-shadow: 0px 0px 0px 1px #FF0000;
+    color: #FF0000;
+    line-height: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    text-align: center;
+    display: inline-block;
+    background-color: black;
+}
+
+.hexagon {
+    position: relative !important;
+    width: 14px !important; 
+    height: 8.08px !important;
+    background-color: black;
+    margin: 4.04px 0;
+}
+
+.hexagon:before, .hexagon:after {
+    content: "";
+    position: absolute !important;
+    width: 0 !important;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+}
+
+.hexagon:before {
+    bottom: 100%;
+    border-bottom: 4.04px solid black;
+}
+
+.hexagon:after {
+    top: 100%;
+    width: 0 !important;
+    border-top: 4.04px solid black;
+}
+
+.hexContent {
+	position: absolute;
+    font-size: 11px !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    line-height: 7px !important;
+    width: 14px !important;
+    height: 14px !important;
+    text-align: center;
+    display: inline-block;
+}
+.leaflet-draw-section {
+    position: absolute;
+    top: -20px;
+
+}
+
+#pcModalGeofence_DXPWMB-1{
+z-index: 11999;
+opacity: 0.7;
+visibility: hidden !important;
+}
+
+.dxpcModalBackLite_Office365{
+    visibility: hidden !important;
+}
+
+.myClass{
+    text-align:left;
+}

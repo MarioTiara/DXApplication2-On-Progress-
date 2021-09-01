@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="seinoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'seino.dbo.vwVehicleWithOrder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vwVehicleWithOrder">
+    <Key>
+      <PropertyRef Name="REG_NO" />
+      <PropertyRef Name="VEHICLE_IMEI" />
+      <PropertyRef Name="IS_ACTIVE" />
+      <PropertyRef Name="VEHICLE_SID" />
+    </Key>
+    <Property Name="REG_NO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LAST_IO1" Type="bit" />
+    <Property Name="LAST_WP_LAT" Type="float" />
+    <Property Name="LAST_WP_LON" Type="float" />
+    <Property Name="Expr1" Type="bit" />
+    <Property Name="LAST_WP_SPEED" Type="float" />
+    <Property Name="LAST_UPDATE" Type="datetime" />
+    <Property Name="LAST_ENGINE" Type="datetime" />
+    <Property Name="POLYGON" Type="varchar" MaxLength="150" />
+    <Property Name="VEHICLE_IMEI" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="WP_PROPINSI" Type="varchar" MaxLength="100" />
+    <Property Name="WP_KABUPATEN" Type="varchar" MaxLength="100" />
+    <Property Name="WP_KECAMATAN" Type="varchar" MaxLength="100" />
+    <Property Name="WP_KELURAHAN" Type="varchar" MaxLength="50" />
+    <Property Name="LAST_IO2" Type="bit" />
+    <Property Name="LAST_IO3" Type="bit" />
+    <Property Name="LAST_IO4" Type="bit" />
+    <Property Name="LAST_IO5" Type="bit" />
+    <Property Name="LAST_IO6" Type="bit" />
+    <Property Name="CUSTOMER_SID" Type="varchar" MaxLength="50" />
+    <Property Name="DESCRIPTION" Type="varchar" MaxLength="2000" />
+    <Property Name="ORDER_NUMBER" Type="varchar" MaxLength="100" />
+    <Property Name="PICKUP_DATE" Type="datetime" />
+    <Property Name="DUE_DATE" Type="datetime" />
+    <Property Name="SUBDIVISION_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="DIVISION_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="WP_JALAN" Type="varchar" MaxLength="100" />
+    <Property Name="NOUNIT" Type="varchar" MaxLength="50" />
+    <Property Name="STATUS" Type="varchar" MaxLength="50" />
+    <Property Name="DESTINATION_NAME" Type="varchar" MaxLength="100" />
+    <Property Name="ORIGIN_NAME" Type="varchar" MaxLength="100" />
+    <Property Name="EXPIRED_DATE" Type="datetime" />
+    <Property Name="IS_ACTIVE" Type="bit" Nullable="false" />
+    <Property Name="HEADING" Type="float" />
+    <Property Name="VEHICLE_SID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Expr2" Type="varchar" MaxLength="50" />
+    <Property Name="KM_ODO" Type="float" />
+    <Property Name="CELLNO" Type="varchar" MaxLength="50" />
+    <Property Name="EXT_POWER" Type="float" />
+    <Property Name="INT_POWER" Type="float" />
+    <Property Name="DRIVER_CELL" Type="varchar" MaxLength="50" />
+    <Property Name="SUHU01" Type="float" />
+    <Property Name="SUHU02" Type="float" />
+    <Property Name="MODEL_UNIT" Type="varchar" MaxLength="50" />
+    <Property Name="LAST_GPS_STATUS" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="seinoModelStoreContainer">
+    <EntitySet Name="vwVehicleWithOrder" EntityType="Self.vwVehicleWithOrder" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vwVehicleWithOrder].[REG_NO] AS [REG_NO], 
+    [vwVehicleWithOrder].[LAST_IO1] AS [LAST_IO1], 
+    [vwVehicleWithOrder].[LAST_WP_LAT] AS [LAST_WP_LAT], 
+    [vwVehicleWithOrder].[LAST_WP_LON] AS [LAST_WP_LON], 
+    [vwVehicleWithOrder].[Expr1] AS [Expr1], 
+    [vwVehicleWithOrder].[LAST_WP_SPEED] AS [LAST_WP_SPEED], 
+    [vwVehicleWithOrder].[LAST_UPDATE] AS [LAST_UPDATE], 
+    [vwVehicleWithOrder].[LAST_ENGINE] AS [LAST_ENGINE], 
+    [vwVehicleWithOrder].[POLYGON] AS [POLYGON], 
+    [vwVehicleWithOrder].[VEHICLE_IMEI] AS [VEHICLE_IMEI], 
+    [vwVehicleWithOrder].[WP_PROPINSI] AS [WP_PROPINSI], 
+    [vwVehicleWithOrder].[WP_KABUPATEN] AS [WP_KABUPATEN], 
+    [vwVehicleWithOrder].[WP_KECAMATAN] AS [WP_KECAMATAN], 
+    [vwVehicleWithOrder].[WP_KELURAHAN] AS [WP_KELURAHAN], 
+    [vwVehicleWithOrder].[LAST_IO2] AS [LAST_IO2], 
+    [vwVehicleWithOrder].[LAST_IO3] AS [LAST_IO3], 
+    [vwVehicleWithOrder].[LAST_IO4] AS [LAST_IO4], 
+    [vwVehicleWithOrder].[LAST_IO5] AS [LAST_IO5], 
+    [vwVehicleWithOrder].[LAST_IO6] AS [LAST_IO6], 
+    [vwVehicleWithOrder].[CUSTOMER_SID] AS [CUSTOMER_SID], 
+    [vwVehicleWithOrder].[DESCRIPTION] AS [DESCRIPTION], 
+    [vwVehicleWithOrder].[ORDER_NUMBER] AS [ORDER_NUMBER], 
+    [vwVehicleWithOrder].[PICKUP_DATE] AS [PICKUP_DATE], 
+    [vwVehicleWithOrder].[DUE_DATE] AS [DUE_DATE], 
+    [vwVehicleWithOrder].[SUBDIVISION_NAME] AS [SUBDIVISION_NAME], 
+    [vwVehicleWithOrder].[DIVISION_NAME] AS [DIVISION_NAME], 
+    [vwVehicleWithOrder].[WP_JALAN] AS [WP_JALAN], 
+    [vwVehicleWithOrder].[NOUNIT] AS [NOUNIT], 
+    [vwVehicleWithOrder].[STATUS] AS [STATUS], 
+    [vwVehicleWithOrder].[DESTINATION_NAME] AS [DESTINATION_NAME], 
+    [vwVehicleWithOrder].[ORIGIN_NAME] AS [ORIGIN_NAME], 
+    [vwVehicleWithOrder].[EXPIRED_DATE] AS [EXPIRED_DATE], 
+    [vwVehicleWithOrder].[IS_ACTIVE] AS [IS_ACTIVE], 
+    [vwVehicleWithOrder].[HEADING] AS [HEADING], 
+    [vwVehicleWithOrder].[VEHICLE_SID] AS [VEHICLE_SID], 
+    [vwVehicleWithOrder].[Expr2] AS [Expr2], 
+    [vwVehicleWithOrder].[KM_ODO] AS [KM_ODO], 
+    [vwVehicleWithOrder].[CELLNO] AS [CELLNO], 
+    [vwVehicleWithOrder].[EXT_POWER] AS [EXT_POWER], 
+    [vwVehicleWithOrder].[INT_POWER] AS [INT_POWER], 
+    [vwVehicleWithOrder].[DRIVER_CELL] AS [DRIVER_CELL], 
+    [vwVehicleWithOrder].[SUHU01] AS [SUHU01], 
+    [vwVehicleWithOrder].[SUHU02] AS [SUHU02], 
+    [vwVehicleWithOrder].[MODEL_UNIT] AS [MODEL_UNIT], 
+    [vwVehicleWithOrder].[LAST_GPS_STATUS] AS [LAST_GPS_STATUS]
+    FROM [dbo].[vwVehicleWithOrder] AS [vwVehicleWithOrder]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

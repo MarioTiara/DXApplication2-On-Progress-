@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+}
+@section LeftPanelContent {
+    @Html.Partial("~/Views/Shared/LeftPanelPartial.cshtml")
+}
+
+<div>
+    <img src="@Url.Content("~/Content/ImagesSIL/under-construction.png")" />
+</div>

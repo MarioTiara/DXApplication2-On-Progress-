@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="seinoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'seino.dbo.vwVehicleWithOrder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwVehicleWithOrder">
+          <Key>
+            <PropertyRef Name="REG_NO" />
+            <PropertyRef Name="VEHICLE_IMEI" />
+            <PropertyRef Name="IS_ACTIVE" />
+            <PropertyRef Name="VEHICLE_SID" />
+          </Key>
+          <Property Name="REG_NO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LAST_IO1" Type="bit" />
+          <Property Name="LAST_WP_LAT" Type="float" />
+          <Property Name="LAST_WP_LON" Type="float" />
+          <Property Name="Expr1" Type="bit" />
+          <Property Name="LAST_WP_SPEED" Type="float" />
+          <Property Name="LAST_UPDATE" Type="datetime" />
+          <Property Name="LAST_ENGINE" Type="datetime" />
+          <Property Name="POLYGON" Type="varchar" MaxLength="150" />
+          <Property Name="VEHICLE_IMEI" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="WP_PROPINSI" Type="varchar" MaxLength="100" />
+          <Property Name="WP_KABUPATEN" Type="varchar" MaxLength="100" />
+          <Property Name="WP_KECAMATAN" Type="varchar" MaxLength="100" />
+          <Property Name="WP_KELURAHAN" Type="varchar" MaxLength="50" />
+          <Property Name="LAST_IO2" Type="bit" />
+          <Property Name="LAST_IO3" Type="bit" />
+          <Property Name="LAST_IO4" Type="bit" />
+          <Property Name="LAST_IO5" Type="bit" />
+          <Property Name="LAST_IO6" Type="bit" />
+          <Property Name="CUSTOMER_SID" Type="varchar" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="2000" />
+          <Property Name="ORDER_NUMBER" Type="varchar" MaxLength="100" />
+          <Property Name="PICKUP_DATE" Type="datetime" />
+          <Property Name="DUE_DATE" Type="datetime" />
+          <Property Name="SUBDIVISION_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="DIVISION_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="WP_JALAN" Type="varchar" MaxLength="100" />
+          <Property Name="NOUNIT" Type="varchar" MaxLength="50" />
+          <Property Name="STATUS" Type="varchar" MaxLength="50" />
+          <Property Name="DESTINATION_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="ORIGIN_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="EXPIRED_DATE" Type="datetime" />
+          <Property Name="IS_ACTIVE" Type="bit" Nullable="false" />
+          <Property Name="HEADING" Type="float" />
+          <Property Name="VEHICLE_SID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Expr2" Type="varchar" MaxLength="50" />
+          <Property Name="KM_ODO" Type="float" />
+          <Property Name="CELLNO" Type="varchar" MaxLength="50" />
+          <Property Name="EXT_POWER" Type="float" />
+          <Property Name="INT_POWER" Type="float" />
+          <Property Name="DRIVER_CELL" Type="varchar" MaxLength="50" />
+          <Property Name="SUHU01" Type="float" />
+          <Property Name="SUHU02" Type="float" />
+          <Property Name="MODEL_UNIT" Type="varchar" MaxLength="50" />
+          <Property Name="LAST_GPS_STATUS" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="seinoModelStoreContainer">
+          <EntitySet Name="vwVehicleWithOrder" EntityType="Self.vwVehicleWithOrder" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwVehicleWithOrder].[REG_NO] AS [REG_NO], 
+    [vwVehicleWithOrder].[LAST_IO1] AS [LAST_IO1], 
+    [vwVehicleWithOrder].[LAST_WP_LAT] AS [LAST_WP_LAT], 
+    [vwVehicleWithOrder].[LAST_WP_LON] AS [LAST_WP_LON], 
+    [vwVehicleWithOrder].[Expr1] AS [Expr1], 
+    [vwVehicleWithOrder].[LAST_WP_SPEED] AS [LAST_WP_SPEED], 
+    [vwVehicleWithOrder].[LAST_UPDATE] AS [LAST_UPDATE], 
+    [vwVehicleWithOrder].[LAST_ENGINE] AS [LAST_ENGINE], 
+    [vwVehicleWithOrder].[POLYGON] AS [POLYGON], 
+    [vwVehicleWithOrder].[VEHICLE_IMEI] AS [VEHICLE_IMEI], 
+    [vwVehicleWithOrder].[WP_PROPINSI] AS [WP_PROPINSI], 
+    [vwVehicleWithOrder].[WP_KABUPATEN] AS [WP_KABUPATEN], 
+    [vwVehicleWithOrder].[WP_KECAMATAN] AS [WP_KECAMATAN], 
+    [vwVehicleWithOrder].[WP_KELURAHAN] AS [WP_KELURAHAN], 
+    [vwVehicleWithOrder].[LAST_IO2] AS [LAST_IO2], 
+    [vwVehicleWithOrder].[LAST_IO3] AS [LAST_IO3], 
+    [vwVehicleWithOrder].[LAST_IO4] AS [LAST_IO4], 
+    [vwVehicleWithOrder].[LAST_IO5] AS [LAST_IO5], 
+    [vwVehicleWithOrder].[LAST_IO6] AS [LAST_IO6], 
+    [vwVehicleWithOrder].[CUSTOMER_SID] AS [CUSTOMER_SID], 
+    [vwVehicleWithOrder].[DESCRIPTION] AS [DESCRIPTION], 
+    [vwVehicleWithOrder].[ORDER_NUMBER] AS [ORDER_NUMBER], 
+    [vwVehicleWithOrder].[PICKUP_DATE] AS [PICKUP_DATE], 
+    [vwVehicleWithOrder].[DUE_DATE] AS [DUE_DATE], 
+    [vwVehicleWithOrder].[SUBDIVISION_NAME] AS [SUBDIVISION_NAME], 
+    [vwVehicleWithOrder].[DIVISION_NAME] AS [DIVISION_NAME], 
+    [vwVehicleWithOrder].[WP_JALAN] AS [WP_JALAN], 
+    [vwVehicleWithOrder].[NOUNIT] AS [NOUNIT], 
+    [vwVehicleWithOrder].[STATUS] AS [STATUS], 
+    [vwVehicleWithOrder].[DESTINATION_NAME] AS [DESTINATION_NAME], 
+    [vwVehicleWithOrder].[ORIGIN_NAME] AS [ORIGIN_NAME], 
+    [vwVehicleWithOrder].[EXPIRED_DATE] AS [EXPIRED_DATE], 
+    [vwVehicleWithOrder].[IS_ACTIVE] AS [IS_ACTIVE], 
+    [vwVehicleWithOrder].[HEADING] AS [HEADING], 
+    [vwVehicleWithOrder].[VEHICLE_SID] AS [VEHICLE_SID], 
+    [vwVehicleWithOrder].[Expr2] AS [Expr2], 
+    [vwVehicleWithOrder].[KM_ODO] AS [KM_ODO], 
+    [vwVehicleWithOrder].[CELLNO] AS [CELLNO], 
+    [vwVehicleWithOrder].[EXT_POWER] AS [EXT_POWER], 
+    [vwVehicleWithOrder].[INT_POWER] AS [INT_POWER], 
+    [vwVehicleWithOrder].[DRIVER_CELL] AS [DRIVER_CELL], 
+    [vwVehicleWithOrder].[SUHU01] AS [SUHU01], 
+    [vwVehicleWithOrder].[SUHU02] AS [SUHU02], 
+    [vwVehicleWithOrder].[MODEL_UNIT] AS [MODEL_UNIT], 
+    [vwVehicleWithOrder].[LAST_GPS_STATUS] AS [LAST_GPS_STATUS]
+    FROM [dbo].[vwVehicleWithOrder] AS [vwVehicleWithOrder]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="seinoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="vwVehicleWithOrder">
+          <Key>
+            <PropertyRef Name="REG_NO" />
+            <PropertyRef Name="VEHICLE_IMEI" />
+            <PropertyRef Name="IS_ACTIVE" />
+            <PropertyRef Name="VEHICLE_SID" />
+          </Key>
+          <Property Name="REG_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LAST_IO1" Type="Boolean" />
+          <Property Name="LAST_WP_LAT" Type="Double" />
+          <Property Name="LAST_WP_LON" Type="Double" />
+          <Property Name="Expr1" Type="Boolean" />
+          <Property Name="LAST_WP_SPEED" Type="Double" />
+          <Property Name="LAST_UPDATE" Type="DateTime" Precision="3" />
+          <Property Name="LAST_ENGINE" Type="DateTime" Precision="3" />
+          <Property Name="POLYGON" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="VEHICLE_IMEI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="WP_PROPINSI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WP_KABUPATEN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WP_KECAMATAN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WP_KELURAHAN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_IO2" Type="Boolean" />
+          <Property Name="LAST_IO3" Type="Boolean" />
+          <Property Name="LAST_IO4" Type="Boolean" />
+          <Property Name="LAST_IO5" Type="Boolean" />
+          <Property Name="LAST_IO6" Type="Boolean" />
+          <Property Name="CUSTOMER_SID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ORDER_NUMBER" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PICKUP_DATE" Type="DateTime" Precision="3" />
+          <Property Name="DUE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="SUBDIVISION_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DIVISION_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WP_JALAN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOUNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESTINATION_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ORIGIN_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EXPIRED_DATE" Type="DateTime" Precision="3" />
+          <Property Name="IS_ACTIVE" Type="Boolean" Nullable="false" />
+          <Property Name="HEADING" Type="Double" />
+          <Property Name="VEHICLE_SID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Expr2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KM_ODO" Type="Double" />
+          <Property Name="CELLNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EXT_POWER" Type="Double" />
+          <Property Name="INT_POWER" Type="Double" />
+          <Property Name="DRIVER_CELL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SUHU01" Type="Double" />
+          <Property Name="SUHU02" Type="Double" />
+          <Property Name="MODEL_UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_GPS_STATUS" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="seinoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="vwVehicleWithOrders" EntityType="Self.vwVehicleWithOrder" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="seinoModelStoreContainer" CdmEntityContainer="seinoEntities">
+          <EntitySetMapping Name="vwVehicleWithOrders">
+            <EntityTypeMapping TypeName="seinoModel.vwVehicleWithOrder">
+              <MappingFragment StoreEntitySet="vwVehicleWithOrder">
+                <ScalarProperty Name="LAST_GPS_STATUS" ColumnName="LAST_GPS_STATUS" />
+                <ScalarProperty Name="REG_NO" ColumnName="REG_NO" />
+                <ScalarProperty Name="LAST_IO1" ColumnName="LAST_IO1" />
+                <ScalarProperty Name="LAST_WP_LAT" ColumnName="LAST_WP_LAT" />
+                <ScalarProperty Name="LAST_WP_LON" ColumnName="LAST_WP_LON" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="LAST_WP_SPEED" ColumnName="LAST_WP_SPEED" />
+                <ScalarProperty Name="LAST_UPDATE" ColumnName="LAST_UPDATE" />
+                <ScalarProperty Name="LAST_ENGINE" ColumnName="LAST_ENGINE" />
+                <ScalarProperty Name="POLYGON" ColumnName="POLYGON" />
+                <ScalarProperty Name="VEHICLE_IMEI" ColumnName="VEHICLE_IMEI" />
+                <ScalarProperty Name="WP_PROPINSI" ColumnName="WP_PROPINSI" />
+                <ScalarProperty Name="WP_KABUPATEN" ColumnName="WP_KABUPATEN" />
+                <ScalarProperty Name="WP_KECAMATAN" ColumnName="WP_KECAMATAN" />
+                <ScalarProperty Name="WP_KELURAHAN" ColumnName="WP_KELURAHAN" />
+                <ScalarProperty Name="LAST_IO2" ColumnName="LAST_IO2" />
+                <ScalarProperty Name="LAST_IO3" ColumnName="LAST_IO3" />
+                <ScalarProperty Name="LAST_IO4" ColumnName="LAST_IO4" />
+                <ScalarProperty Name="LAST_IO5" ColumnName="LAST_IO5" />
+                <ScalarProperty Name="LAST_IO6" ColumnName="LAST_IO6" />
+                <ScalarProperty Name="CUSTOMER_SID" ColumnName="CUSTOMER_SID" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="ORDER_NUMBER" ColumnName="ORDER_NUMBER" />
+                <ScalarProperty Name="PICKUP_DATE" ColumnName="PICKUP_DATE" />
+                <ScalarProperty Name="DUE_DATE" ColumnName="DUE_DATE" />
+                <ScalarProperty Name="SUBDIVISION_NAME" ColumnName="SUBDIVISION_NAME" />
+                <ScalarProperty Name="DIVISION_NAME" ColumnName="DIVISION_NAME" />
+                <ScalarProperty Name="WP_JALAN" ColumnName="WP_JALAN" />
+                <ScalarProperty Name="NOUNIT" ColumnName="NOUNIT" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="DESTINATION_NAME" ColumnName="DESTINATION_NAME" />
+                <ScalarProperty Name="ORIGIN_NAME" ColumnName="ORIGIN_NAME" />
+                <ScalarProperty Name="EXPIRED_DATE" ColumnName="EXPIRED_DATE" />
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+                <ScalarProperty Name="HEADING" ColumnName="HEADING" />
+                <ScalarProperty Name="VEHICLE_SID" ColumnName="VEHICLE_SID" />
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="KM_ODO" ColumnName="KM_ODO" />
+                <ScalarProperty Name="CELLNO" ColumnName="CELLNO" />
+                <ScalarProperty Name="EXT_POWER" ColumnName="EXT_POWER" />
+                <ScalarProperty Name="INT_POWER" ColumnName="INT_POWER" />
+                <ScalarProperty Name="DRIVER_CELL" ColumnName="DRIVER_CELL" />
+                <ScalarProperty Name="SUHU01" ColumnName="SUHU01" />
+                <ScalarProperty Name="SUHU02" ColumnName="SUHU02" />
+                <ScalarProperty Name="MODEL_UNIT" ColumnName="MODEL_UNIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

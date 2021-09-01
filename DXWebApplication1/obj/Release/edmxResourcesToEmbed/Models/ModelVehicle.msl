@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="seinoModelStoreContainer" CdmEntityContainer="seinoEntities">
+    <EntitySetMapping Name="vwVehicleWithOrders">
+      <EntityTypeMapping TypeName="seinoModel.vwVehicleWithOrder">
+        <MappingFragment StoreEntitySet="vwVehicleWithOrder">
+          <ScalarProperty Name="LAST_GPS_STATUS" ColumnName="LAST_GPS_STATUS" />
+          <ScalarProperty Name="REG_NO" ColumnName="REG_NO" />
+          <ScalarProperty Name="LAST_IO1" ColumnName="LAST_IO1" />
+          <ScalarProperty Name="LAST_WP_LAT" ColumnName="LAST_WP_LAT" />
+          <ScalarProperty Name="LAST_WP_LON" ColumnName="LAST_WP_LON" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+          <ScalarProperty Name="LAST_WP_SPEED" ColumnName="LAST_WP_SPEED" />
+          <ScalarProperty Name="LAST_UPDATE" ColumnName="LAST_UPDATE" />
+          <ScalarProperty Name="LAST_ENGINE" ColumnName="LAST_ENGINE" />
+          <ScalarProperty Name="POLYGON" ColumnName="POLYGON" />
+          <ScalarProperty Name="VEHICLE_IMEI" ColumnName="VEHICLE_IMEI" />
+          <ScalarProperty Name="WP_PROPINSI" ColumnName="WP_PROPINSI" />
+          <ScalarProperty Name="WP_KABUPATEN" ColumnName="WP_KABUPATEN" />
+          <ScalarProperty Name="WP_KECAMATAN" ColumnName="WP_KECAMATAN" />
+          <ScalarProperty Name="WP_KELURAHAN" ColumnName="WP_KELURAHAN" />
+          <ScalarProperty Name="LAST_IO2" ColumnName="LAST_IO2" />
+          <ScalarProperty Name="LAST_IO3" ColumnName="LAST_IO3" />
+          <ScalarProperty Name="LAST_IO4" ColumnName="LAST_IO4" />
+          <ScalarProperty Name="LAST_IO5" ColumnName="LAST_IO5" />
+          <ScalarProperty Name="LAST_IO6" ColumnName="LAST_IO6" />
+          <ScalarProperty Name="CUSTOMER_SID" ColumnName="CUSTOMER_SID" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="ORDER_NUMBER" ColumnName="ORDER_NUMBER" />
+          <ScalarProperty Name="PICKUP_DATE" ColumnName="PICKUP_DATE" />
+          <ScalarProperty Name="DUE_DATE" ColumnName="DUE_DATE" />
+          <ScalarProperty Name="SUBDIVISION_NAME" ColumnName="SUBDIVISION_NAME" />
+          <ScalarProperty Name="DIVISION_NAME" ColumnName="DIVISION_NAME" />
+          <ScalarProperty Name="WP_JALAN" ColumnName="WP_JALAN" />
+          <ScalarProperty Name="NOUNIT" ColumnName="NOUNIT" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="DESTINATION_NAME" ColumnName="DESTINATION_NAME" />
+          <ScalarProperty Name="ORIGIN_NAME" ColumnName="ORIGIN_NAME" />
+          <ScalarProperty Name="EXPIRED_DATE" ColumnName="EXPIRED_DATE" />
+          <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+          <ScalarProperty Name="HEADING" ColumnName="HEADING" />
+          <ScalarProperty Name="VEHICLE_SID" ColumnName="VEHICLE_SID" />
+          <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+          <ScalarProperty Name="KM_ODO" ColumnName="KM_ODO" />
+          <ScalarProperty Name="CELLNO" ColumnName="CELLNO" />
+          <ScalarProperty Name="EXT_POWER" ColumnName="EXT_POWER" />
+          <ScalarProperty Name="INT_POWER" ColumnName="INT_POWER" />
+          <ScalarProperty Name="DRIVER_CELL" ColumnName="DRIVER_CELL" />
+          <ScalarProperty Name="SUHU01" ColumnName="SUHU01" />
+          <ScalarProperty Name="SUHU02" ColumnName="SUHU02" />
+          <ScalarProperty Name="MODEL_UNIT" ColumnName="MODEL_UNIT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

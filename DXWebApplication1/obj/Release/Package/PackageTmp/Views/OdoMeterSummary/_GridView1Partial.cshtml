@@ -1,0 +1,171 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+
+        settings.Name = "gridView";
+        settings.KeyFieldName = "VehicleSid";
+        settings.CallbackRouteValues = new { Controller = "OdoMeterSummary", Action = "Grid" };
+        settings.EnablePagingGestures = AutoBoolean.Auto;
+        settings.ControlStyle.CssClass = "grid-view";
+        settings.Width = Unit.Percentage(100);
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+        settings.Styles.PagerBottomPanel.CssClass = "pager";
+        settings.Styles.FocusedRow.CssClass = "focused";
+        settings.Styles.FocusedRow.BackColor = System.Drawing.Color.LightGray;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsEditing.EditFormColumnCount = 2;
+        settings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollableHeight = 330;
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AutoExpandAllGroups = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.SettingsExport.FileName = DateTime.Now + "_Odometer_Summary";
+        settings.SettingsPager.PageSize = 20;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleAlways;
+        settings.Toolbars.Add(x =>
+        {
+            x.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        });
+
+        settings.Settings.GroupFormat = "{1}";
+        settings.Columns.Add("RegNo").GroupIndex = 0;
+       
+       
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "TripDate";
+            columnSettings.Caption = "DATE TIME";
+            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
+            columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+            columnSettings.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            columnSettings.VisibleIndex = 1;
+        });
+      
+      
+        settings.Columns.AddBand(companyBand =>
+        {
+            companyBand.Caption = "START";
+            companyBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            companyBand.VisibleIndex = 2;
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "StartOdometer";
+                columnSettings.Caption = "ODOMETER (Km)";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.VisibleIndex = 2;
+            });
+
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "StartGeofence";
+                columnSettings.Caption = "GEOFENCE";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                columnSettings.VisibleIndex = 3;
+            });
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "LocationStart";
+                columnSettings.Caption = "LOCATION ";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                columnSettings.VisibleIndex = 4;
+            });
+        });
+        settings.Columns.AddBand(companyBand =>
+        {
+            companyBand.Caption = "END";
+            companyBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            companyBand.VisibleIndex = 3;
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "EndOdometer";
+                columnSettings.Caption = "ODOMETER (Km)";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.VisibleIndex = 5;
+            });
+
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "EndGeofence";
+                columnSettings.Caption = "GEOFENCE";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                columnSettings.VisibleIndex = 6;
+            });
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "LocationEnd";
+                columnSettings.Caption = "LOCATION ";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                columnSettings.VisibleIndex = 7;
+            });
+        });
+      
+
+        settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Mileage").ShowInGroupFooterColumn = "Mileage";
+        settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Count, "TripDate").ShowInGroupFooterColumn = "TripDate";
+        settings.SummaryDisplayText = (sender, e) =>
+        {
+            if (e.Item.FieldName == "TripDate")
+                e.Text = string.Format("{0} Activities", Convert.ToDouble(e.Value));
+            if (e.Item.FieldName == "Mileage")
+                e.Text = string.Format("{0} Km", Convert.ToDouble(e.Value));
+        };
+
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "Mileage";
+            columnSettings.Caption = "MILEAGE (Km)";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            columnSettings.Visible = true;
+            columnSettings.VisibleIndex = 8;
+        });
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+
+    }
+}
+
+@grid.Bind(ViewBag.Datas).GetHtml()

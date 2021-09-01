@@ -1,0 +1,1368 @@
+(function() {
+
+var wScr = $(window).width();
+var hScr = $(window).height();
+var defaultMap = "http://map01.xlocate.com:8080/map/{z}/{x}/{y}.png";
+var OpenStreetMap = L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+var cpnMap = L.tileLayer('http://map01.xlocate.com:8080/map/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://cpn.co.id/id/">Cakrawala Putra Nusantara</a>'
+});
+var StamenToner = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    subdomains: 'abcd',
+    minZoom: 0,
+    maxZoom: 20,
+    ext: 'png'
+});
+var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+});
+
+
+var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+});
+var googleTraffic = L.tileLayer('https://{s}.google.com/vt/lyrs=m@221097413,traffic&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    minZoom: 2,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+});
+
+
+var marker = {};
+var vehicle,map, targetMarker,markerCluster,chart;
+
+var regNo = "";
+var my_val = 0;
+var otargetMarker;
+var regNoSource = [], regNoSourcePlayback = [];
+//*****************************************************************************************************************************
+function clearChartbuf() {
+    ofgoensnData = [];
+    ofguetsnData = [];
+    ofguefsnData = [];
+    otgdensnData = [];
+    otgueosovsData = [];
+    otguensnldData = [];
+    otguenswtgData = [];
+    otguensondData = [];
+    otguensovnData = [];
+    otguensabnData = [];
+    gpsActive = [];
+    gpsDelay = [];
+    gpsInactive = [];
+}
+//*****************************************************************************************************************************
+$.mockjax({
+    url: '/localVehicle',
+    response: function () {
+        this.responseText = vehicle;
+    }
+});
+$.mockjax({
+    url: '/ofgoensn',
+    response: function () {
+        this.responseText = { data: buildData(ofgoensnData) };
+    }
+});
+$.mockjax({
+    url: '/ofguetsn',
+    response: function () {
+        this.responseText = { data: buildData(ofguetsnData) };
+    }
+});
+$.mockjax({
+    url: '/ofguefsn',
+    response: function () {
+        this.responseText = { data: buildData(ofguefsnData) };
+    }
+});
+$.mockjax({
+    url: '/otgdensn',
+    response: function () {
+        this.responseText = { data: buildData(otgdensnData) };
+    }
+});
+$.mockjax({
+    url: '/otgueosovs',
+    response: function () {
+        this.responseText = { data: buildData(otgueosovsData) };
+    }
+});
+$.mockjax({
+    url: '/otguensnld',
+    response: function () {
+        this.responseText = { data: buildData(otguensnldData) };
+    }
+});
+$.mockjax({
+    url: '/otguenswtg',
+    response: function () {
+        this.responseText = { data: buildData(otguenswtgData) };
+    }
+});
+$.mockjax({
+    url: '/otguensond',
+    response: function () {
+        this.responseText = { data: buildData(otguensondData) };
+    }
+});
+$.mockjax({
+    url: '/otguensovn',
+    response: function () {
+        this.responseText = { data: buildData(otguensovnData) };
+    }
+});
+$.mockjax({
+    url: '/otguensabn',
+    response: function () {
+        this.responseText = { data: buildData(otguensabnData) };
+    }
+});
+$.mockjax({
+    url: '/pieActive',
+    response: function () {
+        this.responseText = { data: buildData(gpsActive) };
+    }
+});
+$.mockjax({
+    url: '/pieInactive',
+    response: function () {
+        this.responseText = { data: buildData(gpsInactive) };
+    }
+});
+$.mockjax({
+    url: '/pieDelay',
+    response: function () {
+        this.responseText = { data: buildData(gpsDelay) };
+    }
+});
+
+function toggleLeftPanel() {
+    if (leftPanel.IsExpandable()) {
+        leftPanel.Toggle();
+    }
+    else {
+        leftPanel.SetVisible(!leftPanel.GetVisible());
+        adjustPageControls();
+    }
+}
+
+
+
+//*****************************************************************************************************************************
+$("#ofgoensn").click(function () {
+    ofgoensn();
+    $.ajax({
+        type: "GET",
+        url: "Maps/getVehicleOrder",
+        success: function (data) {
+            console.log(data);
+        }
+    });
+});
+function ofgoensn(s, e) { pcModalMode.Show(); }
+//*****************************************************************************************************************************
+$("#ofguetsn").click(function () {
+    alert(2);
+});
+//*****************************************************************************************************************************
+$("#ofguefsn").click(function () {
+   
+});
+//*****************************************************************************************************************************
+$("#otgdensn").click(function () {
+    
+});
+//*****************************************************************************************************************************
+$("#otgueosovs").click(function () {
+   
+});
+//*****************************************************************************************************************************
+$("#otguensnld").click(function () {
+   
+});
+//*****************************************************************************************************************************
+$("#otguenswtg").click(function () {
+    
+});
+//*****************************************************************************************************************************
+$("#otguensond").click(function () {
+   
+});
+//*****************************************************************************************************************************
+$("#otguensovn").click(function () {
+   
+});
+//*****************************************************************************************************************************
+$("#otguensabn").click(function () {
+  
+});
+//*****************************************************************************************************************************
+function initMap() {
+    $(window).resize(function () {
+        var height = hScr;
+        $('#map').height(height);
+    })
+
+    $(window).resize(); //on page load
+    map = L.map('map', {
+        layers: [googleTraffic] // Offending line
+    });
+
+    var baseMaps = {
+        "Google Traffic": googleTraffic,
+        "Google Streets": googleStreets,
+        "Google Hybrid": googleHybrid,
+        "OpenStreetMap": OpenStreetMap,
+        "CPN": cpnMap
+    };
+
+
+    //Create overlay group for Leaflet Layer Control
+    var overlayMaps = {};
+    //Create Leaflet Layer Control and add to map
+    L.control.layers(baseMaps, overlayMaps,
+    {
+        position: 'topleft',
+        collapsed: true
+    }
+    ).addTo(map);
+
+
+    map.fitBounds([[5.5769167874644966, 94.81858018012717], [-9.0769167874644966, 130.01858018012717]]);
+    markerCluster = new L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 40 });
+    initVehicle();
+  //  updateTimer = setInterval(updateData, updatePeriod);
+    // $(".leaflet-control-layers-toggle").append("<i class='fa fa-map-o'></i>");
+    initMapCreateGeofence();
+
+}
+//*****************************************************************************************************************************
+function initVehicle() {
+
+    $.ajax({
+        type: 'POST',
+        url: 'Maps/getEvent',
+        success: function (data) {
+            console.log(data);
+            vehicle = data;
+            updateChart();
+            updateRegno();
+            if (regNo == "") {
+                destroyMarker();
+                $("#comboboxvehicle_I").empty().append('<option></option>');
+                $("#srcPlayback").empty().append('<option value="" selected></option>');
+                for (var i = 0; i < data.length; i++) {
+
+                    // $("#srcUnit").append('<option value="' + data[i].REG_NO + '">' + data[i].REG_NO + '</option>');
+                    //$("#srcPlayback").append('<option value="' + data[i].VEHICLE_SID + '">' + data[i].REG_NO + '</option>');
+                    if (data[i].ORDSTS == 'OFGOENSN') {
+                        var markerProp = {
+                            className: "ofgoensnMarker",
+                            html: '<div class="ofgoensnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OFGUETSN') {
+                        var markerProp = {
+                            className: "ofguetsnMarker",
+                            html: '<div class="ofguetsnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OFGUEFSN') {
+                        var markerProp = {
+                            className: "ofguefsnMarker",
+                            html: '<div class="ofguefsnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGDENSN') {
+                        var markerProp = {
+                            className: "otgdensnMarker",
+                            html: '<div class="otgdensnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUEOSOVS') {
+                        var markerProp = {
+                            className: "otgueosovsMarker",
+                            html: '<div class="otgueosovsHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSNLD') {
+                        var markerProp = {
+                            className: "otguensnldMarker",
+                            html: '<div class="otguensnldHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSWTG') {
+                        var markerProp = {
+                            className: "otguenswtgMarker",
+                            html: '<div class="otguenswtgHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSOND') {
+                        var markerProp = {
+                            className: "otguensondMarker",
+                            html: '<div class="otguensondHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSOVN') {
+                        var markerProp = {
+                            className: "otguensovnMarker",
+                            html: '<div class="otguensovnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSABN') {
+                        var markerProp = {
+                            className: "otguensabnMarker",
+                            html: '<div class="otguensabnHead"></div>'
+                        }
+                    }
+                    var markerIcon = L.divIcon(markerProp);
+                    marker[i] = L.marker([data[i].LAST_WP_LAT, data[i].LAST_WP_LON], {
+                        alt: data[i].REG_NO,
+                        icon: markerIcon,
+                        rotationAngle: data[i].HEADING,
+                        rotationOrigin: "center"
+                    }).bindTooltip(data[i].REG_NO, {
+                        permanent: true,
+                        className: "markerLabel",
+                        offset: [0, 22],
+                        direction: "center"
+                    }).openTooltip();
+                    marker[i].on('click', onClick);
+                    markerCluster.addLayer(marker[i]);
+                }
+                map.addLayer(markerCluster);
+
+            }
+            else {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].REG_NO == regNo) {
+                        updateRegno(regNo);
+                        if (data[i].ORDSTS == 'OFGOENSN') {
+                            var markerPuls = "ofgoensnPulse";
+                            var markerProp = {
+                                className: "ofgoensnMarker",
+                                html: '<div class="ofgoensnHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OFGUETSN') {
+                            var markerPuls = "ofguetsnPulse";
+                            var markerProp = {
+                                className: "ofguetsnMarker",
+                                html: '<div class="ofguetsnHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OFGUEFSN') {
+                            var markerPuls = "ofguefsnPulse";
+                            var markerProp = {
+                                className: "ofguefsnMarker",
+                                html: '<div class="ofguefsnHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGDENSN') {
+                            var markerPuls = "otgdensnPulse";
+                            var markerProp = {
+                                className: "otgdensnMarker",
+                                html: '<div class="otgdensnHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGUEOSOVS') {
+                            var markerPuls = "otgueosovsPulse";
+                            var markerProp = {
+                                className: "otgueosovsMarker",
+                                html: '<div class="otgueosovsHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGUENSNLD') {
+                            var markerPuls = "otguensnldPulse";
+                            var markerProp = {
+                                className: "otguensnldMarker",
+                                html: '<div class="otguensnldHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGUENSWTG') {
+                            var markerPuls = "otguenswtgPulse";
+                            var markerProp = {
+                                className: "otguenswtgMarker",
+                                html: '<div class="otguenswtgHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGUENSOND') {
+                            var markerPuls = "otguensondPulse";
+                            var markerProp = {
+                                className: "otguensondMarker",
+                                html: '<div class="otguensondHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGUENSOVN') {
+                            var markerPuls = "otguensovnPulse";
+                            var markerProp = {
+                                className: "otguensovnMarker",
+                                html: '<div class="otguensovnHead"></div>'
+                            }
+                        }
+                        else if (data[i].ORDSTS == 'OTGUENSABN') {
+                            var markerPuls = "otguensabnPulse";
+                            var markerProp = {
+                                className: "otguensabnMarker",
+                                html: '<div class="otguensabnHead"></div>'
+                            }
+                        }
+                        var markerIcon = L.divIcon(markerProp);
+                        if (targetMarker) {
+                            map.removeLayer(targetMarker);
+                        }
+                        omarkerPuls = markerPuls;
+                        targetMarker = L.marker([data[i].LAST_WP_LAT, data[i].LAST_WP_LON], {
+                            alt: data[i].REG_NO,
+                            icon: markerIcon,
+                            rotationAngle: data[i].HEADING,
+                            rotationOrigin: "center"
+                        }).bindTooltip(data[i].REG_NO, {
+                            permanent: true,
+                            className: "markerLabel",
+                            offset: [0, 22],
+                            direction: "center"
+                        }).openTooltip();
+                        targetMarker.addTo(map);
+                        L.DomUtil.addClass(targetMarker._icon, markerPuls);
+                        targetMarker.setZIndexOffset(9999);
+                        map.setView([data[i].LAST_WP_LAT, data[i].LAST_WP_LON], 15);
+                        $("div.formholder").animate({ width: 300 }, 1000);
+                        $("#mybutton").animate({ right: 300 }, 1000);
+                        document.getElementById("pcFeatures_AT0").click();
+                        document.getElementById("pcFeaturesSub_T0").click();
+                        $("#orderNumber").html(data[i].ORDER_NUMBER);
+                        $("#originOrder").html("Origin<br>" + data[i].ORIGIN_NAME.replace("&", "&#38;"));
+                        $("#destinOrder").html("Destination<br>" + data[i].DESTINATION_NAME.replace("&", "&#38;"));
+                        $("#statusOrder").html(data[i].STATUS);
+                        setVehicleinfo(data[i]);
+
+                        break;
+                    }
+                }
+                buildVehicles(regNo);
+            }
+           // getGeofence();
+            getSourceVehicle();
+            getSourceVehiclePlayback();
+        }
+    });
+}
+//*****************************************************************************************************************************
+function initMapCreateGeofence() {
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+    // draw Geofence
+
+    var drawControl = new L.Control.Draw({
+        position: 'topright',
+        draw: {
+            polyline: true,
+            polygon: false,
+            rectangle: false,
+            circle: false,
+            circlemarker: false,
+            marker: false
+        },
+        edit: false
+    });
+    map.addControl(drawControl);
+    $(".leaflet-draw-draw-polygon").click(function () {
+        alert("Please Go To Siltrack.co.id/Fleet");
+        $('.leaflet-draw-actions').hide();
+        // drawControl.disable();
+    });
+
+    //map.on('draw:created', function (e) {
+
+    //    var type = e.layerType;
+    //    var layer = e.layer;
+    //    if (type != 'polyline') {
+    //        alert("Please Go To Siltrack.co.id/Fleet");
+    //        //GeofenceType();
+    //        //// console.log(layer);
+    //        //var shape = layer.toGeoJSON()
+    //        //var shape_for_db = JSON.stringify(shape.geometry.coordinates);
+
+    //        //var latlongeo = shape_for_db.replace('[[[', 'POLYGON((');
+    //        //var latlongeoF = latlongeo.substring(0, latlongeo.length - 3) + "))";
+    //        //repLatLon = latlongeoF.replace(/,/g, " ").replace(/\[/g, '').replace(/\]/g, ',');
+
+
+    //        //$("#formGeofence").dialog("open", {
+    //        //    close: function (event, ui) {
+
+
+    //        //    }
+    //        //});
+    //    } else {
+    //        var tempLatLng = null;
+    //        var totalDistance = 0.00000;
+    //        $.each(e.layer._latlngs, function (i, latlng) {
+    //            if (tempLatLng == null) {
+    //                tempLatLng = latlng;
+    //                return;
+    //            }
+
+    //            totalDistance += tempLatLng.distanceTo(latlng);
+    //            tempLatLng = latlng;
+    //        });
+    //        var kmDistance = (totalDistance).toFixed(2) / 1000
+    //        alert(kmDistance + ' km');
+
+    //    }
+
+
+    //});
+
+
+    $(".leaflet-right").removeClass("leaflet-top");
+    $(".leaflet-right").addClass("leaflet-createGeo").removeClass("leaflet-right");
+
+}
+//*****************************************************************************************************************************
+function onClick(e) {
+    var eng;
+   
+    for (var i = 0; i < vehicle.length; i++) {
+        if (vehicle[i].LAST_IO1 == true) {
+
+        }
+        if (vehicle[i].REG_NO == e.target.options.alt) {
+            if (vehicle[i].ORDSTS == 'OFGOENSN') {
+                var markerPuls = "ofgoensnPulse";
+                var markerProp = {
+                    className: "ofgoensnMarker",
+                    html: '<div class="ofgoensnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OFGUETSN') {
+                var markerPuls = "ofguetsnPulse";
+                var markerProp = {
+                    className: "ofguetsnMarker",
+                    html: '<div class="ofguetsnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OFGUEFSN') {
+                var markerPuls = "ofguefsnPulse";
+                var markerProp = {
+                    className: "ofguefsnMarker",
+                    html: '<div class="ofguefsnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGDENSN') {
+                var markerPuls = "otgdensnPulse";
+                var markerProp = {
+                    className: "otgdensnMarker",
+                    html: '<div class="otgdensnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUEOSOVS') {
+                var markerPuls = "otgueosovsPulse";
+                var markerProp = {
+                    className: "otgueosovsMarker",
+                    html: '<div class="otgueosovsHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSNLD') {
+                var markerPuls = "otguensnldPulse";
+                var markerProp = {
+                    className: "otguensnldMarker",
+                    html: '<div class="otguensnldHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSWTG') {
+                var markerPuls = "otguenswtgPulse";
+                var markerProp = {
+                    className: "otguenswtgMarker",
+                    html: '<div class="otguenswtgHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSOND') {
+                var markerPuls = "otguensondPulse";
+                var markerProp = {
+                    className: "otguensondMarker",
+                    html: '<div class="otguensondHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSOVN') {
+                var markerPuls = "otguensovnPulse";
+                var markerProp = {
+                    className: "otguensovnMarker",
+                    html: '<div class="otguensovnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSABN') {
+                var markerPuls = "otguensabnPulse";
+                var markerProp = {
+                    className: "otguensabnMarker",
+                    html: '<div class="otguensabnHead"></div>'
+                }
+            }
+            var markerIcon = L.divIcon(markerProp);
+            if (targetMarker) {
+                L.DomUtil.removeClass(targetMarker._icon, omarkerPuls);
+                otargetMarker = targetMarker;
+            }
+            omarkerPuls = markerPuls;
+            targetMarker = L.marker([vehicle[i].LAST_WP_LAT, vehicle[i].LAST_WP_LON], {
+                alt: vehicle[i].REG_NO,
+                icon: markerIcon,
+                rotationAngle: vehicle[i].HEADING,
+                rotationOrigin: "center"
+            }).bindTooltip(vehicle[i].REG_NO, {
+                permanent: true,
+                className: "markerLabel",
+                offset: [0, 22],
+                direction: "center"
+            }).openTooltip();
+            targetMarker.addTo(map);
+            L.DomUtil.addClass(targetMarker._icon, markerPuls);
+            my_val = my_val + 1;
+            if (my_val % 2 != 0) {
+                $("div.formholder").animate({ width: 300 }, 1000);
+                $("#mybutton").animate({ right: 300 }, 1000);
+            }
+            document.getElementById("pcFeatures_AT0").click();
+            document.getElementById("pcFeaturesSub_T0").click();
+            $("#comboboxvehicle_I").val(vehicle[i].REG_NO).trigger('change.select2');
+            $("#comboboxvehicle_I").empty().append('<option></option>');
+
+
+            //$("#srcUnit option").val(vehicle[i].REG_NO);
+            //$("#srcUnit option").html(vehicle[i].REG_NO);
+            $("#select2-comboboxvehicle_I-container").html(vehicle[i].REG_NO);
+
+
+
+            $("#orderNumber").html(vehicle[i].ORDER_NUMBER);
+            $("#originOrder").html("Origin<br>" + vehicle[i].ORIGIN_NAME.replace("&", "&#38;"));
+            $("#destinOrder").html("Destination<br>" + vehicle[i].DESTINATION_NAME.replace("&", "&#38;"));
+            $("#statusOrder").html(vehicle[i].STATUS);
+            setVehicleinfo(vehicle[i]);
+            getLatCenter = vehicle[i].LAST_WP_LAT;
+            getLonCenter = vehicle[i].LAST_WP_LON;
+            break;
+        }
+    }
+    buildVehicles(e.target.options.alt);
+}
+
+//*****************************************************************************************************************************
+function setVehicleinfo(data) {
+    console.log(data);
+    //  console.log(new Date(data.LAST_UPDATE));
+    //  //var n = new Date(data.LAST_UPDATE);
+    //  //var d = ("0" + n.getDate()).slice(-2) + "-" + ("0" + (n.getMonth() + 1)).slice(-2) + "-" + n.getFullYear();
+    //  //var t = ("0" + n.getHours()).slice(-2) + ":" + ("0" + n.getMinutes()).slice(-2) + ":" + ("0" + n.getSeconds()).slice(-2);
+    //  //var lastupdate = d + " " + t;
+    ////  var date = new Date(Number(data.LAST_UPDATE.replace(/\D/g, '')));
+
+    //  var date = new Date(data.LAST_UPDATE);
+
+
+
+    //  var day = String(new Date(date).getDate()).padStart(2, '0');
+    //  var Month = String(new Date(date).getMonth() + 1).padStart(2, '0');
+    //  var Year = String(new Date(date).getFullYear()).padStart(2, '0');
+    //  var Hours = String(new Date(date).getHours()).padStart(2, '0');
+    //  var Minutes = String(new Date(date).getMinutes()).padStart(2, '0');
+    //  var Seconds = String(new Date(date).getSeconds()).padStart(2, '0');
+
+    //  var lastupdate = day + "/" + Month + "/" + Year + " " + Hours + ":" + Minutes + ":" + Seconds;
+    //console.log(data.LAST_UPDATE);
+
+    var n = new Date(parseInt(data.LAST_UPDATE.substr(6)));
+    //var n = new Date(data.LAST_UPDATE);
+    //var n = new Date(dt[i].LAST_UPDATE);
+    var d = ("0" + n.getDate()).slice(-2) + "/" + ("0" + (n.getMonth() + 1)).slice(-2) + "/" + n.getFullYear();
+    var t = ("0" + n.getHours()).slice(-2) + ":" + ("0" + n.getMinutes()).slice(-2);
+    var lastupdate = d + " " + t;
+
+    var engine;
+    var powersource = "Accu";
+
+    var input1 = data.IO1_Off_Caption;
+    var input2 = data.IO2_Off_Caption;
+    var input3 = data.IO3_Off_Caption;
+    var input4 = data.IO4_Off_Caption;
+
+    var labelinput1, labelinput2, labelinput3, labelinput4, lblsuhu1, lblsuhu2;
+
+    engine = "";
+    if (data.IO1_Caption == 'Engine') {
+
+        if (data.LAST_IO1 == true) {
+            engine = data.IO1_On_Caption;
+
+        } else {
+            engine = data.IO1_Off_Caption;
+
+        }
+    } else if (data.IO2_Caption == 'Engine') {
+        if (data.LAST_IO1 == true) {
+            engine = data.IO2_On_Caption;
+
+        } else {
+            engine = data.IO2_Off_Caption;
+
+        }
+    } else if (data.IO3_Caption == 'Engine') {
+        if (data.LAST_IO1 == true) {
+            engine = data.IO3_On_Caption;
+
+        } else {
+            engine = data.IO3_Off_Caption;
+
+        }
+    } else if (data.IO4_Caption == 'Engine') {
+        if (data.LAST_IO1 == true) {
+            engine = data.IO4_On_Caption;
+
+        } else {
+            engine = data.IO4_Off_Caption;
+        }
+    }
+
+
+    var suhu1 = Math.round(data.SUHU01);
+    var suhu2 = Math.round(data.SUHU02);
+    if (data.LAST_IO1 == true) engine = data.IO1_On_Caption;
+    if (data.EXT_POWER < 9) powersource = "Battery";
+    if (data.LAST_IO1 == true) {
+        labelinput1 = data.IO1_Caption;
+        input1 = data.IO1_On_Caption
+    } else {
+        labelinput1 = data.IO1_Caption;
+        input1 = data.IO1_Off_Caption
+    }
+    if (data.LAST_IO2 == true) {
+        labelinput2 = data.IO2_Caption;
+        input2 = data.IO2_On_Caption
+    }
+    else {
+        labelinput2 = data.IO2_Caption;
+        input2 = data.IO2_Off_Caption
+    }
+    if (data.LAST_IO3 == true) {
+        labelinput3 = data.IO3_Caption;
+        input3 = data.IO3_On_Caption
+    } else {
+        labelinput3 = data.IO3_Caption;
+        input3 = data.IO3_Off_Caption
+    }
+    if (data.LAST_IO4 == true) {
+        labelinput4 = data.IO4_Caption;
+        input4 = data.IO4_On_Caption
+    } else {
+        labelinput4 = data.IO4_Caption;
+        input4 = data.IO4_Off_Caption
+    }
+
+    if (data.SUHU01 == 85 || data.SUHU01 >= 2000) suhu1 = "";
+    if (data.SUHU02 == 85 || data.SUHU02 >= 2000) suhu2 = "";
+    if (data.SUHU01) {
+        lblsuhu1 = data.Suhu01_Caption;
+    }
+    if (data.SUHU02) {
+        lblsuhu2 = data.Suhu02_Caption;
+    }
+    $("#streetName").html(data.WP_JALAN + ", " + data.WP_KELURAHAN + ", " + data.WP_KECAMATAN + ", " + data.WP_KABUPATEN + ", " + data.WP_PROPINSI + "<br>(" + data.POLYGON + ")");
+    $("#vehicleNumber").html(data.REG_NO);
+
+    $("#gsmNumber").html(data.CELLNO);
+    $("#lastUpdate").html(lastupdate);
+    $("#position").html((data.LAST_WP_LAT).toFixed(7) + ", " + (data.LAST_WP_LON).toFixed(7));
+    $("#engine").html(engine);
+    $("#speed").html(data.LAST_WP_SPEED);
+    $("#direction").html(Math.round(data.HEADING));
+    $("#odometer").html(Math.round(data.KM_ODO));
+    $("#powerSource").html(powersource);
+
+    $("#valinput1").html(input1);
+    $("#input1").html(labelinput1);
+    $("#valinput2").html(input2);
+    $("#input2").html(labelinput2);
+    $("#valinput3").html(input3);
+    $("#input3").html(labelinput3);
+    $("#valinput4").html(input4);
+    $("#input4").html(labelinput4);
+    $("#valtemp1").html(suhu1);
+    $("#temp1").html(lblsuhu1);
+    $("#valtemp2").html(suhu2);
+    $("#temp2").html(lblsuhu2);
+}
+//*****************************************************************************************************************************
+function buildVehicles(exc) {
+    $.ajax({
+        type: "GET",
+        url: "/localVehicle",
+        success: function (data) {
+            destroyMarker();
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].REG_NO != exc) {
+                    if (data[i].ORDSTS == 'OFGOENSN') {
+                        var markerProp = {
+                            className: "ofgoensnMarker",
+                            html: '<div class="ofgoensnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OFGUETSN') {
+                        var markerProp = {
+                            className: "ofguetsnMarker",
+                            html: '<div class="ofguetsnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OFGUEFSN') {
+                        var markerProp = {
+                            className: "ofguefsnMarker",
+                            html: '<div class="ofguefsnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGDENSN') {
+                        var markerProp = {
+                            className: "otgdensnMarker",
+                            html: '<div class="otgdensnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUEOSOVS') {
+                        var markerProp = {
+                            className: "otgueosovsMarker",
+                            html: '<div class="otgueosovsHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSNLD') {
+                        var markerProp = {
+                            className: "otguensnldMarker",
+                            html: '<div class="otguensnldHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSWTG') {
+                        var markerProp = {
+                            className: "otguenswtgMarker",
+                            html: '<div class="otguenswtgHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSOND') {
+                        var markerProp = {
+                            className: "otguensondMarker",
+                            html: '<div class="otguensondHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSOVN') {
+                        var markerProp = {
+                            className: "otguensovnMarker",
+                            html: '<div class="otguensovnHead"></div>'
+                        }
+                    }
+                    else if (data[i].ORDSTS == 'OTGUENSABN') {
+                        var markerProp = {
+                            className: "otguensabnMarker",
+                            html: '<div class="otguensabnHead"></div>'
+                        }
+                    }
+                    var markerIcon = L.divIcon(markerProp);
+                    marker[i] = L.marker([data[i].LAST_WP_LAT, data[i].LAST_WP_LON], {
+                        alt: data[i].REG_NO,
+                        icon: markerIcon,
+                        rotationAngle: data[i].HEADING,
+                        rotationOrigin: "center"
+                    }).bindTooltip(data[i].REG_NO, {
+                        permanent: true,
+                        className: "markerLabel",
+                        offset: [0, 22],
+                        direction: "center"
+                    }).openTooltip();
+                    marker[i].on('click', onClick);
+                    markerCluster.addLayer(marker[i]);
+                }
+            }
+            map.addLayer(markerCluster);
+        }
+    });
+}
+//*****************************************************************************************************************************
+
+function destroyMarker() {
+    if (otargetMarker) map.removeLayer(otargetMarker);
+    markerCluster.clearLayers();
+}
+//*****************************************************************************************************************************
+function updateChart() {
+    $.ajax({
+        type: "GET",
+        url: "/localVehicle",
+        success: function (data) {
+
+            clearChartbuf();
+            for (var i = 0; i < data.length; i++) {
+                var vehicleData = {
+                    "REG_NO": data[i].REG_NO,
+                    "LAST_IO1": data[i].LAST_IO1,
+                    "LAST_WP_SPEED": data[i].LAST_WP_SPEED,
+                    "LAST_UPDATE": data[i].LAST_UPDATE,
+                    "POLYGON": data[i].POLYGON,
+                    "VEHICLE_IMEI": data[i].VEHICLE_IMEI,
+                    "WP_PROPINSI": data[i].WP_PROPINSI,
+                    "WP_KABUPATEN": data[i].WP_KABUPATEN,
+                    "WP_KECAMATAN": data[i].WP_KECAMATAN,
+                    "WP_KELURAHAN": data[i].WP_KELURAHAN,
+                    "WP_JALAN": data[i].WP_JALAN,
+                    "KM_ODO": data[i].KM_ODO,
+                    "LAST_GPS_STATUS": data[i].LAST_GPS_STATUS,
+                    "LAST_IO2": data[i].LAST_IO2,
+                    "LAST_IO3": data[i].LAST_IO3,
+                    "LAST_IO4": data[i].LAST_IO4,
+                    "EXT_POWER": data[i].EXT_POWER,
+                    "ORDER_NUMBER": data[i].ORDER_NUMBER,
+                    "ORIGIN_NAME": data[i].ORIGIN_NAME,
+                    "DESTINATION_NAME": data[i].DESTINATION_NAME,
+                    "STATUS": data[i].STATUS,
+
+                    "IO1_CAPTION": data[i].IO1_Caption,
+                    "IO1_VISIBLE": data[i].IO1_Visible,
+                    "IO1_ON_CAPTION": data[i].IO1_On_Caption,
+                    "IO1_OFF_CAPTION": data[i].IO1_Off_Caption,
+
+                    "IO2_CAPTION": data[i].IO2_Caption,
+                    "IO2_VISIBLE": data[i].IO2_Visible,
+                    "IO2_ON_CAPTION": data[i].IO2_On_Caption,
+                    "IO2_OFF_CAPTION": data[i].IO2_Off_Caption,
+
+                    "IO3_CAPTION": data[i].IO3_Caption,
+                    "IO3_VISIBLE": data[i].IO3_Visible,
+                    "IO3_ON_CAPTION": data[i].IO3_On_Caption,
+                    "IO3_OFF_CAPTION": data[i].IO3_Off_Caption,
+
+
+                    "IO4_CAPTION": data[i].IO4_Caption,
+                    "IO4_VISIBLE": data[i].IO4_Visible,
+                    "IO4_ON_CAPTION": data[i].IO4_On_Caption,
+                    "IO4_OFF_CAPTION": data[i].IO4_Off_Caption,
+
+
+                    "SUHU01_CAPTION": data[i].Suhu01_Caption,
+                    "SUHU01_VISIBLE": data[i].Suhu01_Visible,
+                    "SUHU02_CAPTION": data[i].Suhu02_Caption,
+                    "SUHU02_VISIBLE": data[i].Suhu02_Visible,
+                };
+                if (data[i].ORDSTS == "OFGOENSN") {
+                    ofgoensnData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OFGUETSN") {
+                    ofguetsnData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OFGUEFSN") {
+                    ofguefsnData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGDENSN") {
+                    otgdensnData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGUEOSOVS") {
+                    otgueosovsData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGUENSNLD") {
+                    otguensnldData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGUENSWTG") {
+                    otguenswtgData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGUENSOND") {
+                    otguensondData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGUENSOVN") {
+                    otguensovnData.push(vehicleData);
+                }
+                else if (data[i].ORDSTS == "OTGUENSABN") {
+                    otguensabnData.push(vehicleData);
+                }
+                if (data[i].GPS == "ACTIVE") {
+                    gpsActive.push(vehicleData);
+                }
+                else if (data[i].GPS == "INACTIVE") {
+                    gpsInactive.push(vehicleData);
+                }
+                else if (data[i].GPS == "DELAY") {
+                    gpsDelay.push(vehicleData);
+                }
+            }
+            $("#ofgoensn").html(ofgoensnData.length);
+            $("#ofguetsn").html(ofguetsnData.length);
+            $("#ofguefsn").html(ofguefsnData.length);
+            $("#otgdensn").html(otgdensnData.length);
+            $("#otgueosovs").html(otgueosovsData.length);
+            $("#otguensnld").html(otguensnldData.length);
+            $("#otguenswtg").html(otguenswtgData.length);
+            $("#otguensond").html(otguensondData.length);
+            $("#otguensovn").html(otguensovnData.length);
+            $("#otguensabn").html(otguensabnData.length);
+           // chart.series[0].update({ data: [gpsActive.length, gpsDelay.length, gpsInactive.length] }, true);
+        }
+    });
+}
+
+
+
+//*****************************************************************************************************************************
+function updateRegno(reg) {
+    $.ajax({
+        type: "GET",
+        url: "/localVehicle",
+        success: function (data) {
+            $("#comboboxvehicle_I").empty().append('<option></option>');
+            $("#srcPlayback").empty().append('<option value="" selected></option>');
+            for (var i = 0; i < data.length; i++) {
+                // $("#srcUnit").append('<option value="' + data[i].REG_NO + '">' + data[i].REG_NO + '</option>');
+                // $("#srcPlayback").append('<option value="' + data[i].VEHICLE_SID + '">' + data[i].REG_NO + '</option>');
+            }
+            $("#comboboxvehicle_I").val(reg).trigger('change.select2');
+        }
+    });
+}
+
+//*****************************************************************************************************************************
+$("#comboboxvehicle_I").change(function () {
+    for (var i = 0; i < vehicle.length; i++) {
+        if (vehicle[i].REG_NO == $("#comboboxvehicle_I").val()) {
+            if (vehicle[i].ORDSTS == 'OFGOENSN') {
+                var markerPuls = "ofgoensnPulse";
+                var markerProp = {
+                    className: "ofgoensnMarker",
+                    html: '<div class="ofgoensnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OFGUETSN') {
+                var markerPuls = "ofguetsnPulse";
+                var markerProp = {
+                    className: "ofguetsnMarker",
+                    html: '<div class="ofguetsnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OFGUEFSN') {
+                var markerPuls = "ofguefsnPulse";
+                var markerProp = {
+                    className: "ofguefsnMarker",
+                    html: '<div class="ofguefsnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGDENSN') {
+                var markerPuls = "otgdensnPulse";
+                var markerProp = {
+                    className: "otgdensnMarker",
+                    html: '<div class="otgdensnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUEOSOVS') {
+                var markerPuls = "otgueosovsPulse";
+                var markerProp = {
+                    className: "otgueosovsMarker",
+                    html: '<div class="otgueosovsHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSNLD') {
+                var markerPuls = "otguensnldPulse";
+                var markerProp = {
+                    className: "otguensnldMarker",
+                    html: '<div class="otguensnldHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSWTG') {
+                var markerPuls = "otguenswtgPulse";
+                var markerProp = {
+                    className: "otguenswtgMarker",
+                    html: '<div class="otguenswtgHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSOND') {
+                var markerPuls = "otguensondPulse";
+                var markerProp = {
+                    className: "otguensondMarker",
+                    html: '<div class="otguensondHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSOVN') {
+                var markerPuls = "otguensovnPulse";
+                var markerProp = {
+                    className: "otguensovnMarker",
+                    html: '<div class="otguensovnHead"></div>'
+                }
+            }
+            else if (vehicle[i].ORDSTS == 'OTGUENSABN') {
+                var markerPuls = "otguensabnPulse";
+                var markerProp = {
+                    className: "otguensabnMarker",
+                    html: '<div class="otguensabnHead"></div>'
+                }
+            }
+            var markerIcon = L.divIcon(markerProp);
+            if (targetMarker) {
+                L.DomUtil.removeClass(targetMarker._icon, omarkerPuls);
+                otargetMarker = targetMarker;
+            }
+            omarkerPuls = markerPuls;
+            targetMarker = L.marker([vehicle[i].LAST_WP_LAT, vehicle[i].LAST_WP_LON], {
+                alt: vehicle[i].REG_NO,
+                icon: markerIcon,
+                rotationAngle: vehicle[i].HEADING,
+                rotationOrigin: "center"
+            }).bindTooltip(vehicle[i].REG_NO, {
+                permanent: true,
+                className: "markerLabel",
+                offset: [0, 22],
+                direction: "center"
+            }).openTooltip();
+            targetMarker.addTo(map);
+            L.DomUtil.addClass(targetMarker._icon, markerPuls);
+            targetMarker.setZIndexOffset(9999);
+            map.setView([vehicle[i].LAST_WP_LAT, vehicle[i].LAST_WP_LON], 15);
+            document.getElementById("pcFeaturesSub_T0").click();
+            $("#orderNumber").html(vehicle[i].ORDER_NUMBER);
+            $("#originOrder").html("Origin<br>" + vehicle[i].ORIGIN_NAME.replace("&", "&#38;"));
+            $("#destinOrder").html("Destination<br>" + vehicle[i].DESTINATION_NAME.replace("&", "&#38;"));
+            $("#statusOrder").html(vehicle[i].STATUS);
+            setVehicleinfo(vehicle[i]);
+            getLatCenter = vehicle[i].LAST_WP_LAT;
+            getLonCenter = vehicle[i].LAST_WP_LON;
+
+            break;
+        }
+    }
+    buildVehicles($("#comboboxvehicle_I").val());
+});
+//*****************************************************************************************************************************
+
+Highcharts.setOptions({ lang: { thousandsSep: "" } });
+chart = new Highcharts.chart('containerPie', {
+    chart: {
+        backgroundColor: 'transparent',
+        type: 'pie',
+        spacing: [20, 0, 0, 0]
+    },
+    exporting: {
+        enabled: false
+    },
+    title: {
+        text: null
+    },
+    credits: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: '{point.percentage:.1f} % {point.y} units'
+    },
+    plotOptions: {
+        pie: {
+            colors: ['#0ead69', '#bc4749', '#a1aaa1'],
+            allowPointSelect: true,
+            cursor: 'pointer',
+            showInLegend: true,
+            dataLabels: { enabled: false },
+            size: 175
+        }
+    },
+    legend: {
+        itemStyle: {
+            fontSize: '15px',
+            fontFamily: 'Segoe UI',
+            fontWeight: 'regular'
+        }
+    },
+    series: [{
+        colorByPoint: true,
+        point: {
+            events: {
+                click: function (e) {
+                    if (e.point.name == "Active") {
+                        $("#cardTable").dialog("option", "title", "GPS Active").dialog('open');
+                        cardTable = $('#example').DataTable({
+                            autoWidth: true,
+                            "scrollX": true,
+                            lengthChange: false,
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: '' + YearRep + MonthRep + dayRep + HoursRep + MinutesRep + SecondsRep + '_GPS_Active'
+                            }, 'pdf', 'colvis']
+                        });
+
+                        cardTable.buttons().container()
+                            .insertBefore('#example_filter');
+                        $.ajax({
+                            type: "GET",
+                            url: '/pieActive',
+                            beforeSend: function () {
+                                $(".loading").show();
+                            },
+                            complete: function () {
+                                $(".loading").hide();
+                            },
+                            success: function (data) {
+                                cardTable.clear().destroy();
+                                $('#dtVehicleorder').append(data.data);
+                                cardTable = $('#example').DataTable({
+                                    autoWidth: true,
+                                    "scrollX": true,
+                                    lengthChange: false,
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        title: '' + YearRep + MonthRep + dayRep + HoursRep + MinutesRep + SecondsRep + '_GPS_Active'
+                                    }, 'pdf', 'colvis']
+                                });
+
+                                cardTable.buttons().container()
+                                    .insertBefore('#example_filter');
+                            }
+                        });
+                    }
+                    else if (e.point.name == "Inactive") {
+                        $("#cardTable").dialog("option", "title", "GPS Inactive").dialog('open');
+                        cardTable = $('#example').DataTable({
+                            autoWidth: true,
+                            "scrollX": true,
+                            lengthChange: false,
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: '' + YearRep + MonthRep + dayRep + HoursRep + MinutesRep + SecondsRep + '_GPS_Inactive'
+                            }, 'pdf', 'colvis']
+                        });
+
+                        cardTable.buttons().container()
+                            .insertBefore('#example_filter');
+                        $.ajax({
+                            type: "GET",
+                            url: '/pieInactive',
+                            beforeSend: function () {
+                                $(".loading").show();
+                            },
+                            complete: function () {
+                                $(".loading").hide();
+                            },
+                            success: function (data) {
+                                cardTable.clear().destroy();
+                                $('#dtVehicleorder').append(data.data);
+                                cardTable = $('#example').DataTable({
+                                    autoWidth: true,
+                                    "scrollX": true,
+                                    lengthChange: false,
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        title: '' + YearRep + MonthRep + dayRep + HoursRep + MinutesRep + SecondsRep + '_GPS_Inactive'
+                                    }, 'pdf', 'colvis']
+                                });
+
+                                cardTable.buttons().container()
+                                    .insertBefore('#example_filter');
+                            }
+                        });
+                    }
+                    else if (e.point.name == "Delay") {
+                        $("#cardTable").dialog("option", "title", "GPS Delay").dialog('open');
+                        cardTable = $('#example').DataTable({
+                            autoWidth: true,
+                            "scrollX": true,
+                            lengthChange: false,
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                title: '' + YearRep + MonthRep + dayRep + HoursRep + MinutesRep + SecondsRep + '_GPS_Delay'
+                            }, 'pdf', 'colvis']
+                        });
+
+                        cardTable.buttons().container()
+                            .insertBefore('#example_filter');
+                        $.ajax({
+                            type: "GET",
+                            url: '/pieDelay',
+                            beforeSend: function () {
+                                $(".loading").show();
+                            },
+                            complete: function () {
+                                $(".loading").hide();
+                            },
+                            success: function (data) {
+                                cardTable.clear().destroy();
+                                $('#dtVehicleorder').append(data.data);
+                                cardTable = $('#example').DataTable({
+                                    autoWidth: true,
+                                    "scrollX": true,
+                                    lengthChange: false,
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        title: '' + YearRep + MonthRep + dayRep + HoursRep + MinutesRep + SecondsRep + '_GPS_Delay'
+                                    }, 'pdf', 'colvis']
+                                });
+
+                                cardTable.buttons().container()
+                                    .insertBefore('#example_filter');
+                            }
+                        });
+                    }
+                }
+            }
+        },
+        data: [{ name: 'Active' }, { name: 'Delay' }, { name: 'Inactive' }]
+    }]
+});
+
+//*****************************************************************************************************************************
+
+function lineClick(e) {
+    if (playTimer) {
+        clearInterval(playTimer);
+        playTimer = false;
+    }
+    posCount = e.target.options.index;
+    playback();
+}
+$("#cancelGeo").click(function () {
+    $('#formGeofence').dialog('close');
+});
+
+
+$("#cal_start").on("click", function () {
+    $("#input-fromdate").focus();
+});
+$("#cal_end").on("click", function () {
+    $("#input-todate").focus();
+});
+//*****************************************************************************************************************************
+function getSourceVehicle() {
+    for (var i = 0; i < vehicle.length; i++) {
+        regNoSource.push({
+            id: vehicle[i].REG_NO,
+            text: vehicle[i].REG_NO
+        });
+    }
+}
+function getSourceVehiclePlayback() {
+    for (var i = 0; i < vehicle.length; i++) {
+        regNoSourcePlayback.push({
+            id: vehicle[i].VEHICLE_SID,
+            text: vehicle[i].REG_NO
+        });
+    }
+}
+//*****************************************************************************************************************************
+$("#mybutton").click(function () {
+    my_val = my_val + 1;
+
+    if (my_val % 2 != 0) {
+        $("div.formholder").animate({ width: 300 }, 1000);
+        $("#mybutton").animate({ right: 300 }, 1000);
+    }
+    else {
+        $("div.formholder").animate({ width: 0 }, 1000);
+        $("#mybutton").animate({ right: 0 }, 1000);
+    }
+});
+
+ 
+window.onload = initMap;
+})();
+//*****************************************************************************************************************************

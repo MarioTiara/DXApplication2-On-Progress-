@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Nodes>
+  <TreeViewNode Text="Dashboard" NavigateUrl="Dashboard" />
+  <TreeViewNode Text="Maps" NavigateUrl="Maps" />
+  <TreeViewNode Text="Vehicle Summary" NavigateUrl="~/Vehicle" />
+  <TreeViewNode Text="Activity Report" NavigateUrl="#ResponsiveWebApplication">
+    <TreeViewNode Text="Event Report" NavigateUrl="~/EventReport" />
+    <TreeViewNode Text="Detail Activity Report" NavigateUrl="~/DetailActivityReport" />
+    <TreeViewNode Text="Speed Report" NavigateUrl="~/SpeedReport" />
+    <TreeViewNode Text="Vehicle In Geofence" NavigateUrl="~/VehicleInGeofence" />
+    <TreeViewNode Text="Odometer Summary" NavigateUrl="~/OdoMeterSummary" />
+  </TreeViewNode>
+  <TreeViewNode Text="Order Reporty" NavigateUrl="#content">
+    <TreeViewNode Text="Shipment" NavigateUrl="~/Shippment" />
+    <TreeViewNode Text="History Shipment" NavigateUrl="~/HistoryShippment" />
+  </TreeViewNode>
+</Nodes>

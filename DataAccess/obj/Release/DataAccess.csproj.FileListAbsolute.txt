@@ -1,0 +1,5 @@
+C:\ProgramData\DXApplication2\DataAccess\bin\Release\DataAccess.dll
+C:\ProgramData\DXApplication2\DataAccess\bin\Release\DataAccess.pdb
+C:\ProgramData\DXApplication2\DataAccess\obj\Release\DataAccess.csprojResolveAssemblyReference.cache
+C:\ProgramData\DXApplication2\DataAccess\obj\Release\DataAccess.dll
+C:\ProgramData\DXApplication2\DataAccess\obj\Release\DataAccess.pdb

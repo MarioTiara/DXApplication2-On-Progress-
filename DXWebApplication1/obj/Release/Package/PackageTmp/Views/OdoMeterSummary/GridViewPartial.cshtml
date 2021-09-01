@@ -1,0 +1,158 @@
+
+
+<style>
+    .table-responsives {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #ddd;
+    }
+
+    .tdCombo {
+        text-align: left;
+        padding: 3px;
+    }
+</style>
+<div class="container" style="float:right !important;">
+@{
+    <table class="table-responsives">
+        <tr>
+            <td class="tdCombo">Vehicle Number</td>
+            <td class="tdCombo">
+                @Html.DevExpress().ComboBox(settings =>
+                    {
+                        settings.Name = "cmbVehicle";
+                        settings.Width = 180;
+                        settings.SelectedIndex = 0;
+                        settings.Properties.DropDownWidth = 180;
+                        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                        settings.Properties.CallbackPageSize = 30;
+                        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                        settings.Properties.TextFormatString = "{0}";
+                        settings.Properties.ValueField = "VEHICLE_SID";
+                        settings.Properties.ValueType = typeof(string);
+                        settings.Properties.Columns.Add("REG_NO", "REG_NO", 80);
+                        settings.Properties.ClientInstanceName = "cmbVehicle";
+                    }).BindList(ViewBag.Data).GetHtml()
+            </td>
+            <td class="tdCombo">From</td>
+            <td class="tdCombo">
+                @Html.DevExpress().DateEdit(settings =>
+                   {
+                       //DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+                       settings.Name = "fromdate";
+                       settings.Properties.UseMaskBehavior = true;
+                       settings.Properties.DisplayFormatString = "yyyy/MM/dd";
+                       settings.Properties.EditFormatString = "yyyy/MM/dd";
+                       settings.Date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd"), "yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
+                       settings.Width = Unit.Percentage(100);
+                       settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                       settings.Properties.ClientInstanceName = "fromdate";
+                   }).GetHtml()
+            </td>
+            <td class="tdCombo">To</td>
+            <td class="tdCombo">
+                @Html.DevExpress().DateEdit(settings =>
+                {
+
+                    settings.Name = "todate";
+                    settings.Properties.UseMaskBehavior = true;
+                    settings.Properties.DisplayFormatString = "yyyy/MM/dd";
+                    settings.Properties.EditFormatString = "yyyy/MM/dd";
+                    settings.Date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd"), "yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture);
+                    settings.Width = Unit.Percentage(100);
+                    settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
+                    settings.Properties.ClientInstanceName = "todate";
+                }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(settings =>
+                   {
+                       settings.Name = "btnSearch";
+                       settings.Width = 100;
+                       settings.Text = "Search";
+                       settings.ClientSideEvents.Click = "function(s, e){ onClickSearch(s, e); }";
+                   }).GetHtml()
+
+            </td>
+        </tr>
+    </table>
+}
+    <div class="divElement">
+        @Html.DevExpress().LoadingPanel(
+                    settings =>
+                    {
+                        settings.Name = "LoadingPanel";
+                        settings.Modal = true;
+                        settings.ContainerElementID = "LoadingPanel";
+
+                    }
+                ).GetHtml()
+    </div>
+
+    @Html.DevExpress().CallbackPanel(
+                            settings =>
+                            {
+                                settings.Name = "CallbackPanel";
+                                settings.CallbackRouteValues = new { Controller = "VehicleInGeofence", Action = "ExamplePartial" };
+                                settings.SettingsLoadingPanel.Enabled = false;
+                                settings.ClientSideEvents.BeginCallback = "function(s, e) { LoadingPanel.Show(); }";
+                                settings.ClientSideEvents.EndCallback = "function(s, e) { LoadingPanel.Hide(); }";
+                            }
+                        ).GetHtml()
+   
+</div>
+<div id="containers" class="containers">
+
+
+   
+</div>
+<script>
+   // $('#leaseDiv').show();
+    function onClickSearch(s, e) {
+  var VehicleSid = cmbVehicle.GetValue();
+        var FROM_DATE = new Date( fromdate.GetText());
+        var TO_DATE = new Date(todate.GetText());
+
+        if (FROM_DATE > TO_DATE){
+            alert("Sorry, entered the correct time period");
+        }else{
+            var diffTime = Math.abs(TO_DATE - FROM_DATE);
+            var diffDays = Math.ceil((diffTime * 1e-3) / 86400);
+            if (diffDays > 31) {
+                alert("Sorry, maximum date range is 31 days");
+            } else {
+                try {
+                    $.ajax({
+                        url: '@Url.Action("getData", "OdoMeterSummary")',
+                        type: 'POST',
+                        data: { VehicleSid: VehicleSid, FROM_DATE: fromdate.GetText(), TO_DATE: todate.GetText() },
+                        beforeSend: function () {
+                            CallbackPanel.PerformCallback();
+                        },
+                        success: function (data) {
+                            $("#containers").html(data);
+                        }
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+
+            }
+        }
+
+
+    }
+
+    function CmbVehicle(s, e) {
+        comboboxvehicle.GetValue();
+        comboboxvehicle.PerformCallback(s.GetValue());
+    }
+    function CmbFromDate(s, e) {
+        fromdate.GetText();
+        fromdate.PerformCallback(s.GetText());
+    }
+    function CmbToDate(s, e) {
+        todate.GetText();
+        todate.PerformCallback(s.GetText());
+    }
+</script>

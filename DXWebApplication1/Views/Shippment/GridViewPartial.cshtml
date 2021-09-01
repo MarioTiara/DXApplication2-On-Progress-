@@ -1,0 +1,119 @@
+
+
+<style>
+    .table-responsives {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #ddd;
+    }
+
+    .tdCombo {
+        text-align: left;
+        padding: 3px;
+    }
+</style>
+<div class="container" style="float:right !important;">
+
+    <table class="table-responsives">
+        <tr>
+            <td class="tdCombo">Customer</td>
+            <td class="tdCombo">
+                @Html.DevExpress().ComboBox(settings =>
+                    {
+                        settings.Name = "combocustomer";
+                        settings.Width = 180;
+                        settings.SelectedIndex = 0;
+                        settings.Properties.DropDownWidth = 180;
+                        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                        settings.Properties.CallbackPageSize = 30;
+                        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                        settings.Properties.TextFormatString = "{0}";
+                        settings.Properties.ValueField = "PROJECT_NO";
+                        settings.Properties.ValueType = typeof(string);
+                        settings.Properties.Columns.Add("PROJECT_NAME", "PROJECT_NAME", 80);
+                        settings.Properties.ClientInstanceName = "combocustomer";
+                    }).BindList(ViewBag.DataCustomer).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(settings =>
+                   {
+                       settings.Name = "btnSearch";
+                       settings.Width = 100;
+                       settings.Text = "Search";
+                       settings.ClientSideEvents.Click = "function(s, e){ onClickSearch(s, e); }";
+                   }).GetHtml()
+
+            </td>
+        </tr>
+    </table>
+    <div class="divElement">
+        @Html.DevExpress().LoadingPanel(
+                    settings =>
+                    {
+                        settings.Name = "LoadingPanel";
+                        settings.Modal = true;
+                        settings.ContainerElementID = "LoadingPanel";
+
+                    }
+                ).GetHtml()
+    </div>
+
+    @Html.DevExpress().CallbackPanel(
+                            settings =>
+                            {
+                                settings.Name = "CallbackPanel";
+                                settings.CallbackRouteValues = new { Controller = "Shippment", Action = "ExamplePartial" };
+                                settings.SettingsLoadingPanel.Enabled = false;
+                                settings.ClientSideEvents.BeginCallback = "function(s, e) { LoadingPanel.Show(); }";
+                                settings.ClientSideEvents.EndCallback = "function(s, e) { LoadingPanel.Hide(); }";
+                            }
+                        ).GetHtml()
+   
+</div>
+<div id="containers" class="containers">
+
+
+    @Html.Action("getData")
+    @*@Html.Partial("_GridView1Partial")*@
+</div>
+<script>
+   // $('#leaseDiv').show();
+     function onClickSearch(s, e) {
+        try{
+            var projNo = combocustomer.GetValue();
+            console.log(projNo);
+            @*var baseUrl = "@Url.Action("getEvent", "EventReport")" + "?VehicleSid=" + vec + "&FROM_DATE=" + frdate + "&TO_DATE=" + todt;
+            window.location.href = baseUrl;*@
+
+            $.ajax({
+                url: '@Url.Action("getData", "Shippment")',
+                type: 'POST',
+                data: { PROJECT_NO: projNo},
+                beforeSend: function () {
+                    CallbackPanel.PerformCallback();
+                },
+                success: function (data) {
+                  
+                    $("#containers").html(data);
+                }
+            });
+        }catch(err){
+         
+        }
+
+
+    }
+
+    function CmbVehicle(s, e) {
+        comboboxvehicle.GetValue();
+        comboboxvehicle.PerformCallback(s.GetValue());
+    }
+    function CmbFromDate(s, e) {
+        fromdate.GetText();
+        fromdate.PerformCallback(s.GetText());
+    }
+    function CmbToDate(s, e) {
+        todate.GetText();
+        todate.PerformCallback(s.GetText());
+    }
+</script>

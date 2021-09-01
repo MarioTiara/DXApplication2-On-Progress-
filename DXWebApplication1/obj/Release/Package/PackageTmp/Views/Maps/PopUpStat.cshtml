@@ -1,0 +1,290 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridView";
+    settings.KeyFieldName = "VSID";
+    settings.CallbackRouteValues = new { Controller = "Maps", Action = "GridViewPartialViewGPS" };
+    settings.EnablePagingGestures = AutoBoolean.Auto;
+    settings.ControlStyle.CssClass = "grid-view";
+    settings.Width = Unit.Percentage(100);
+    settings.Styles.Cell.Wrap = DefaultBoolean.True;
+    settings.Styles.PagerBottomPanel.CssClass = "pager";
+    settings.Styles.FocusedRow.CssClass = "focused";
+    settings.Styles.FocusedRow.BackColor = System.Drawing.Color.Gray;
+    settings.SettingsBehavior.AllowFocusedRow = true;
+    settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+    settings.SettingsEditing.EditFormColumnCount = 2;
+    settings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 330;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    settings.SettingsExport.EnableClientSideExportAPI = true;
+    settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+    settings.SettingsExport.FileName = DateTime.Now + "_" + ViewBag.TitlePopup;
+    settings.SettingsPager.PageSize = 20;
+    settings.SettingsPager.EnableAdaptivity = true;
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+
+
+    settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+    settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+    settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+    settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+    settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+
+
+    settings.Toolbars.Add(x =>
+    {
+        x.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+    });
+
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "REGNO";
+        columnSettings.Caption = "VEHICLE NUMBER";
+        columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
+        columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
+        columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "LASTUPDATE";
+        columnSettings.Caption = "LAST UPDATE";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+        columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+        columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        columnSettings.ColumnType = MVCxGridViewColumnType.DateEdit;
+        (columnSettings.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy HH:mm:ss";
+        (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+        (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
+        
+
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "IMEI";
+        columnSettings.Caption = "IMEI";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(130);
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        //columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "GSMNO";
+        columnSettings.Caption = "GSM";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(130);
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        //columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "POLYGON";
+        columnSettings.Caption = "GEOFENCE";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(220);
+        columnSettings.Settings.AllowAutoFilter = DefaultBoolean.True;
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+
+    });
+    settings.Columns.Add(columnSettings =>
+    {
+
+        columnSettings.Caption = "LOCATION";
+        columnSettings.SetDataItemTemplateContent(dt =>
+        {
+            Html.DevExpress().Label(L =>
+            {
+                L.Text = String.Format("{0}", DataBinder.Eval(dt.DataItem, "LOC"));
+            }).Render();
+        });
+        columnSettings.FieldName = "LOC";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "SPEED";
+        columnSettings.Caption = "SPEED";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+        columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "ODO";
+        columnSettings.Caption = "ODOMETER";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+
+    });
+
+    settings.Columns.Add(columnSettings =>
+    {
+        columnSettings.FieldName = "GPSFIX";
+        columnSettings.Caption = "GPS";
+        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+        columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+        columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        columnSettings.SetDataItemTemplateContent(c =>
+        {
+            string key = DataBinder.Eval(c.DataItem, "GPSFIX").ToString();
+            Html.DevExpress().Image(img =>
+            {
+                if (key == "True")
+                {
+                    img.ImageUrl = "~/Content/ImagesSIL/on.png";
+                }
+                else
+                {
+                    img.ImageUrl = "~/Content/ImagesSIL/off.png";
+                }
+            }).Render();
+        });
+    });
+    settings.Columns.AddBand(companyBand =>
+    {
+        companyBand.Caption = "IO";
+        companyBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        companyBand.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "IO4";
+            columnSettings.Caption = "I";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            columnSettings.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().Image(img =>
+                {
+                    string key = DataBinder.Eval(c.DataItem, "IO4").ToString();
+                    if (key == "True")
+                        img.ImageUrl = "~/Content/ImagesSIL/on.png";
+                    else
+                        img.ImageUrl = "~/Content/ImagesSIL/off.png";
+                }).Render();
+            });
+        });
+
+        companyBand.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "IO1";
+            columnSettings.Caption = "1";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            columnSettings.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().Image(img =>
+                {
+
+
+                    string key = DataBinder.Eval(c.DataItem, "IO1").ToString();
+
+                    if (key == "True")
+
+
+                        img.ImageUrl = "~/Content/ImagesSIL/on.png";
+                    else
+                        img.ImageUrl = "~/Content/ImagesSIL/off.png";
+                }).Render();
+            });
+
+        });
+        companyBand.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "IO2";
+            columnSettings.Caption = "2 ";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+            columnSettings.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().Image(img =>
+                {
+
+
+                    string key = DataBinder.Eval(c.DataItem, "IO2").ToString();
+
+                    if (key == "True")
+                        img.ImageUrl = "~/Content/ImagesSIL/on.png";
+                    else
+                        img.ImageUrl = "~/Content/ImagesSIL/off.png";
+                }).Render();
+            });
+        });
+        companyBand.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "IO3";
+            columnSettings.Caption = "3";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            columnSettings.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().Image(img =>
+                {
+                    string key = DataBinder.Eval(c.DataItem, "IO3").ToString();
+                    if (key == "True")
+                        img.ImageUrl = "~/Content/ImagesSIL/on.png";
+                    else
+                        img.ImageUrl = "~/Content/ImagesSIL/off.png";
+                }).Render();
+            });
+        });
+    });
+
+    settings.HtmlDataCellPrepared = (s, e) =>
+    {
+        if (e.DataColumn.FieldName == "GPSFIX")
+        {
+            e.Cell.ToolTip = e.CellValue.ToString();
+        }
+        else if (e.DataColumn.FieldName == "IO1")
+        {
+            e.Cell.ToolTip = e.CellValue.ToString();
+        }
+        else if (e.DataColumn.FieldName == "IO2")
+        {
+            e.Cell.ToolTip = e.CellValue.ToString();
+        }
+        else if (e.DataColumn.FieldName == "IO3")
+        {
+            e.Cell.ToolTip = e.CellValue.ToString();
+        }
+        else if (e.DataColumn.FieldName == "IO4")
+        {
+            e.Cell.ToolTip = e.CellValue.ToString();
+        }
+    };
+
+
+
+}).Bind(ViewBag.Vec).GetHtml()
+
+

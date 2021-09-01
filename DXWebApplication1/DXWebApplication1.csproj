@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{51223E5A-107F-40C8-8993-6EFBF64794F1}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DXWebApplication1</RootNamespace>
+    <AssemblyName>DXWebApplication1</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="DevExpress.Data.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxThemes.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v18.2.Core, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v18.2.Export, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v18.2.Core, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.Mvc5.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v18.2.Core, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxScheduler.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.0.0\lib\net45\WebMatrix.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Overview.html" />
+    <Content Include="App_Data\SQL__Camera_Report _Sort.sql" />
+    <Content Include="App_Data\SQL__Camera_Report.sql" />
+    <Content Include="App_Data\SQL__Geofences_Update.sql" />
+    <Content Include="App_Data\SQL__Geofences_Insert.sql" />
+    <Content Include="App_Data\SQL__Get_GeofencesType.sql" />
+    <Content Include="App_Data\SQL__Get_GeofencesIdLMS.sql" />
+    <Content Include="App_Data\SQL__Get_GeofencesInfoLMS.sql" />
+    <Content Include="App_Data\SQL__HistoryWayPoint.sql" />
+    <Content Include="App_Data\SQL__Customer_Project_All.sql" />
+    <Content Include="App_Data\SQL__Customer.sql" />
+    <Content Include="App_Data\SQL__Customer_Projects.sql" />
+    <Content Include="App_Data\SQL__Get_GeofencesInfo.sql" />
+    <Content Include="App_Data\SQL__History_Shippment_Report_CustomerSID.sql" />
+    <Content Include="App_Data\SQL__History_Shippment_Report_Detail.sql" />
+    <Content Include="App_Data\SQL__History_Shippment_Report_ProjectNo.sql" />
+    <Content Include="App_Data\SQL__History_Shippment_Report.sql" />
+    <Content Include="App_Data\SQL__Image_Data.sql" />
+    <Content Include="App_Data\SQL__Login_LastLogin.sql" />
+    <Content Include="App_Data\SQL__Shippment_Report_All.sql" />
+    <Content Include="App_Data\SQL__Shippment_Report_ProjectNo.sql" />
+    <Content Include="App_Data\SQL__Shippment_Report_CustomerSID.sql" />
+    <Content Include="App_Data\SQL__Login.sql" />
+    <Content Include="App_Data\SQL__Vehicle_ByCustomerSID_ProjectSID.sql" />
+    <Content Include="App_Data\SQL__Vehicle_ByCustomerSID.sql" />
+    <Content Include="App_Data\SQL__Get_Geofences.sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence_OnlyRegNo..sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence_RegNoPolygon.sql" />
+    <Content Include="App_Data\SQL__Vehicle_Report_OdoMeter_ByVehicle.sql" />
+    <Content Include="App_Data\SQL__Vehicle_Report_OdoMeter.sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence.sql" />
+    <Content Include="App_Data\SQL__Speed_Reports.sql" />
+    <Content Include="App_Data\SQL__Detail_Activity_Reports.sql" />
+    <Content Include="App_Data\SQL__Event_Reports.sql" />
+    <Content Include="App_Data\SQL__Vehicle_GetAll_Combobox.sql" />
+    <Content Include="App_Data\SQL__Vehicle_GetAll.sql" />
+    <Content Include="Content\Content.css" />
+    <Content Include="Content\GridView.css" />
+    <Content Include="Content\GridView.js" />
+    <Content Include="Content\ImagesSIL\cargo-truck.png" />
+    <Content Include="Content\ImagesSIL\companylogo.png" />
+    <Content Include="Content\ImagesSIL\geofence.png" />
+    <Content Include="Content\ImagesSIL\GreenOn.png" />
+    <Content Include="Content\ImagesSIL\GreenOn_Crop.png" />
+    <Content Include="Content\ImagesSIL\icon-01.png" />
+    <Content Include="Content\ImagesSIL\off.png" />
+    <Content Include="Content\ImagesSIL\on.png" />
+    <Content Include="Content\ImagesSIL\pie-chart.png" />
+    <Content Include="Content\ImagesSIL\RedOff.jpg" />
+    <Content Include="Content\ImagesSIL\under-construction.png" />
+    <Content Include="Content\Images\adaptive-menu.svg" />
+    <Content Include="Content\Images\add.svg" />
+    <Content Include="Content\Images\application.svg" />
+    <Content Include="Content\Images\Article-white.svg" />
+    <Content Include="Content\Images\Article.svg" />
+    <Content Include="Content\Images\back.svg" />
+    <Content Include="Content\Images\delete.svg" />
+    <Content Include="Content\Images\double-close.svg" />
+    <Content Include="Content\Images\double.svg" />
+    <Content Include="Content\Images\edit.svg" />
+    <Content Include="Content\Images\export.svg" />
+    <Content Include="Content\Images\eye-button-hide.svg" />
+    <Content Include="Content\Images\eye-button.svg" />
+    <Content Include="Content\Images\GridView-white.svg" />
+    <Content Include="Content\Images\GridView.svg" />
+    <Content Include="Content\Images\Home-white.svg" />
+    <Content Include="Content\Images\Home.svg" />
+    <Content Include="Content\Images\icon-01.png" />
+    <Content Include="Content\Images\image-sample.png" />
+    <Content Include="Content\Images\kind1-white.svg" />
+    <Content Include="Content\Images\kind1.svg" />
+    <Content Include="Content\Images\kind2-white.svg" />
+    <Content Include="Content\Images\kind2.svg" />
+    <Content Include="Content\Images\login.jpg" />
+    <Content Include="Content\Images\logo-small.svg" />
+    <Content Include="Content\Images\logo.svg" />
+    <Content Include="Content\Images\menu.svg" />
+    <Content Include="Content\Images\Overview\article.png" />
+    <Content Include="Content\Images\Overview\demo.png" />
+    <Content Include="Content\Images\Overview\grid.png" />
+    <Content Include="Content\Images\Overview\login.gif" />
+    <Content Include="Content\Images\Overview\login.png" />
+    <Content Include="Content\Images\Overview\menu.gif" />
+    <Content Include="Content\Images\Overview\scheduler.png" />
+    <Content Include="Content\Images\Overview\sidebar.gif" />
+    <Content Include="Content\Images\Overview\sticky-footer.gif" />
+    <Content Include="Content\Images\Overview\toolbar.gif" />
+    <Content Include="Content\Images\print.svg" />
+    <Content Include="Content\Images\priority1-white.svg" />
+    <Content Include="Content\Images\priority1.svg" />
+    <Content Include="Content\Images\priority2-white.svg" />
+    <Content Include="Content\Images\priority2.svg" />
+    <Content Include="Content\Images\priority3-white.svg" />
+    <Content Include="Content\Images\priority3.svg" />
+    <Content Include="Content\Images\Scheduler-white.svg" />
+    <Content Include="Content\Images\Scheduler.svg" />
+    <Content Include="Content\Images\search-selected.svg" />
+    <Content Include="Content\Images\search.svg" />
+    <Content Include="Content\Images\sign-out.svg" />
+    <Content Include="Content\Images\user.svg" />
+    <Content Include="Content\jquery-3.5.1.js" />
+    <Content Include="Content\Layout.css" />
+    <Content Include="Content\MainContent.css" />
+    <Content Include="Content\Map\leaflet.rotatedMarker.js" />
+    <Content Include="Content\Map\MainMap.js" />
+    <Content Include="Content\Map\Map.SelectArea.js" />
+    <Content Include="Content\Map\MovingMarker.js" />
+    <Content Include="Content\Photo\icon-01.png" />
+    <Content Include="Content\Photo\siltracklogo-02.png" />
+    <Content Include="Content\Photo\siltrackIcon01.png" />
+    <Content Include="Content\Scheduler.css" />
+    <Content Include="Content\Scheduler.js" />
+    <Content Include="Content\Script.js" />
+    <Content Include="Content\SignInRegister.css" />
+    <Content Include="Content\SignInRegister.js" />
+    <Content Include="Content\under-construction.png" />
+    <Content Include="Global.asax" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\ModelVehicle.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelVehicle.edmx</DependentUpon>
+      <LastGenOutput>ModelVehicle.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModelVehicle.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelVehicle.edmx</DependentUpon>
+      <LastGenOutput>ModelVehicle.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Northwind.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Northwind.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Properties\PublishProfiles\SILTrackDevEx.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Views\Shared\OverviewContents.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\ApplicationMenuDataSource.sitemap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Account\SignIn.cshtml" />
+    <Content Include="Views\Account\TabControlPartial.cshtml" />
+    <Content Include="Views\Account\UserMenuItemPartial.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
+    <Content Include="Views\Article\LeftPanelPartial.cshtml" />
+    <Content Include="Views\GridView\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\GridView\GridViewPartial.cshtml" />
+    <Content Include="Views\GridView\Index.cshtml" />
+    <Content Include="Views\GridView\LeftPanelPartial.cshtml" />
+    <Content Include="Views\Home\LeftPanelPartial.cshtml" />
+    <Content Include="Views\Scheduler\FilterComboBoxPartial.cshtml" />
+    <Content Include="Views\Scheduler\Index.cshtml" />
+    <Content Include="Views\Scheduler\LeftPanelPartial.cshtml" />
+    <Content Include="Views\Scheduler\SchedulerPartial.cshtml" />
+    <Content Include="packages.config" />
+    <EntityDeploy Include="Models\ModelVehicle.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelVehicle.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModelVehicle.edmx.diagram">
+      <DependentUpon>ModelVehicle.edmx</DependentUpon>
+    </Content>
+    <Content Include="Views\Home\_HtmlEditorPartial.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\VehicleSummary\Index.cshtml" />
+    <Content Include="Views\Shared\LeftPanelPartial.cshtml" />
+    <Content Include="Views\VehicleSummary\GridViewPartial.cshtml" />
+    <Content Include="Views\VehicleSummary\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\VehicleSummary\_GridView1Partial.cshtml" />
+    <Content Include="Views\EventReport\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Vehicle\Index.cshtml" />
+    <Content Include="Views\Vehicle\_GridView1Partial.cshtml" />
+    <Content Include="Views\Vehicle\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\Vehicle\GridViewPartial.cshtml" />
+    <Content Include="Views\EventReport\_GridView1Partial.cshtml" />
+    <Content Include="Views\EventReport\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\EventReport\GridViewPartial.cshtml" />
+    <Content Include="Views\DetailActivityReport\Index.cshtml" />
+    <Content Include="Views\DetailActivityReport\_GridView1Partial.cshtml" />
+    <Content Include="Views\DetailActivityReport\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\DetailActivityReport\GridViewPartial.cshtml" />
+    <Content Include="Views\SpeedReport\_GridView1Partial.cshtml" />
+    <Content Include="Views\SpeedReport\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\SpeedReport\GridViewPartial.cshtml" />
+    <Content Include="Views\SpeedReport\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\VehicleInGeofence\Index.cshtml" />
+    <Content Include="Views\VehicleInGeofence\_GridView1Partial.cshtml" />
+    <Content Include="Views\VehicleInGeofence\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\VehicleInGeofence\GridViewPartial.cshtml" />
+    <Content Include="Views\Shippment\Index.cshtml" />
+    <Content Include="Views\Shippment\_GridView1Partial.cshtml" />
+    <Content Include="Views\Shippment\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\Shippment\GridViewPartial.cshtml" />
+    <Content Include="Views\HistoryShippment\Index.cshtml" />
+    <Content Include="Views\HistoryShippment\_GridView1Partial.cshtml" />
+    <Content Include="Views\HistoryShippment\GridViewDetailsPage.cshtml" />
+    <Content Include="Views\HistoryShippment\GridViewPartial.cshtml" />
+    <Content Include="Views\HistoryShippment\MasterDetailMasterPartial.cshtml" />
+    <Content Include="Views\Maps\Index.cshtml" />
+    <Content Include="Views\Maps\GridViewPartial.cshtml" />
+    <Content Include="Views\Maps\_GridView1Partial.cshtml" />
+    <Content Include="Views\Maps\GridViewPartialView.cshtml" />
+    <Content Include="Views\Maps\FormGeofence.cshtml" />
+    <Content Include="Views\Maps\PopUpStat.cshtml" />
+    <Content Include="Views\OdoMeterSummary\Index.cshtml" />
+    <Content Include="Views\OdoMeterSummary\_GridView1Partial.cshtml" />
+    <Content Include="Views\OdoMeterSummary\GridViewPartial.cshtml" />
+    <Content Include="Views\CamReport\Index.cshtml" />
+    <Content Include="Views\CamReportDev\Index.cshtml" />
+    <Content Include="Views\CamReportDev\GridViewPartial.cshtml" />
+    <Content Include="Views\CamReportDev\_ImageViewPartial.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\AuthHelper.cs" />
+    <Compile Include="Code\Control.cs" />
+    <Compile Include="Code\DBContext.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
+    <Compile Include="Controllers\Authentication.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CamReportController.cs" />
+    <Compile Include="Controllers\CamReportDevController.cs" />
+    <Compile Include="Controllers\CheckSessionController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DetailActivityReportController.cs" />
+    <Compile Include="Controllers\EventReportController.cs" />
+    <Compile Include="Controllers\GridViewController.cs" />
+    <Compile Include="Controllers\HistoryShippmentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MapsController.cs" />
+    <Compile Include="Controllers\OdoMeterSummaryController.cs" />
+    <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Controllers\ShippmentController.cs" />
+    <Compile Include="Controllers\SpeedReportController.cs" />
+    <Compile Include="Controllers\VehicleController.cs" />
+    <Compile Include="Controllers\VehicleInGeofenceController.cs" />
+    <Compile Include="Controllers\VehicleSummaryController.cs" />
+    <Compile Include="Controllers\WaypointController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\GridView\GridViewHelper.cs" />
+    <Compile Include="Models\ModelAccounts.cs" />
+    <Content Include="Models\ModelCamera.txt" />
+    <Compile Include="Models\ModelCustomer.cs" />
+    <Compile Include="Models\ModelGeofences.cs" />
+    <Compile Include="Models\ModelOrder.cs" />
+    <Compile Include="Models\ModelReport.cs" />
+    <Compile Include="Models\ModelVehicle.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelVehicle.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelVehicle.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelVehicle.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelVehicle.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelVehicle.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelVehicles.cs" />
+    <Compile Include="Models\ModelWaypoint.cs" />
+    <Compile Include="Models\Northwind.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Northwind.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Scheduler\SchedulerDataSource.cs" />
+    <Compile Include="Models\Scheduler\SchedulerHelper.cs" />
+    <Compile Include="Models\vwVehicleWithOrder.cs">
+      <DependentUpon>ModelVehicle.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\HistoryShippment\GridViewExportHelper.cs" />
+    <Compile Include="Views\HistoryShippment\GridViewFeatureHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Northwind.dbml.layout">
+      <DependentUpon>Northwind.dbml</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
+      <Project>{50ee2980-5323-48a7-ab15-26163e49ea73}</Project>
+      <Name>BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{16bd03d9-ec16-48f7-99ad-6fc07aa8d3b1}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Camera\" />
+    <Folder Include="Views\CheckSession\" />
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Waypoint\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>59133</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59133/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <servers defaultServer="SelfHostServer">
+            <server name="SelfHostServer" exePath="" cmdArgs="" url="http://localhost:59133/" workingDir="" />
+          </servers>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

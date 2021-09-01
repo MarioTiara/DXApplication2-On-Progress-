@@ -1,0 +1,7 @@
+﻿SELECT	KodeLokasi GEOFENCE_CODE
+FROM Production.LMS.dbo.MsAssortLokasi
+WHERE KodeLokasi NOT IN (
+							SELECT GEOFENCE_CODE
+							FROM dbo.GEOFENCE
+							WHERE (GEOFENCE_CODE IS NOT NULL OR GEOFENCE_CODE != '')
+						)

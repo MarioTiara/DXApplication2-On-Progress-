@@ -1,0 +1,304 @@
+﻿@using DXWebApplication1.Model
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/Images/icon-01.png")" />
+    <title>
+        @{ var pageTitleParts = new string[] { "SILtrack", ViewBag.Title }; }
+        @string.Join(" - ", @pageTitleParts.Where(s => !string.IsNullOrEmpty(s)))
+    </title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
+        @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+    )
+    @Html.DevExpress().GetScripts( 
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+        new Script { ExtensionSuite = ExtensionSuite.GridView }
+    )
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Content.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/MainContent.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Layout.css")" />
+    @RenderSection("Head", false)
+    <script type="text/javascript" src="@Url.Content("~/Content/Script.js")"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Content/jquery-3.5.1.js")"></script>*@
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+   
+    @*<script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>*@
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://raruto.github.io/cdn/leaflet-google/0.0.3/leaflet-google.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/2.6.0/jquery.mockjax.min.js"></script>
+
+
+    <script type="text/javascript" src="@Url.Content("~/Content/Map/leaflet.rotatedMarker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Map/Map.SelectArea.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Map/MovingMarker.js")"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-editable/1.2.0/Leaflet.Editable.js"></script>
+   
+    <script>
+        // sending the __RequestVerificationToken value manually, see details: https://github.com/DevExpress/aspnet-security-bestpractices/tree/master/SecurityBestPractices.Mvc#4-preventing-cross-site-request-forgery-csrf
+        if(window.jQuery) {
+            $.ajaxPrefilter(function(options, originalOptions, xhr) {
+                if (options.dataType && options.dataType !== "html")
+                    return;
+                var tokenValue = $('input:hidden[name="__RequestVerificationToken"]').val();
+                if(tokenValue && options && options.data && options.data.indexOf('RequestVerificationToken') === -1)
+                    options.data += "&__RequestVerificationToken=" + tokenValue;
+            });
+        }
+
+    </script>
+</head>
+<body>
+
+    @using (Html.BeginForm("LogOut", "Login", FormMethod.Post, new { id = "signOutForm" }))
+    {
+        @Html.AntiForgeryToken();
+    }
+
+    @Html.DevExpress().Panel(settings => {
+    settings.Name = "headerPanel";
+    settings.FixedPosition = PanelFixedPosition.WindowTop;
+    settings.FixedPositionOverlap = true;
+    settings.ControlStyle.CssClass = "app-header";
+    settings.SetContent(() => {
+        ViewContext.Writer.Write("<div class='left-block'>");
+
+        @Html.DevExpress().Menu(menuSettings => {
+            menuSettings.Name = "leftAreaMenu";
+            menuSettings.ItemAutoWidth = false;
+            menuSettings.EnableHotTrack = false;
+            
+            menuSettings.SettingsAdaptivity.Enabled = true;
+            menuSettings.Width = Unit.Percentage(100);
+            menuSettings.SyncSelectionMode = SyncSelectionMode.None;
+            menuSettings.ControlStyle.CssClass = "header-menu";
+            menuSettings.ControlStyle.SeparatorWidth = 0;
+            menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+            menuSettings.Styles.Item.CssClass = "item";
+            menuSettings.ClientSideEvents.ItemClick = "onLeftMenuItemClick";
+
+            if(ViewBag.ShowBackButton != null && ViewBag.ShowBackButton) {
+                menuSettings.Items.Add(item => {
+                    item.Text = "";
+                    item.Name = "Back";
+                    item.Image.Url = "~/Content/Images/back.svg";
+                    item.Image.Height = Unit.Pixel(18);
+                    item.Image.Width = Unit.Pixel(18);
+                    item.ItemStyle.CssClass = "toggle-item vertically-aligned";
+                });
+            }
+            if(IsSectionDefined("LeftPanelContent")) {
+                menuSettings.Items.Add(item => {
+                    item.Text = "";
+                    item.Name = "ToggleLeftPanel";
+                    item.GroupName = "LeftPanel";
+                    item.Image.Url = "~/Content/Images/menu.svg";
+                    item.Image.Height = Unit.Pixel(18);
+                    item.Image.Width = Unit.Pixel(18);
+                    item.ItemStyle.CssClass = "toggle-item vertically-aligned";
+                    item.ItemStyle.CheckedStyle.CssClass = "checked selected";
+                });
+            }
+            menuSettings.Items.Add(item => {
+                item.Text = "";
+                item.NavigateUrl = "~/";
+                item.Image.Url = "~/Content/ImagesSIL/companylogo.png";
+                item.ItemStyle.CssClass = "image-item vertically-aligned";
+                item.Image.SpriteProperties.CssClass = "header-logo";
+            });
+        }).GetHtml();
+        ViewContext.Writer.Write("</div><div class='right-block'>");
+        @Html.DevExpress().Menu(menuSettings => {
+            menuSettings.Name = "rightAreaMenu";
+            menuSettings.ItemAutoWidth = false;
+            menuSettings.SettingsAdaptivity.Enabled = true;
+            menuSettings.Width = Unit.Percentage(100);
+            menuSettings.ShowPopOutImages = DefaultBoolean.False;
+            menuSettings.ControlStyle.SeparatorWidth = 0;
+            menuSettings.ApplyItemStyleToTemplates = true;
+            menuSettings.ControlStyle.CssClass = "header-menu";
+            menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+            menuSettings.Styles.Item.CssClass = "item";
+            menuSettings.Styles.SubMenu.CssClass = "header-sub-menu";
+            menuSettings.Styles.SubMenuItem.CssClass = "item";
+            //menuSettings.ClientSideEvents.ItemClick = "onRightMenuItemClick";
+            menuSettings.Items.Add(item => {
+                item.Name = "AccountItem";
+                item.ItemStyle.CssClass = "image-item";
+                item.SetTextTemplateContent(template => {
+                    string className = AuthHelper.IsAuthenticated() ? "account-image" : "empty-image";
+                    string accountItemContent = "", accountItemBackgroundStyle = "";
+                    if(AuthHelper.IsAuthenticated()) {
+                        var user = AuthHelper.GetLoggedInUserInfo();
+                        if(string.IsNullOrEmpty(user.AvatarUrl))
+                            accountItemContent = string.Format("{0}{1}", user.FirstName[0], user.LastName[0]).ToUpper();
+                        else
+                            accountItemBackgroundStyle = string.Format("style=\"background-image: url('{0}')\"", Url.Content(user.AvatarUrl));
+                    }
+                    ViewContext.Writer.Write("<div class=''>" + @HttpContext.Current.Session["FULL_NAME"].ToString());
+            
+                    ViewContext.Writer.Write("</div>");
+                });
+              
+                    item.Items.Add(subItem =>
+                    {
+                        subItem.Name = "SignOutItem";
+                        subItem.Text = "Sign out";
+                        subItem.Image.Url = "~/Content/Images/sign-out.svg";
+                        subItem.Image.Width = Unit.Pixel(16);
+                        subItem.Image.Height = Unit.Pixel(16);
+                        subItem.NavigateUrl = "javascript:document.getElementById('signOutForm').submit()";
+                    });
+                
+            });
+            //if (IsSectionDefined("RightPanelContent"))
+            //{
+            //    menuSettings.Items.Add(item =>
+            //    {
+            //        item.Name = "ToggleRightPanel";
+            //        item.Text = "";
+            //        item.GroupName = "RightPanel";
+            //        item.ItemStyle.CssClass = "toggle-item vertically-aligned";
+            //        item.ItemStyle.CheckedStyle.CssClass = "checked selected";
+            //        item.Image.Height = Unit.Pixel(18);
+            //        item.Image.SpriteProperties.CssClass = "image";
+            //    });
+            //}
+        }).GetHtml();
+        ViewContext.Writer.Write("</div><div class='menu-container'><div>");
+        @Html.DevExpress().Menu(menuSettings => {
+            menuSettings.Name = "applicationMenu";
+            menuSettings.ItemAutoWidth = false;
+            menuSettings.EnableSubMenuScrolling = true;
+            menuSettings.ShowPopOutImages = DefaultBoolean.True;
+            menuSettings.Width = Unit.Percentage(100);
+            menuSettings.SettingsAdaptivity.Enabled = true;
+            menuSettings.ControlStyle.SeparatorWidth = 0;
+            menuSettings.ControlStyle.CssClass = "header-menu application-menu";
+            menuSettings.ControlStyle.HorizontalAlign = HorizontalAlign.Right;
+            menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+            menuSettings.Styles.Item.CssClass = "item";
+            menuSettings.Styles.Item.SelectedStyle.CssClass = "selected";
+            menuSettings.Styles.Item.HoverStyle.CssClass = "hovered";
+            menuSettings.Styles.SubMenu.CssClass = "header-sub-menu";
+            menuSettings.Images.AdaptiveMenu.SpriteProperties.CssClass = "adaptive-image";
+            menuSettings.Images.Item.Width = Unit.Pixel(22);
+            menuSettings.Images.Item.Height = Unit.Pixel(22);
+            menuSettings.ItemDataBound = (sender, e) => {
+                e.Item.Image.Url = string.Format("~/Content/Images/{0}.svg", e.Item.Text);
+                e.Item.Image.UrlSelected = string.Format("~/Content/Images/{0}-white.svg", e.Item.Text);
+            };
+        }).BindToSiteMap("~/App_Data/ApplicationMenuDataSource.sitemap", false).GetHtml();
+        ViewContext.Writer.Write("</div></div><div class='dx-clear'></div>");
+    });
+}).GetHtml()
+
+@Html.DevExpress().Panel(settings =>
+{
+    settings.Name = "leftPanel";
+    settings.Collapsible = true;
+    settings.ScrollBars = ScrollBars.Auto;
+    settings.FixedPosition = PanelFixedPosition.WindowLeft;
+    settings.Width = Unit.Pixel(230);
+    settings.SettingsAdaptivity.CollapseAtWindowInnerWidth = 960;
+    settings.ControlStyle.CssClass = "left-panel";
+    settings.Styles.Panel.Paddings.Padding = Unit.Pixel(0);
+    settings.Styles.ExpandBar.CssClass = "expand-bar";
+    settings.SettingsCollapsing.ExpandButton.Visible = false;
+    settings.SettingsCollapsing.ExpandEffect = PanelExpandEffect.PopupToRight;
+    settings.SettingsCollapsing.AnimationType = AnimationType.Slide;
+    settings.SettingsCollapsing.Modal = true;
+    settings.ClientSideEvents.Init = "onLeftPanelInit";
+    settings.ClientSideEvents.Collapsed = "onLeftPanelCollapsed";
+    settings.SetContent(() => ViewContext.Writer.Write(RenderSection("LeftPanelContent", false)));
+
+
+    
+}).GetHtml()
+
+    @Html.DevExpress().Panel(settings =>
+{
+    settings.Name = "rightPanel";
+    settings.Collapsible = true;
+    settings.FixedPosition = PanelFixedPosition.WindowRight;
+    settings.FixedPositionOverlap = true;
+    settings.ScrollBars = ScrollBars.Auto;
+    settings.Width = Unit.Pixel(272);
+    settings.ControlStyle.CssClass = "right-panel";
+    settings.Styles.ExpandBar.CssClass = "expand-bar";
+    settings.SettingsCollapsing.ExpandButton.Visible = false;
+    settings.SettingsCollapsing.ExpandEffect = PanelExpandEffect.PopupToLeft;
+    settings.SettingsCollapsing.Modal = true;
+    settings.ClientSideEvents.Collapsed = "onRightPanelCollapsed";
+    settings.SetContent(() => ViewContext.Writer.Write(RenderSection("RightPanelContent", false)));
+}).GetHtml()
+
+
+
+    @*@if(IsSectionDefined("LeftPanelContent")) {
+       
+    }
+    @if(IsSectionDefined("RightPanelContent")) {
+    
+    }*@
+   
+    
+    <div class="form">
+        @if(IsSectionDefined("PageToolbar")) {
+            @Html.DevExpress().Panel(settings => {
+                settings.Name = "pageToolbarPanel";
+                settings.ControlStyle.CssClass = "page-toolbar-wrapper";
+                settings.ClientSideEvents.Init = "onPageToolbarInit";
+                settings.SetContent(() => ViewContext.Writer.Write(RenderSection("PageToolbar", false)));
+            }).GetHtml()
+        }
+        
+        <div class="content" id="pageContent">
+            @RenderBody()
+            <div class="footer-wrapper" id="footerWrapper">
+                <div class="footer">
+                    <span class="footer-right">
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        MVCxClientGlobalEvents.AddControlsInitializedEventHandler(onControlsInitialized);
+        ASPxClientControl.GetControlCollection().BrowserWindowResized.AddHandler(onBrowserWindowResized);
+    </script>
+</body>
+</html>
+

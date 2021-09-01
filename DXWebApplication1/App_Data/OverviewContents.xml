@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Nodes>
+  <TreeViewNode Text="Dashboard" NavigateUrl="Dashboard" />
+  <TreeViewNode Text="Map" NavigateUrl="#signin" />
+  <TreeViewNode Text="Vehicle Summary" NavigateUrl="VehicleSummary" />
+  <TreeViewNode Text="Report Activity" NavigateUrl="#ResponsiveWebApplication">
+    <TreeViewNode Text="Event Report" NavigateUrl="EventReport" />
+    <TreeViewNode Text="Sidebars" NavigateUrl="#sidebar" />
+    <TreeViewNode Text="Adaptive Toolbar" NavigateUrl="#toolbar" />
+    <TreeViewNode Text="Sticky Footer" NavigateUrl="#stickyFooter" />
+  </TreeViewNode>
+  <TreeViewNode Text="Report Order" NavigateUrl="#content">
+    <TreeViewNode Text="Grid View" NavigateUrl="#grid" />
+    <TreeViewNode Text="Scheduler" NavigateUrl="#scheduler" />
+    <TreeViewNode Text="Article" NavigateUrl="#article" />
+    <TreeViewNode Text="SignIn/Register" NavigateUrl="#signin" />
+  </TreeViewNode>
+</Nodes>

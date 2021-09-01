@@ -1,0 +1,196 @@
+﻿@functions{
+    private void AssignTextBoxSettings(TextBoxSettings s)
+    {
+        s.ShowModelErrors = true;
+        s.ControlStyle.CssClass = "maxWidth";
+        s.Properties.Password = s.Name.Contains("Password");
+        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+        s.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+        s.Properties.ValidationSettings.Display = Display.Dynamic;
+        s.Properties.ValidationSettings.ErrorFrameStyle.Wrap = DefaultBoolean.True;
+    }
+}
+
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().FormLayout(settings =>
+   {
+       settings.Name = "formLayout";
+       settings.UseDefaultPaddings = false;
+       settings.Width = Unit.Percentage(100);
+       settings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+       settings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 450;
+       settings.Items.AddGroupItem(g =>
+       {
+           g.Name = "loginModelGroup";
+           g.Caption = "Form Geofence";
+           g.UseDefaultPaddings = false;
+           g.GroupBoxDecoration = GroupBoxDecoration.Box;
+
+
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Label(s =>
+               {
+                   s.Name = "lblTipe";
+                   s.Text = "Type";
+                   s.ControlStyle.CssClass = "myClass";
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().ComboBox( s =>
+               {
+                   s.Name = "cmbTipe";
+                   s.ControlStyle.CssClass = "maxWidth";
+                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                   s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                   s.Properties.DataSource = ViewBag.GEOType;
+                   s.Properties.TextField = "GEOFENCE_TYPE";
+                   s.Properties.ValueField = "GEOFENCE_TYPE";
+                   s.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ getGeoCode(s, e); }";
+                  
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Label(s =>
+               {
+                   s.Name = "lblCode";
+                   s.Text = "Code";
+                   s.ControlStyle.CssClass = "myClass";
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().ComboBox(s =>
+               {
+                   s.Name = "cmbKode";
+                   s.ControlStyle.CssClass = "maxWidth";
+                   s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                   s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                   s.Properties.DataSource = ViewBag.GEOCODE;
+                   s.Properties.TextField = "GEOFENCE_CODE";
+                   s.Properties.ValueField = "GEOFENCE_CODE";
+                   s.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ getGeoDataLMS(s, e); }";
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Label(s =>
+               {
+                   s.Name = "lblName";
+                   s.Text = "Name";
+                   s.ControlStyle.CssClass = "myClass";
+               });
+           });
+           g.Items.Add( i =>
+           {
+               i.Name = "txtNama";
+              
+               i.NestedExtension().TextBox(s =>
+               {
+                   AssignTextBoxSettings(s);
+                   s.Properties.ValidationSettings.ErrorText = "*";
+               });
+           });
+
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Label(s =>
+               {
+                   s.Name = "lblCoord";
+                   s.Text = "Coordinate";
+                   s.ControlStyle.CssClass = "myClass";
+               });
+           });
+
+           g.Items.Add(i =>
+           {
+               i.Name = "txtCoordlat";
+               i.NestedExtension().TextBox(s =>
+               {
+                   AssignTextBoxSettings(s);
+                  
+                   s.Properties.ValidationSettings.ErrorText = "*";
+               });
+
+           });
+
+           g.Items.Add(i =>
+           {
+               i.Name = "txtCoordlon";
+               i.NestedExtension().TextBox(s =>
+               {
+                   AssignTextBoxSettings(s);
+                   s.Properties.ValidationSettings.ErrorText = "*";
+               });
+
+           });
+
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Label(s =>
+               {
+                   s.Name = "lblMax";
+                   s.Text = "Max Speed";
+                   s.ControlStyle.CssClass = "myClass";
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().SpinEdit(s =>
+               {
+                   s.Name = "maxKecepatan";
+                   s.Properties.MinValue = 1;
+                   s.Properties.MaxValue = 10000;
+                   //s.Properties.DataSource = RegistrationData.GetPossibleCountries();
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Label(s =>
+               {
+                   s.Name = "lblGeometry";
+                   s.Text = "Geometry";
+                   s.ControlStyle.CssClass = "myClass";
+               });
+           });
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().Memo(s =>
+               {
+                   s.Name = "Geometry";
+
+                   //s.Properties.DataSource = RegistrationData.GetPossibleCountries();
+               });
+           });
+
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().CheckBox(s =>
+               {
+                   s.Name = "Alert";
+                   s.Properties.Caption = "Alert";
+                  
+                   //s.Properties.DataSource = RegistrationData.GetPossibleCountries();
+               });
+           });
+          
+           g.Items.Add(i =>
+           {
+               i.NestedExtension().CheckBox(s =>
+               {
+                   s.Name = "Active";
+                   s.Properties.Caption = "Active";
+                   //s.sour = ViewBag.Active;
+               });
+           });
+
+          
+        
+       });
+
+    
+   }).GetHtml()
+}

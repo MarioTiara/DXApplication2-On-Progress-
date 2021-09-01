@@ -1,0 +1,313 @@
+
+
+
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+
+        settings.Name = "gridView";
+        settings.KeyFieldName = "VEHICLE_SID";
+        settings.CallbackRouteValues = new { Controller = "Maps", Action = "getVehicleOrder" };
+        settings.ClientSideEvents.BeginCallback = "function(s, e) { CallbackPanel.PerformCallback(); }";
+        settings.EnablePagingGestures = AutoBoolean.Auto;
+        settings.ControlStyle.CssClass = "grid-view";
+        settings.Width = Unit.Percentage(100);
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+        settings.Styles.PagerBottomPanel.CssClass = "pager";
+        settings.Styles.FocusedRow.CssClass = "focused";
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        settings.SettingsEditing.EditFormColumnCount = 2;
+        settings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollableHeight = 330;
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.SettingsPager.PageSize = 20;
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+      
+
+        settings.Toolbars.Add(x =>
+        {
+            x.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+        });
+
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "REG_NO";
+            columnSettings.Caption = "VEHICLE NUMBER";
+            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
+
+
+            //columnSettings.SetEditItemTemplateContent(c =>
+            //{
+            //    Html.DevExpress().TextBox(textBoxSettings =>
+            //    {
+            //        textBoxSettings.Name = "VEHICLE NUMBER";
+            //        textBoxSettings.Text = (string)DataBinder.Eval(c.DataItem, "VEHICLE NUMBER");
+            //        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            //        textBoxSettings.Properties.ValidationSettings.ValidationGroup = c.ValidationGroup;
+            //        textBoxSettings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            //    }).Render();
+            //});
+
+            columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "LAST_UPDATE";
+            columnSettings.Caption = "LAST UPDATE";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            columnSettings.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            columnSettings.ColumnType = MVCxGridViewColumnType.DateEdit;
+            (columnSettings.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy HH:mm:ss";
+            (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+            (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
+
+        });
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "VEHICLE_IMEI";
+            columnSettings.Caption = "IMEI";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(130);
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;    
+
+            //columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(columnSettings =>
+        {
+
+            columnSettings.Caption = "LOCATION";
+            columnSettings.SetDataItemTemplateContent(dt =>
+            {
+                Html.DevExpress().Label(L =>
+                {
+                    L.Text = String.Format("{0} {1} {2} {3} {4}", DataBinder.Eval(dt.DataItem, "POLYGON"), DataBinder.Eval(dt.DataItem, "WP_JALAN"), DataBinder.Eval(dt.DataItem, "WP_KELURAHAN"), DataBinder.Eval(dt.DataItem, "WP_KECAMATAN"), DataBinder.Eval(dt.DataItem, "WP_KABUPATEN"), DataBinder.Eval(dt.DataItem, "WP_PROPINSI"));
+                }).Render();
+            });
+            columnSettings.FieldName = "POLYGON";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "LAST_WP_SPEED";
+            columnSettings.Caption = "SPEED";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "KM_ODO";
+            columnSettings.Caption = "ODO METER";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+
+
+        });
+
+        settings.Columns.Add(columnSettings =>
+        {
+            columnSettings.FieldName = "LAST_GPS_STATUS";
+            columnSettings.Caption = "GPS";
+            columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            columnSettings.SetDataItemTemplateContent(c =>
+            {
+                string key = DataBinder.Eval(c.DataItem, "LAST_GPS_STATUS").ToString();
+                Html.DevExpress().Image(img =>
+                {
+                    if (key == "True")
+                    {
+                        img.ImageUrl = "~/Content/ImagesSIL/GreenOnIcon.png";
+                    }
+                    else
+                    {
+                        img.ImageUrl = "~/Content/ImagesSIL/RedOffIcon.png";
+                    }
+                }).Render();
+            });
+          });
+        settings.Columns.AddBand(companyBand =>
+        {
+            companyBand.Caption = "IO";
+            companyBand.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "LAST_IO4";
+                columnSettings.Caption = "I";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.SetDataItemTemplateContent(c =>
+                {
+                    Html.DevExpress().Image(img =>
+                    {
+                        string key = DataBinder.Eval(c.DataItem, "LAST_IO4").ToString();
+                        if (key == "True")
+                            img.ImageUrl = "~/Content/ImagesSIL/GreenOnIcon.png";
+                        else
+                            img.ImageUrl = "~/Content/ImagesSIL/RedOffIcon.png";
+                    }).Render();
+                });
+            });
+
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "LAST_IO1";
+                columnSettings.Caption = "1";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.SetDataItemTemplateContent(c =>
+                {
+                    Html.DevExpress().Image(img =>
+                    {
+
+
+                        string key = DataBinder.Eval(c.DataItem, "LAST_IO1").ToString();
+
+                        if (key == "True")
+
+
+                            img.ImageUrl = "~/Content/ImagesSIL/GreenOnIcon.png";
+                        else
+                            img.ImageUrl = "~/Content/ImagesSIL/RedOffIcon.png";
+                    }).Render();
+                });
+
+            });
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "LAST_IO2";
+                columnSettings.Caption = "2 ";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+                columnSettings.SetDataItemTemplateContent(c =>
+                {
+                    Html.DevExpress().Image(img =>
+                    {
+
+
+                        string key = DataBinder.Eval(c.DataItem, "LAST_IO2").ToString();
+
+                        if (key == "True")
+                            img.ImageUrl = "~/Content/ImagesSIL/GreenOnIcon.png";
+                        else
+                            img.ImageUrl = "~/Content/ImagesSIL/RedOffIcon.png";
+                    }).Render();
+                });
+            });
+            companyBand.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "LAST_IO3";
+                columnSettings.Caption = "3";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.SetDataItemTemplateContent(c =>
+                {
+                    Html.DevExpress().Image(img =>
+                    {
+                        string key = DataBinder.Eval(c.DataItem, "LAST_IO3").ToString();
+                        if (key == "True")
+                            img.ImageUrl = "~/Content/ImagesSIL/GreenOnIcon.png";
+                        else
+                            img.ImageUrl = "~/Content/ImagesSIL/RedOffIcon.png";
+                    }).Render();
+                });
+            });
+        });
+
+        settings.HtmlDataCellPrepared = (s, e) =>
+        {
+            if (e.DataColumn.FieldName == "LAST_GPS_STATUS")
+            {
+                e.Cell.ToolTip = e.CellValue.ToString();
+            }
+            else if (e.DataColumn.FieldName == "LAST_IO1")
+            {
+                e.Cell.ToolTip = e.CellValue.ToString();
+            }
+            else if (e.DataColumn.FieldName == "LAST_IO2")
+            {
+                e.Cell.ToolTip = e.CellValue.ToString();
+            }
+            else if (e.DataColumn.FieldName == "LAST_IO3")
+            {
+                e.Cell.ToolTip = e.CellValue.ToString();
+            }
+            else if (e.DataColumn.FieldName == "LAST_IO4")
+            {
+                e.Cell.ToolTip = e.CellValue.ToString();
+            }
+        };
+
+    });
+
+  
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+
+    }
+
+}
+
+@grid.Bind(ViewBag.Data).GetHtml()
+
+
+<script>
+    OnBatchEditEndEditing();
+    function OnBatchEditEndEditing(s, e) {
+
+        console.log(s + " " + e);
+
+    }
+
+    function LoadingPanel(s, e) {
+
+        $('#leaseDiv').show();
+
+    }
+
+
+    
+
+
+</script>

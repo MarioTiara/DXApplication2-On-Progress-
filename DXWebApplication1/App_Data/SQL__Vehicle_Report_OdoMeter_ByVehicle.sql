@@ -1,0 +1,24 @@
+﻿SELECT ROW_NUMBER() OVER (ORDER BY A.TripDate) AS RECORD_ID,  
+D.REG_NO,
+A.* ,
+B.WP_SID AS StartSID, 
+B.POLYGON AS StartGeofence,
+B.WP_JALAN AS StartJalan,
+B.WP_KELURAHAN AS StartKelurahan,
+B.WP_KABUPATEN AS StartKabupaten,
+B.WP_KECAMATAN AS StartKecamatan,
+B.WP_PROPINSI AS StartPropinsi,
+B.KM_ODO AS StartOdometer,
+C.WP_SID AS EndSID, 
+C.POLYGON AS EndGeofence,
+C.WP_JALAN AS EndJalan,
+C.WP_KELURAHAN AS EndKelurahan,
+C.WP_KABUPATEN AS EndKabupaten,
+C.WP_KECAMATAN AS EndKecamatan,
+C.WP_PROPINSI AS EndPropinsi,
+C.KM_ODO AS EndOdometer
+FROM Report_Trip_Summary_60c8dfca03b34dbab7a62db53d3cba2e A
+INNER JOIN WP_5b9241a1b00f41088d1e09a462b1d6b6 B ON A.StartPosition = B.WP_SID 
+INNER JOIN WP_5b9241a1b00f41088d1e09a462b1d6b6 C ON A.EndPosition = C.WP_SID 
+INNER JOIN VEHICLES D ON D.VEHICLE_SID = A.VehicleSid
+WHERE A.VehicleSid = @VEHICLE_SID AND A.TripDate >= @FROM_DATE AND A.TripDate <= @TO_DATE 

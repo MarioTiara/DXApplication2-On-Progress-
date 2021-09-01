@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DXWebApplication1.Models.ModelCamera>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+
+    <meta name="viewport" content="width=device-width" />
+    <title>CampReport</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>SID</th>
+                <th>REG-NO</th>
+                <th>CAPTURE TIME</th>
+                <th>SOURCE ID</th>
+                <th>IMAGE</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Data in Model)
+            {
+                <tr>
+                    <td>@Data.VEHICLE_SID</td>
+                    <td> @Data.REG_NO</td>
+                    <td>@Data.CAPTURE_TIME</td>
+                    <td>@Data.SOURCE_ID</td>
+                    <td>
+                        <img id="preview" src="data:image/png;base64,@Data.IMAGE_DATA" width="500" height="300" />
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
