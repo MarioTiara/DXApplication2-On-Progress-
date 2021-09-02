@@ -143,7 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Overview.html" />
-    <Content Include="App_Data\SQL__Camera_Report _Sort.sql" />
     <Content Include="App_Data\SQL__Camera_Report.sql" />
     <Content Include="App_Data\SQL__Geofences_Update.sql" />
     <Content Include="App_Data\SQL__Geofences_Insert.sql" />
@@ -371,9 +370,8 @@
     <Content Include="Views\OdoMeterSummary\_GridView1Partial.cshtml" />
     <Content Include="Views\OdoMeterSummary\GridViewPartial.cshtml" />
     <Content Include="Views\CamReport\Index.cshtml" />
-    <Content Include="Views\CamReportDev\Index.cshtml" />
-    <Content Include="Views\CamReportDev\GridViewPartial.cshtml" />
-    <Content Include="Views\CamReportDev\_ImageViewPartial.cshtml" />
+    <Content Include="Views\CamReport\GridViewPartial.cshtml" />
+    <Content Include="Views\CamReport\_ImageViewPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -393,7 +391,6 @@
     <Compile Include="Controllers\Authentication.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CamReportController.cs" />
-    <Compile Include="Controllers\CamReportDevController.cs" />
     <Compile Include="Controllers\CheckSessionController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -474,7 +471,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Camera\" />
     <Folder Include="Views\CheckSession\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Waypoint\" />

@@ -139,8 +139,10 @@
             var vec = comboboxvehicle.GetValue();
             var frdate = fromdate.GetText();
             var todt = todate.GetText();
+
             @*var baseUrl = "@Url.Action("getEvent", "EventReport")" + "?VehicleSid=" + vec + "&FROM_DATE=" + frdate + "&TO_DATE=" + todt;
             window.location.href = baseUrl;*@
+
 
             $.ajax({
                 url: '@Url.Action("getEvent", "DetailActivityReport")',

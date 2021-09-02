@@ -119,43 +119,31 @@
 
 <script>
    
-    function onClickSearch(s, e) {
+    function onClickSearch(s, e) 
+    {
         try{
             var vec = comboboxvehicle.GetValue();
             var frdate = fromdate.GetText();
             var todt = todate.GetText();
             $.ajax({
-                url: '@Url.Action("getEvent", "CamReportDev")',
-                type: 'POST',
-                data: { VehicleSid: vec, FROM_DATE: frdate, TO_DATE: todt },
-                beforeSend: function () {
-                    CallbackPanel.PerformCallback();
-                },
-                success: function (data) {
-                    $("#containers").html(data);
-                }
+
+                    url: '@Url.Action("getEvent", "CamReport")',
+                    type: 'POST',
+                    data: { VehicleSid: vec, FROM_DATE: frdate, TO_DATE: todt },
+                    beforeSend: function () { CallbackPanel.PerformCallback(); },
+                    success: function (data) {$("#containers").html(data);}
             });
-        }catch(err){
-            console.log( err.message());
+
+            console.log(vec);
+            console.log(frdate);
+            console.log(todt);
         }
 
+        catch (err) {
+            console.log( err.message());
+        }
+    }
 
-    }
-    function LoadingShow(s, e) { LoadingPanel.Show(); };
-    function LoadingHide(s, e) { LoadingPanel.Hide(); };
-
-    function CmbVehicle(s, e) {
-        comboboxvehicle.GetValue();
-        comboboxvehicle.PerformCallback(s.GetValue());
-    }
-    function CmbFromDate(s, e) {
-        fromdate.GetText();
-        fromdate.PerformCallback(s.GetText());
-    }
-    function CmbToDate(s, e) {
-        todate.GetText();
-        todate.PerformCallback(s.GetText());
-    }
 </script>
 
 

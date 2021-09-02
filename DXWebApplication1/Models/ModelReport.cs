@@ -155,6 +155,7 @@ namespace DXWebApplication1.Models
         public Nullable<double> KM_ODO { get; set; }
         public string REG_NO { get; set; }
         public string VEHICLE_SID { get; set; }
+
         public vwDetailActivityReport(DataRow row)
         {
 
@@ -172,6 +173,26 @@ namespace DXWebApplication1.Models
             KM_ODO = Convert.ToDouble(row["KM_ODO"].ToString());
 
 
+        }
+    }
+
+    public partial class vwCameraReport
+    {
+        public string VEHICLE_SID { get; set; }
+        public string REG_NO { get; set; }
+        public DateTime? CAPTURE_TIME { get; set; }
+        public int? SOURCE_ID { get; set; }
+        public string IMAGE_DATA { get; set; }
+
+        public vwCameraReport (DataRow row)
+        {
+            VEHICLE_SID = row["VehicleSid"].ToString();
+            REG_NO = row["REG_NO"].ToString();
+            CAPTURE_TIME = row.IsNull("CaptureTime") ? (DateTime?)null : (DateTime?)row["CaptureTime"];
+            SOURCE_ID = Convert.ToInt32(row["SourceId"].ToString());
+
+            byte[] myImage = (byte[])row["ImageData"];
+            IMAGE_DATA = Convert.ToBase64String(myImage);
         }
     }
 
@@ -264,31 +285,4 @@ namespace DXWebApplication1.Models
         public DateTime CreateDate { get; set; }
     }
 
-    public class ModelCamera
-    {
-        public string VEHICLE_SID { get; set; }
-        public string REG_NO { get; set; }
-        public DateTime CAPTURE_TIME { get; set; }
-        public int? SOURCE_ID { get; set; }
-        public string IMAGE_DATA { get; set; }
-
-        public ModelCamera(DataRow row)
-        {
-            VEHICLE_SID = "";
-            REG_NO = " ";
-            CAPTURE_TIME = new DateTime(1900, 1, 1, 0, 0, 0);
-            SOURCE_ID = null;
-            IMAGE_DATA = "";
-
-            if (!DBNull.Value.Equals(row["VehicleSid"])) VEHICLE_SID = Convert.ToString(row["VehicleSid"]);
-            if (!DBNull.Value.Equals(row["REG_NO"])) REG_NO = Convert.ToString(row["REG_NO"]);
-            if (!DBNull.Value.Equals(row["CaptureTime"])) CAPTURE_TIME = Convert.ToDateTime(row["CaptureTime"]);
-            if (!DBNull.Value.Equals(row["SourceId"])) SOURCE_ID = Convert.ToInt32(row["SourceId"]);
-
-            byte[] myImage = (byte[])row["ImageData"];
-            if (!DBNull.Value.Equals(myImage)) IMAGE_DATA = Convert.ToBase64String(myImage);
-
-        }
-
-    }
 }

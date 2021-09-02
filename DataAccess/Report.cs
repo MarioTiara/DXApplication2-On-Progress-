@@ -16,7 +16,6 @@ namespace DataAccess
         public const string SQL__Vehicle_Report_OdoMeter = "~/App_Data/SQL__Vehicle_Report_OdoMeter.sql";
         public const string SQL__Vehicle_Report_OdoMeter_ByVehicle = "~/App_Data/SQL__Vehicle_Report_OdoMeter_ByVehicle.sql";
         public const string SQL__Camera_Report = "~/App_Data/SQL__Camera_Report.sql";
-        public const string SQL__Camera_Report_Sort = "~/App_Data/SQL__Camera_Report _Sort.sql";
         
        
         
