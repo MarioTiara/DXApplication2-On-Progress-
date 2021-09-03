@@ -72,6 +72,8 @@ namespace DXWebApplication1.Controllers
 
         }
 
+
+        //Calback Funtion
         public ActionResult Grid()
         {
             if (Session["ACCOUNT_SID"] == null)

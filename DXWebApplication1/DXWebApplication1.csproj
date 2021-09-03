@@ -372,6 +372,7 @@
     <Content Include="Views\CamReport\Index.cshtml" />
     <Content Include="Views\CamReport\GridViewPartial.cshtml" />
     <Content Include="Views\CamReport\_ImageViewPartial.cshtml" />
+    <Content Include="Views\FolderBinding\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -396,6 +397,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DetailActivityReportController.cs" />
     <Compile Include="Controllers\EventReportController.cs" />
+    <Compile Include="Controllers\FolderBindingController.cs" />
     <Compile Include="Controllers\GridViewController.cs" />
     <Compile Include="Controllers\HistoryShippmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -414,8 +416,8 @@
     </Compile>
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\GridView\GridViewHelper.cs" />
+    <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\ModelAccounts.cs" />
-    <Content Include="Models\ModelCamera.txt" />
     <Compile Include="Models\ModelCustomer.cs" />
     <Compile Include="Models\ModelGeofences.cs" />
     <Compile Include="Models\ModelOrder.cs" />

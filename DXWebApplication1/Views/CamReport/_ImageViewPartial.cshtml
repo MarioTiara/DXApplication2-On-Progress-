@@ -1,25 +1,26 @@
-﻿@{
+﻿
+@{
+    
+   
    var grid = Html.DevExpress().DataView(
      settings =>
      {
          settings.Name = "dataView";
          settings.CallbackRouteValues = new { Controller = "CampReportController", Action = "Grid" };
-         settings.SettingsTableLayout.RowsPerPage = 2;
-         settings.Width = Unit.Percentage(100);
+         settings.SettingsTableLayout.RowsPerPage = 3;
+         settings.Width = 640;
          settings.PagerAlign = PagerAlign.Justify;
-
-        
          settings.SetItemTemplateContent(
              c =>
              {
-                 var imgSrc = String.Format("data:image/gif;base64,{0}", DataBinder.Eval(c.DataItem, "IMAGE_DATA"));
+                 var imgSrc = String.Format("data:image/png;base64,{0}", DataBinder.Eval(c.DataItem, "IMAGE_DATA"));
                  
                  ViewContext.Writer.Write
                  (
                     "<table>" +
                         "<tr>" +
                             "<td colspan=\"2\">" +
-                                "<img src=\"" + imgSrc + "\" alt=\" \" />" +
+                                "<img src=\"" + imgSrc + "\" alt=\" \""  +"/>" +
                             "</td>" +
                         "</tr>" +
                     "</table>" 
