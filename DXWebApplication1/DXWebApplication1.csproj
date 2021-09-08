@@ -43,6 +43,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BusinessLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BusinessLogic\bin\Debug\BusinessLogic.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DataAccess\bin\Debug\DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Web.ASPxHtmlEditor.v18.2, Version=18.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -73,6 +81,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -143,7 +153,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Overview.html" />
-    <Content Include="App_Data\SQL__Camera_Report.sql" />
+    <Content Include="App_Data\SQL__Camera_Report1.sql" />
+    <Content Include="App_Data\SQL__Camera_Report2.sql" />
     <Content Include="App_Data\SQL__Geofences_Update.sql" />
     <Content Include="App_Data\SQL__Geofences_Insert.sql" />
     <Content Include="App_Data\SQL__Get_GeofencesType.sql" />
@@ -256,6 +267,7 @@
     <Content Include="Content\Script.js" />
     <Content Include="Content\SignInRegister.css" />
     <Content Include="Content\SignInRegister.js" />
+    <Content Include="Content\styleImageView.css" />
     <Content Include="Content\under-construction.png" />
     <Content Include="Global.asax" />
   </ItemGroup>
@@ -369,10 +381,15 @@
     <Content Include="Views\OdoMeterSummary\Index.cshtml" />
     <Content Include="Views\OdoMeterSummary\_GridView1Partial.cshtml" />
     <Content Include="Views\OdoMeterSummary\GridViewPartial.cshtml" />
-    <Content Include="Views\CamReport\Index.cshtml" />
-    <Content Include="Views\CamReport\GridViewPartial.cshtml" />
-    <Content Include="Views\CamReport\_ImageViewPartial.cshtml" />
     <Content Include="Views\FolderBinding\Index.cshtml" />
+    <Content Include="Views\FolderBinding\getEvent.cshtml" />
+    <Content Include="Views\FolderBinding\_ImageViewPartial.cshtml" />
+    <Content Include="Views\FolderBinding\GridViewPartial.cshtml" />
+    <Content Include="Views\CameraReport\Index.cshtml" />
+    <Content Include="Views\CameraReport\GridViewPartial.cshtml" />
+    <Content Include="Views\CameraReport\_ImageViewPartial1.cshtml" />
+    <Content Include="Views\CameraReport\_ImageViewPartial2.cshtml" />
+    <Content Include="Views\FileDownload\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -391,13 +408,12 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\Authentication.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CamReportController.cs" />
+    <Compile Include="Controllers\CameraReportController.cs" />
     <Compile Include="Controllers\CheckSessionController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DetailActivityReportController.cs" />
     <Compile Include="Controllers\EventReportController.cs" />
-    <Compile Include="Controllers\FolderBindingController.cs" />
     <Compile Include="Controllers\GridViewController.cs" />
     <Compile Include="Controllers\HistoryShippmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -417,6 +433,7 @@
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\GridView\GridViewHelper.cs" />
     <Compile Include="Models\ImageModel.cs" />
+    <Compile Include="Models\ImageReportDownload.cs" />
     <Compile Include="Models\ModelAccounts.cs" />
     <Compile Include="Models\ModelCustomer.cs" />
     <Compile Include="Models\ModelGeofences.cs" />
@@ -450,6 +467,7 @@
       <DependentUpon>ModelVehicle.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="Views\HistoryShippment\GridViewExportHelper.cs" />
     <Compile Include="Views\HistoryShippment\GridViewFeatureHelper.cs" />
   </ItemGroup>
@@ -463,16 +481,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{50ee2980-5323-48a7-ab15-26163e49ea73}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{16bd03d9-ec16-48f7-99ad-6fc07aa8d3b1}</Project>
-      <Name>DataAccess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Folder Include="Content\ImageDock\ImgSouce_id%280%29\" />
+    <Folder Include="Content\ImageDock\ImgSouce_id%281%29\" />
+    <Folder Include="Content\ImgSouce_id%280%29\" />
+    <Folder Include="Content\ImgSouce_id%281%29\" />
     <Folder Include="Views\CheckSession\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Waypoint\" />

@@ -15,7 +15,8 @@ namespace DataAccess
         public const string SQL__Vehicle_In_Geofence_RegNoPolygon = "~/App_Data/SQL__Vehicle_In_Geofence_RegNoPolygon.sql";
         public const string SQL__Vehicle_Report_OdoMeter = "~/App_Data/SQL__Vehicle_Report_OdoMeter.sql";
         public const string SQL__Vehicle_Report_OdoMeter_ByVehicle = "~/App_Data/SQL__Vehicle_Report_OdoMeter_ByVehicle.sql";
-        public const string SQL__Camera_Report = "~/App_Data/SQL__Camera_Report.sql";
+        public const string SQL__Camera_Report1 = "~/App_Data/SQL__Camera_Report1.sql";
+        public const string SQL__Camera_Report2 = "~/App_Data/SQL__Camera_Report2.sql";
         
        
         

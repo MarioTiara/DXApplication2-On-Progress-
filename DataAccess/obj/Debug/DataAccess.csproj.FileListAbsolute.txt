@@ -30,6 +30,5 @@ D:\SEINO\Code\Siltrack\DXApplication2 (On Progress)\DataAccess\bin\Debug\DataAcc
 D:\SEINO\Code\Siltrack\DXApplication2 (On Progress)\DataAccess\bin\Debug\DataAccess.pdb
 D:\Backup D\SiltrackDevEx\DXApplication2 (On Progress)\DataAccess\bin\Debug\DataAccess.dll
 D:\Backup D\SiltrackDevEx\DXApplication2 (On Progress)\DataAccess\bin\Debug\DataAccess.pdb
-D:\Backup D\SiltrackDevEx\DXApplication2 (On Progress)\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 D:\Backup D\SiltrackDevEx\DXApplication2 (On Progress)\DataAccess\obj\Debug\DataAccess.dll
 D:\Backup D\SiltrackDevEx\DXApplication2 (On Progress)\DataAccess\obj\Debug\DataAccess.pdb

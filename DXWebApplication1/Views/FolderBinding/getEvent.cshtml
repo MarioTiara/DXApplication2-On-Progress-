@@ -1,0 +1,6 @@
+﻿@Html.DevExpress().ImageSlider(settings =>
+{
+    settings.CallbackRouteValues = new { Controller = "FolderBinding", Action = "Grid" };
+    settings.Name = "imageSlider";
+    settings.EnableTheming = false;
+}).BindToFolder("~/Content/TempImg/").GetHtml()

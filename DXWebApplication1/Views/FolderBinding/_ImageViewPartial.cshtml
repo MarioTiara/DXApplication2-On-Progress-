@@ -1,0 +1,25 @@
+﻿<div class="imageViewCamp1">
+    @Html.DevExpress().ImageSlider(settings =>
+  {
+      settings.CallbackRouteValues = new { Controller = "FolderBinding", Action = "Grid" };
+      settings.Name = "imageSliderCamp1";
+      settings.ControlStyle.CssClass = "grid-view";
+
+      settings.EnableTheming = false;
+  }).BindToFolder("~/Content/ImgSouce_id(0)/").GetHtml()
+</div>
+
+
+<div class="imageViewCamp2">
+
+    @Html.DevExpress().ImageSlider(settings =>
+  {
+      settings.CallbackRouteValues = new { Controller = "FolderBinding", Action = "Grid" };
+      settings.Name = "imageSliderCamp2";
+      settings.ControlStyle.CssClass = "grid-view";
+
+      settings.EnableTheming = false;
+  }).BindToFolder("~/Content/ImgSouce_id(1)/").GetHtml()
+</div>
+
+

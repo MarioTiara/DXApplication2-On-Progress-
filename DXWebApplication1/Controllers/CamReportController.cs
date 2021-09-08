@@ -7,6 +7,8 @@ using System.Data;
 using System.Data.SqlClient;
 using DXWebApplication1.Models;
 using DevExpress.Web.Mvc;
+using System.IO;
+using System.Drawing;
 
 namespace DXWebApplication1.Controllers
 {
@@ -102,7 +104,7 @@ namespace DXWebApplication1.Controllers
             DataTable result = new DataTable();
             if (VehicleSid!=null)
             {
-                result = BusinessLogic.Report.CameraReport(VehicleSid, FROM_DATE, TO_DATE);
+                result = BusinessLogic.Report.CameraReport1(VehicleSid, FROM_DATE, TO_DATE);
             }
             List<vwCameraReport> list = new List<vwCameraReport>(result.Rows.Count);
             foreach(DataRow row in result.Rows)
@@ -110,8 +112,6 @@ namespace DXWebApplication1.Controllers
                 list.Add(new vwCameraReport (row));
             }
             datas = list;
-
-            
             ViewBag.Datas = datas;
             Session["vwCameraReport"] = list;
             return PartialView("_ImageViewPartial");

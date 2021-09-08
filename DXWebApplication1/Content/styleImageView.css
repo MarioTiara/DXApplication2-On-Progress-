@@ -1,0 +1,28 @@
+﻿#imageSliderCamp2{
+    max-width:600px !important;
+}
+
+#imageSliderCamp2{
+    max-width:600px !important;
+}
+
+
+.imageViewCamp1{
+   float:left !important;
+    margin-top:40px;
+    padding-left:20px;
+    text-align:center;
+}
+
+.imageViewCamp2 {
+    float: right !important;
+    margin-top: 40px;
+    padding-right: 20px;
+    text-align:center;
+}
+
+#CamTitle1, #CamTitle2 {
+    padding-bottom:20px;
+    font-weight:bold;
+    
+}

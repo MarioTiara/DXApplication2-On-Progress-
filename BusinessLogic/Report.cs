@@ -254,16 +254,49 @@ namespace BusinessLogic
            return null;
        }
 
-       public static DataTable CameraReport(string VehicleSid, string FROM_DATE, string TO_DATE)
+       public static DataTable CameraReport1(string VehicleSid, string FROM_DATE, string TO_DATE)
        {
            try
            {
-               using (DataTable table = new DataTable("Cam_Report"))
+               using (DataTable table = new DataTable("Cam_Report1"))
                {
 
                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
                    {
-                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Camera_Report);
+                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Camera_Report1);
+
+                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
+                       {
+                           adapter.SelectCommand.CommandType = CommandType.Text;
+                           adapter.SelectCommand.Parameters.AddWithValue("@VEHICLE_SID", VehicleSid);
+                           adapter.SelectCommand.Parameters.AddWithValue("@CAPTURE_FROM_DATE", Convert.ToDateTime(FROM_DATE));
+                           adapter.SelectCommand.Parameters.AddWithValue("@CAPTURE_TO_DATE", Convert.ToDateTime(TO_DATE));
+                           adapter.Fill(table);
+                       }
+                   }
+
+                   return table;
+               }
+
+           }
+           catch (Exception e)
+           {
+
+           }
+
+           return null;
+       }
+
+       public static DataTable CameraReport2(string VehicleSid, string FROM_DATE, string TO_DATE)
+       {
+           try
+           {
+               using (DataTable table = new DataTable("Cam_Report2"))
+               {
+
+                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
+                   {
+                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Camera_Report2);
 
                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
                        {

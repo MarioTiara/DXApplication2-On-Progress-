@@ -9,7 +9,7 @@
     <TreeViewNode Text="Speed Report" NavigateUrl="~/SpeedReport" />
     <TreeViewNode Text="Vehicle In Geofence" NavigateUrl="~/VehicleInGeofence" />
     <TreeViewNode Text="Odometer Summary" NavigateUrl="~/OdoMeterSummary" />
-    <TreeViewNode Text="Camera Report" NavigateUrl="~/CamReport" />
+    <TreeViewNode Text="Camera Report" NavigateUrl="~/CameraReport" />
   </TreeViewNode>
   <TreeViewNode Text="Order Reporty" NavigateUrl="#content">
     <TreeViewNode Text="Shipment" NavigateUrl="~/Shippment" />

@@ -176,7 +176,7 @@ namespace DXWebApplication1.Models
         }
     }
 
-    public partial class vwCameraReport
+    public partial class vwCameraReport1
     {
         public string VEHICLE_SID { get; set; }
         public string REG_NO { get; set; }
@@ -184,7 +184,27 @@ namespace DXWebApplication1.Models
         public int? SOURCE_ID { get; set; }
         public string IMAGE_DATA { get; set; }
 
-        public vwCameraReport (DataRow row)
+        public vwCameraReport1 (DataRow row)
+        {
+            VEHICLE_SID = row["VehicleSid"].ToString();
+            REG_NO = row["REG_NO"].ToString();
+            CAPTURE_TIME = row.IsNull("CaptureTime") ? (DateTime?)null : (DateTime?)row["CaptureTime"];
+            SOURCE_ID = Convert.ToInt32(row["SourceId"].ToString());
+
+            byte[] myImage = (byte[])row["ImageData"];
+            IMAGE_DATA = Convert.ToBase64String(myImage);
+        }
+    }
+
+    public partial class vwCameraReport2
+    {
+        public string VEHICLE_SID { get; set; }
+        public string REG_NO { get; set; }
+        public DateTime? CAPTURE_TIME { get; set; }
+        public int? SOURCE_ID { get; set; }
+        public string IMAGE_DATA { get; set; }
+
+        public vwCameraReport2(DataRow row)
         {
             VEHICLE_SID = row["VehicleSid"].ToString();
             REG_NO = row["REG_NO"].ToString();

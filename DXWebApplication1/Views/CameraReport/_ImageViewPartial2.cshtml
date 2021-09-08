@@ -1,0 +1,15 @@
+﻿
+<div class="imageViewCamp2">
+    <P id="CamTitle1"> CAMERA 2</P>
+    @Html.DevExpress().ImageSlider(settings =>
+  {
+      settings.CallbackRouteValues = new { Controller = "CameraReport", Action = "getEventCamera2" };
+      settings.Name = "imageSliderCamp2";
+      settings.ImageUrlField = "imageUrlCamera2";
+      settings.TextField = "CaptureTimeCamera2";
+
+      settings.EnableTheming = false;
+  }).Bind(ViewBag.Datas2).GetHtml()
+
+    <a>@Html.ActionLink("Download Images", "DownloadCamera2")</a>
+</div>
