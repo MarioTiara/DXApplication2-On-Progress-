@@ -12,12 +12,14 @@
         padding: 3px;
     }
 </style>
-<div class="container" style="float:right !important;">
-    <table class="table-responsives">
-        <tr>
-            <td class="tdCombo">Vehicle Number</td>
-            <td class="tdCombo">
-                @Html.DevExpress().ComboBox(settings =>
+
+<div class="MainContainer">
+    <div class="container" >
+        <table class="table-responsives" style="float:right !important;">
+            <tr>
+                <td class="tdCombo">Vehicle Number</td>
+                <td class="tdCombo">
+                    @Html.DevExpress().ComboBox(settings =>
                     {
                         settings.Name = "comboboxvehicle";
                         settings.Width = 180;
@@ -32,10 +34,10 @@
                         settings.Properties.Columns.Add("REG_NO", "REG_NO", 80);
                         settings.Properties.ClientInstanceName = "comboboxvehicle";
                     }).BindList(ViewBag.Data).GetHtml()
-            </td>
-            <td class="tdCombo">From</td>
-            <td class="tdCombo">
-                @Html.DevExpress().DateEdit(settings =>
+                </td>
+                <td class="tdCombo">From</td>
+                <td class="tdCombo">
+                    @Html.DevExpress().DateEdit(settings =>
                    {
                        //DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
                        settings.Name = "fromdate";
@@ -52,10 +54,10 @@
                        settings.Properties.ClientInstanceName = "fromdate";
                    }).GetHtml()
 
-            </td>
-            <td class="tdCombo">To</td>
-            <td class="tdCombo">
-                @Html.DevExpress().DateEdit(settings =>
+                </td>
+                <td class="tdCombo">To</td>
+                <td class="tdCombo">
+                    @Html.DevExpress().DateEdit(settings =>
                 {
 
                     settings.Name = "todate";
@@ -71,9 +73,9 @@
                     settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
                     settings.Properties.ClientInstanceName = "todate";
                 }).GetHtml()
-            </td>
-            <td>
-                @Html.DevExpress().Button(settings =>
+                </td>
+                <td>
+                    @Html.DevExpress().Button(settings =>
                    {
                        settings.Name = "btnSearch";
                        settings.Width = 100;
@@ -82,11 +84,14 @@
 
                    }).GetHtml()
 
-            </td>
-        </tr>
-    </table>
-    <div class="divElement">
-        @Html.DevExpress().LoadingPanel(
+                </td>
+            </tr>
+        </table>
+
+
+
+        <div class="divElement">
+            @Html.DevExpress().LoadingPanel(
                     settings =>
                     {
                         settings.Name = "LoadingPanel";
@@ -95,10 +100,17 @@
 
                     }
                 ).GetHtml()
+        </div>
+
+
     </div>
 
-   
+    <div id="containers" class="containers">
+        <div id="Camera1"></div><div id="Camera2"></div>
+    </div>
+
 </div>
+
 
 @Html.DevExpress().CallbackPanel(
                             settings =>
@@ -110,10 +122,8 @@
                                 settings.ClientSideEvents.EndCallback = "function(s, e) { LoadingPanel.Hide(); }";
                             }).GetHtml()
 
-<div id="containers" class="containers">
-    <div id="Camera1"></div><div id="Camera2"></div>
-</div>
-  
+
+ 
 
 <script>
   

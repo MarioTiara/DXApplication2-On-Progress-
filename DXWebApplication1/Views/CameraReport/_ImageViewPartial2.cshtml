@@ -1,15 +1,20 @@
-﻿
-<div class="imageViewCamp2">
-    <P id="CamTitle1"> CAMERA 2</P>
-    @Html.DevExpress().ImageSlider(settings =>
-  {
-      settings.CallbackRouteValues = new { Controller = "CameraReport", Action = "getEventCamera2" };
-      settings.Name = "imageSliderCamp2";
-      settings.ImageUrlField = "imageUrlCamera2";
-      settings.TextField = "CaptureTimeCamera2";
+﻿<div class="imageViewCamp2">
+    <P id="CamTitle"> CAMERA 2</P>
+    <div class="ImageSlider2">
+        @Html.DevExpress().ImageSlider(settings =>
+        {
+            settings.CallbackRouteValues = new { Controller = "CameraReport", Action = "GridCamera1" };
+            settings.Name = "imageSliderCamp2";
+            settings.ImageUrlField = "imageUrlCamera2";
+            settings.TextField = "CaptureTimeCamera2";
 
-      settings.EnableTheming = false;
-  }).Bind(ViewBag.Datas2).GetHtml()
-
-    <a>@Html.ActionLink("Download Images", "DownloadCamera2")</a>
+            settings.EnableTheming = false;
+        }).Bind(ViewBag.Datas2).GetHtml()
+    </div>
+    <div id="ButtonDownload">
+        <a href="@Url.Action("DownloadCamera2", "CameraReport")" class="button" title="Download Image From Camera 2">Download</a>
+    </div>
 </div>
+
+
+

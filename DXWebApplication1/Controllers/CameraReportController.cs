@@ -18,8 +18,10 @@ namespace DXWebApplication1.Controllers
     public class CameraReportController : Controller
     {
         public string CUSTOMER_SID, PROJECT_SID, ACCOUNT_SID;
-        // GET: /CamReportDev/
+        private string _ImageDirCamp1 = "~/Content/ImgSouce_id(0)/";
+        private string _ImageDirCamp2 = "~/Content/ImgSouce_id(1)/";
 
+        // GET: /CamReportDev/
         public ActionResult Index()
         {
             try
@@ -29,6 +31,11 @@ namespace DXWebApplication1.Controllers
                     HttpContext.Response.Redirect("~/Login");
                 }
                 LoadCombo();
+
+                //Clear Image in Content 
+                ClearTempImg(_ImageDirCamp1);
+                ClearTempImg(_ImageDirCamp2);
+
                 return View();
             }
             catch (Exception e)
@@ -85,6 +92,7 @@ namespace DXWebApplication1.Controllers
             return image;
         }
 
+        //Clear Imgae Method
         public void ClearTempImg(string Serverdirectory)
         {
             string path = Server.MapPath(Serverdirectory);
@@ -101,41 +109,16 @@ namespace DXWebApplication1.Controllers
             }
         }
 
-        //Calback Funtion
-        public ActionResult Grid()
-        {
-            if (Session["ACCOUNT_SID"] == null)
-            {
-                HttpContext.Response.Redirect("~/Login");
-            }
-
-            if (Session["ImageViewModel"] != null)
-            {
-                ViewBag.Datas = Session["ImageViewModel"];
-                return PartialView("_ImageViewPartial");
-            }
-            else
-            {
-                return PartialView("_ImageViewPartial");
-            }
-
-        }
-
+       
+        //Event For Camera 1
         [ValidateInput(false)]
         public ActionResult getEventCamera1(string FROM_DATE, string TO_DATE, string VehicleSid)
         {
-            //string FROM_DATE = "2021-09-02 00:00:00";
-            //string TO_DATE = "2021-09-06 23:59:59";
-            //string VehicleSid = "SIL00299";
-
+           
             string ImagePath;
             object datas;
             int countImage1 = 0;
-            
-
-            string ImageDirCamp1 = "~/Content/ImgSouce_id(0)/";
-           
-            ClearTempImg(ImageDirCamp1);
+            ClearTempImg(_ImageDirCamp1);
       
             DataTable result = new DataTable();
 
@@ -157,7 +140,7 @@ namespace DXWebApplication1.Controllers
                 Image myImage = Base64ToImage(Data.IMAGE_DATA);
                 ImageViewModelCam1 objcvm = new ImageViewModelCam1();
 
-                ImagePath = "~/Content/ImgSouce_id(0)/ImageFromCamp1_" + Convert.ToString(countImage1) + ".jpg";
+                ImagePath = _ImageDirCamp1 + Convert.ToString(countImage1) + ".jpg";
                 myImage.Save(Server.MapPath(ImagePath));
                 objcvm.imageUrlCamera1 = ImagePath;
                 objcvm.CaptureTimeCamera1 = Data.CAPTURE_TIME;
@@ -168,10 +151,47 @@ namespace DXWebApplication1.Controllers
 
             datas = ImageVMList;
             ViewBag.Datas1 = datas;
-            Session["vwCameraReport1"] = ImageVMList;
+            Session["ImageViewModelCam1"] = ImageVMList;
             return PartialView("_ImageViewPartial1");
         }
+        //Calback Funtion Camera 1
+        public ActionResult GridCamera1()
+        {
+            if (Session["ACCOUNT_SID"] == null)
+            {
+                HttpContext.Response.Redirect("~/Login");
+            }
 
+            if (Session["ImageViewModelCam1"] != null)
+            {
+                ViewBag.Datas = Session["ImageViewModelCam1"];
+                return PartialView("_ImageViewPartial1");
+            }
+            else
+            {
+                return PartialView("_ImageViewPartial1");
+            }
+
+        }
+
+        //Image Download for Camera 1
+        public ActionResult DownloadCamera1()
+        {
+            FileDownloads1 obj = new FileDownloads1();
+            var filesCol = obj.GetFile().ToList();
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var ziparchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                {
+                    for (int i = 0; i < filesCol.Count; i++)
+                    {
+                        ziparchive.CreateEntryFromFile(filesCol[i].FilePath, filesCol[i].FileName);
+                    }
+                }
+                return File(memoryStream.ToArray(), "application/zip", "ImagesDocoumentationCamera1.zip");
+            }
+        }
+        //Event For Camera 2
         [ValidateInput(false)]
         public ActionResult getEventCamera2(string FROM_DATE, string TO_DATE, string VehicleSid)
         {
@@ -182,11 +202,7 @@ namespace DXWebApplication1.Controllers
             string ImagePath;
             object datas;
             int countImage2 = 0;
-
-
-            string ImageDirCamp1 = "~/Content/ImgSouce_id(1)/";
-
-            ClearTempImg(ImageDirCamp1);
+            ClearTempImg(_ImageDirCamp2);
 
             DataTable result = new DataTable();
 
@@ -208,13 +224,14 @@ namespace DXWebApplication1.Controllers
                 Image myImage = Base64ToImage(Data.IMAGE_DATA);
                 ImageViewModelCam2 objcvm = new ImageViewModelCam2();
 
-                ImagePath = "~/Content/ImgSouce_id(1)/ImageFromCamp2_" + Convert.ToString(countImage2) + ".jpg";
+                ImagePath = _ImageDirCamp2 + Convert.ToString(countImage2) + ".jpg";
                 myImage.Save(Server.MapPath(ImagePath));
+
                 objcvm.imageUrlCamera2 = ImagePath;
                 objcvm.CaptureTimeCamera2 = Data.CAPTURE_TIME;
-                countImage2 += 1;
-
                 ImageVMList.Add(objcvm);
+
+                countImage2 += 1;
             }
 
             datas = ImageVMList;
@@ -222,24 +239,26 @@ namespace DXWebApplication1.Controllers
             Session["vwCameraReport2"] = ImageVMList;
             return PartialView("_ImageViewPartial2");
         }
-
-        public ActionResult DownloadCamera1()
+        //Calback Funtion Camera 2
+        public ActionResult GridCamera2()
         {
-            FileDownloads1 obj = new FileDownloads1(); 
-            var filesCol = obj.GetFile().ToList();
-            using (var memoryStream = new MemoryStream())
+            if (Session["ACCOUNT_SID"] == null)
             {
-                using (var ziparchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-                {
-                    for (int i = 0; i < filesCol.Count; i++)
-                    {
-                        ziparchive.CreateEntryFromFile(filesCol[i].FilePath, filesCol[i].FileName);
-                    }
-                }
-                return File(memoryStream.ToArray(), "application/zip", "ImagesDocoumentationCamera1.zip");
+                HttpContext.Response.Redirect("~/Login");
             }
-        }
 
+            if (Session["ImageViewModelCam2"] != null)
+            {
+                ViewBag.Datas = Session["ImageViewModelCam2"];
+                return PartialView("_ImageViewPartial2");
+            }
+            else
+            {
+                return PartialView("_ImageViewPartial2");
+            }
+
+        }
+        //Image Download for Camera 1
         public ActionResult DownloadCamera2()
         {
             FileDownloads2 obj = new FileDownloads2();

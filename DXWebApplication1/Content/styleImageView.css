@@ -1,28 +1,64 @@
-﻿#imageSliderCamp2{
-    max-width:600px !important;
+﻿
+.container
+{
+    height:30px;
 }
 
-#imageSliderCamp2{
-    max-width:600px !important;
-}
-
-
-.imageViewCamp1{
-   float:left !important;
-    margin-top:40px;
-    padding-left:20px;
-    text-align:center;
-}
-
-.imageViewCamp2 {
-    float: right !important;
-    margin-top: 40px;
-    padding-right: 20px;
-    text-align:center;
-}
-
-#CamTitle1, #CamTitle2 {
-    padding-bottom:20px;
+#CamTitle{
+    padding-bottom:5px;
+    font-size:12px;
     font-weight:bold;
     
+}
+.imageViewCamp1{
+    float:left !important;
+    margin-top:10px;
+    margin-bottom:20px;
+    margin-left:10px;
+    text-align:center;
+    min-width:650px;
+    min-height:600px;
+    background-color:rgba(195, 195, 177, 1) !important;
+}
+.imageViewCamp2 {
+    float: right !important;
+    min-width:650px;
+    min-height:600px;
+    margin-top: 10px;
+    margin-bottom:20px;
+    margin-right:10px;
+    text-align:center;
+    background-color:rgba(195, 195, 177, 1) !important;
+   
+}
+
+.ImageSlider1,.ImageSlider2{
+    background-color:white;
+    height:500px;
+    width:600px;
+    margin:auto;
+    
+}
+#ButtonDownload{
+    padding:5px 5px 3px 3px;
+    margin-top:15px;
+   
+}
+.button{
+  
+  background-color: #e81123;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px; 
+}
+
+
+#imageSliderCamp1, #imageSliderCamp2{
+    width:600px !important;
+    height:500px !important;
+    margin:auto !important;
+
 }
