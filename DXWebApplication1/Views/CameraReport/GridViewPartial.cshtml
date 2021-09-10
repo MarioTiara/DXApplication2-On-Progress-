@@ -1,13 +1,15 @@
 @*@Html.Action("getEvent");*@
 
 <style>
-    .table-responsives {
+   .table-responsives 
+   {
         border-collapse: collapse;
         border-spacing: 0;
         border: 1px solid #ddd;
     }
 
-    .tdCombo {
+    .tdCombo 
+    {
         text-align: left;
         padding: 3px;
     }
@@ -15,7 +17,7 @@
 
 <div class="MainContainer">
     <div class="container" >
-        <table class="table-responsives" style="float:right !important;">
+        <table class="table-responsive" style="float:right !important;">
             <tr>
                 <td class="tdCombo">Vehicle Number</td>
                 <td class="tdCombo">
@@ -53,7 +55,6 @@
                        settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
                        settings.Properties.ClientInstanceName = "fromdate";
                    }).GetHtml()
-
                 </td>
                 <td class="tdCombo">To</td>
                 <td class="tdCombo">
@@ -88,8 +89,6 @@
             </tr>
         </table>
 
-
-
         <div class="divElement">
             @Html.DevExpress().LoadingPanel(
                     settings =>
@@ -123,8 +122,6 @@
                             }).GetHtml()
 
 
- 
-
 <script>
   
     function onClickSearch(s, e) 
@@ -140,8 +137,8 @@
                     beforeSend: function () { CallbackPanel.PerformCallback(); },
                     success: function (data) {
                         $("#Camera1").html(data);
+                        $("#containers").css("background-color", "rgba(0, 0, 0, 0.1)" );
                         $.ajax({
-
                             url: '@Url.Action("getEventCamera2", "CameraReport")',
                             type: 'POST',
                             data: { VehicleSid: vec, FROM_DATE: frdate, TO_DATE: todt },

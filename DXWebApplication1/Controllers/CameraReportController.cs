@@ -21,6 +21,8 @@ namespace DXWebApplication1.Controllers
         private string _ImageDirCamp1 = "~/Content/ImgSouce_id(0)/";
         private string _ImageDirCamp2 = "~/Content/ImgSouce_id(1)/";
 
+        DateTime LocalTime = DateTime.Now;
+
         // GET: /CamReportDev/
         public ActionResult Index()
         {
@@ -177,6 +179,7 @@ namespace DXWebApplication1.Controllers
         //Image Download for Camera 1
         public ActionResult DownloadCamera1()
         {
+            string ZipName = LocalTime.ToString("dddd, dd MMMM yyyy") + "_ImagesDocCamera1.zip";
             FileDownloads1 obj = new FileDownloads1();
             var filesCol = obj.GetFile().ToList();
             using (var memoryStream = new MemoryStream())
@@ -188,7 +191,7 @@ namespace DXWebApplication1.Controllers
                         ziparchive.CreateEntryFromFile(filesCol[i].FilePath, filesCol[i].FileName);
                     }
                 }
-                return File(memoryStream.ToArray(), "application/zip", "ImagesDocoumentationCamera1.zip");
+                return File(memoryStream.ToArray(), "application/zip", ZipName);
             }
         }
         //Event For Camera 2
@@ -261,6 +264,7 @@ namespace DXWebApplication1.Controllers
         //Image Download for Camera 1
         public ActionResult DownloadCamera2()
         {
+            string ZipName = LocalTime.ToString("dddd, dd MMMM yyyy")+ "_ImagesDocCamera2.zip";
             FileDownloads2 obj = new FileDownloads2();
             var filesCol = obj.GetFile().ToList();
             using (var memoryStream = new MemoryStream())
@@ -272,7 +276,7 @@ namespace DXWebApplication1.Controllers
                         ziparchive.CreateEntryFromFile(filesCol[i].FilePath, filesCol[i].FileName);
                     }
                 }
-                return File(memoryStream.ToArray(), "application/zip", "ImagesDocoumentationCamera2.zip");
+                return File(memoryStream.ToArray(), "application/zip", ZipName);
             }
         }
         
