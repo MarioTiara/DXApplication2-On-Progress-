@@ -44,13 +44,13 @@
                        //DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
                        settings.Name = "fromdate";
                        settings.Properties.UseMaskBehavior = true;
-                       settings.Properties.DisplayFormatString = "yyyy/MM/dd HH:mm:ss";
-                       settings.Properties.EditFormatString = "yyyy/MM/dd HH:mm:ss";
+                       settings.Properties.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+                       settings.Properties.EditFormatString = "dd/MM/yyyy HH:mm:ss";
                        settings.Properties.TimeSectionProperties.Visible = true;
                        settings.Properties.TimeSectionProperties.Adaptive = true;
                        settings.Properties.TimeSectionProperties.TimeEditProperties.DisplayFormatString = "HH:mm:ss";
                        settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormatString = "HH:mm:ss";
-                       settings.Date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd" + " " + "00:00:00"), "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                       settings.Date = DateTime.ParseExact(DateTime.Now.ToString("dd/MM/yyyy" + " " + "00:00:00"), "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                        settings.Width = Unit.Percentage(100);
                        settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
                        settings.Properties.ClientInstanceName = "fromdate";
@@ -63,13 +63,13 @@
 
                     settings.Name = "todate";
                     settings.Properties.UseMaskBehavior = true;
-                    settings.Properties.DisplayFormatString = "yyyy/MM/dd HH:mm:ss";
-                    settings.Properties.EditFormatString = "yyyy/MM/dd HH:mm:ss";
+                    settings.Properties.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+                    settings.Properties.EditFormatString = "dd/MM/yyyy HH:mm:ss";
                     settings.Properties.TimeSectionProperties.Visible = true;
                     settings.Properties.TimeSectionProperties.Adaptive = true;
                     settings.Properties.TimeSectionProperties.TimeEditProperties.DisplayFormatString = "HH:mm:ss";
                     settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormatString = "HH:mm:ss";
-                    settings.Date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd" + " " + "23:59:59"), "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    settings.Date = DateTime.ParseExact(DateTime.Now.ToString("dd/MM/yyyy" + " " + "23:59:59"), "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                     settings.Width = Unit.Percentage(100);
                     settings.Properties.CalendarProperties.FastNavProperties.DisplayMode = FastNavigationDisplayMode.Inline;
                     settings.Properties.ClientInstanceName = "todate";
@@ -130,6 +130,20 @@
             var vec = comboboxvehicle.GetValue();
             var frdate = fromdate.GetText();
             var todt = todate.GetText();
+            var frdate = fromdate.GetText();
+            var Day = frdate.substring(0, 2);
+            var month = frdate.substring(3, 5);
+            var year = frdate.substring(6, 10);
+            var times = frdate.substring(11, 20);
+            frdate = year + "/" + month + "/" + Day + " " + times;
+
+            var todt = todate.GetText();
+            Day = todt.substring(0, 2);
+            month = todt.substring(3, 5);
+            year = todt.substring(6, 10);
+            times = todt.substring(11, 20);
+            todt = year + "/" + month + "/" + Day + " " + times;
+
             $.ajax({
                     url: '@Url.Action("getEventCamera1", "CameraReport")',
                     type: 'POST',

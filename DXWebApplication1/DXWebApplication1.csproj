@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -157,6 +158,7 @@
     <Content Include="App_Data\SQL__Camera_Report2.sql" />
     <Content Include="App_Data\SQL__Geofences_Update.sql" />
     <Content Include="App_Data\SQL__Geofences_Insert.sql" />
+    <Content Include="App_Data\SQL__Get_GeofenceLatLong.sql" />
     <Content Include="App_Data\SQL__Get_GeofencesType.sql" />
     <Content Include="App_Data\SQL__Get_GeofencesIdLMS.sql" />
     <Content Include="App_Data\SQL__Get_GeofencesInfoLMS.sql" />
@@ -178,11 +180,12 @@
     <Content Include="App_Data\SQL__Vehicle_ByCustomerSID_ProjectSID.sql" />
     <Content Include="App_Data\SQL__Vehicle_ByCustomerSID.sql" />
     <Content Include="App_Data\SQL__Get_Geofences.sql" />
-    <Content Include="App_Data\SQL__Vehicle_In_Geofence_OnlyRegNo..sql" />
-    <Content Include="App_Data\SQL__Vehicle_In_Geofence_RegNoPolygon.sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence_All.sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence_RegNoAndGeofenceName.sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence_GeoName.sql" />
+    <Content Include="App_Data\SQL__Vehicle_In_Geofence_OnlyRegNo.sql" />
     <Content Include="App_Data\SQL__Vehicle_Report_OdoMeter_ByVehicle.sql" />
     <Content Include="App_Data\SQL__Vehicle_Report_OdoMeter.sql" />
-    <Content Include="App_Data\SQL__Vehicle_In_Geofence.sql" />
     <Content Include="App_Data\SQL__Speed_Reports.sql" />
     <Content Include="App_Data\SQL__Detail_Activity_Reports.sql" />
     <Content Include="App_Data\SQL__Event_Reports.sql" />
@@ -390,6 +393,8 @@
     <Content Include="Views\CameraReport\_ImageViewPartial1.cshtml" />
     <Content Include="Views\CameraReport\_ImageViewPartial2.cshtml" />
     <Content Include="Views\FileDownload\Index.cshtml" />
+    <Content Include="Views\VehicleInGeofence\getViG.cshtml" />
+    <Content Include="Views\Maps\getLatLon.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

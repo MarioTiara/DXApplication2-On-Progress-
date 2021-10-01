@@ -8,15 +8,17 @@ namespace DXWebApplication1.Models
 {
     public class ModelGeofences
     {
-        public string GEOFENCE_NAME { get; set; }
+        
         public string GEOFENCE_CODE { get; set; }
+        public string GEOFENCE_NAME { get; set; }
         public string GEOFENCE_TYPE { get; set; }
         public Nullable<double> GEOFENCE_SPEED { get; set; }
         public string GEOFENCE_GEOM { get; set; }
         public ModelGeofences(DataRow row)
         {
-            GEOFENCE_NAME = Convert.ToString(row["GEOFENCE_NAME"]);
+            
             GEOFENCE_CODE = Convert.ToString(row["GEOFENCE_CODE"]);
+            GEOFENCE_NAME = Convert.ToString(row["GEOFENCE_NAME"]);
             GEOFENCE_TYPE = Convert.ToString(row["GEOFENCE_TYPE"]);
             GEOFENCE_SPEED = Convert.ToDouble(row["GEOFENCE_SPEED"]);
             GEOFENCE_GEOM = Convert.ToString(row["GEOFENCE_GEOM"]);
@@ -54,5 +56,35 @@ namespace DXWebApplication1.Models
     public class ModelGeofenceType
     {
         public string GEOFENCE_TYPE { get; set; }
+    }
+
+
+    //Model with Encapculatio method
+    public class ModellatLong
+    {
+        private string GEOFENCE_NAME;
+        private string LAT_LONG;
+
+        public string geofence_name
+        {
+            get { return GEOFENCE_NAME; }
+            set { GEOFENCE_NAME = value; }
+        }
+
+        public string LatLong
+        {
+            get { return LAT_LONG; }
+            set { LAT_LONG = value; }
+        }
+    }
+
+    public class vwGeofenceCombo
+    {
+        public string GEOFENCE_CODE { get; set; }
+        public Nullable<int> GEOFENCE_SID { get; set; }
+        public string GEOFENCE_NAME { get; set; }
+        public string GEOFENCE_TYPE { get; set; }
+        public Nullable<double> GEOFENCE_SPEED { get; set; }
+        public string GEOFENCE_GEOM { get; set; }
     }
 }

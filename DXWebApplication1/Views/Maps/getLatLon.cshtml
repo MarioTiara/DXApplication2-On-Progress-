@@ -1,0 +1,13 @@
+﻿@model IEnumerable<DXWebApplication1.Models.ModellatLong>
+@{
+    ViewBag.Title = "getLatLon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>getLatLon</h2>
+
+@foreach(var data in Model)
+{
+    <p>@data.LatLong</p>
+}
+

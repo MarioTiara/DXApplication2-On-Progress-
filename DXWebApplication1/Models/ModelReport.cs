@@ -33,7 +33,6 @@ namespace DXWebApplication1.Models
         public string ObjectID { get; set; }
         public string GEOFENCE_NAME { get; set; }
         public string WP_KELURAHAN { get; set; }
-
         public string IO1_Caption { get; set; }
         public string IO1_Visible { get; set; }
         public string IO1_On_Caption { get; set; }
@@ -221,21 +220,16 @@ namespace DXWebApplication1.Models
         //}
 
     }
-
     public class vwVehicleInGeofence
-    {
-        public string RECORD_ID { get; set; }
-        public string REG_NO { get; set; }
+    {           
         public string VehicleSid { get; set; }
-        public int EnterId { get; set; }
-        public int ExitId { get; set; }
-        public string Polygon { get; set; }
-        public DateTime EnterTime { get; set; }
-        public DateTime ExitTime { get; set; }
+        public string REG_NO { get; set; }
+        public string GEOFENCE_NAME { get; set; }
+        public DateTime EnterDate { get; set; }
+        public DateTime ExitDate { get; set; }
         public string DURATION { get; set; }
 
     }
-
     public class vwOdoMeterReport
     {
         public string RECORD_ID { get; set; }
@@ -262,7 +256,6 @@ namespace DXWebApplication1.Models
         public string LocationEnd { get; set; }
         public DateTime CreateDate { get; set; }
     }
-
     //=================CAMERA REPORT====================
 
     //Data From DB for Camera 1

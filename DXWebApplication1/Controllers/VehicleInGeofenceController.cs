@@ -27,8 +27,6 @@ namespace DXWebApplication1.Controllers
                     LoadCombo();
                     LoadComboGeofences();
                     return View();
-              
-
             }
              
              catch (Exception e)
@@ -44,6 +42,7 @@ namespace DXWebApplication1.Controllers
             CUSTOMER_SID = System.Web.HttpContext.Current.Session["CUSTOMER_SID"].ToString();
             PROJECT_SID = System.Web.HttpContext.Current.Session["PROJECT_SID"].ToString();
             DataTable result = new DataTable();
+
             if (string.IsNullOrEmpty(CUSTOMER_SID) && string.IsNullOrEmpty(PROJECT_SID))
             {
                 result = BusinessLogic.Vehicle.GetAll();
@@ -57,13 +56,12 @@ namespace DXWebApplication1.Controllers
                 result = BusinessLogic.Vehicle.VehicleByCustomerProjectSID(CUSTOMER_SID, PROJECT_SID);
             }
             List<Models.vwVehicleCombo> list = new List<Models.vwVehicleCombo>();
-            list.Add(new Models.vwVehicleCombo { REG_NO = "SELECT VEHICLE", VEHICLE_SID = "" });
+            list.Add(new Models.vwVehicleCombo { REG_NO = "ALL VEHICLE", VEHICLE_SID = "" });
             for (int i = 0; i < result.Rows.Count; i++)
             {
                 vwVehicleCombo DataView = new vwVehicleCombo();
                 DataView.REG_NO = result.Rows[i]["REG_NO"].ToString();
-                DataView.VEHICLE_SID = result.Rows[i]["VEHICLE_SID"].ToString();
-              
+                DataView.VEHICLE_SID = result.Rows[i]["VEHICLE_SID"].ToString();                          
                 list.Add(DataView);
             }
             data = list;
@@ -80,16 +78,18 @@ namespace DXWebApplication1.Controllers
 
             DataTable result = new DataTable();
 
-                result = BusinessLogic.Geofences.GetAll();
+            result = BusinessLogic.Geofences.GetAll();
 
-                List<Models.ModelGeofences> list = new List<Models.ModelGeofences>(result.Rows.Count);
-            
+            List<Models.vwGeofenceCombo> list = new List<Models.vwGeofenceCombo>();
+            list.Add(new Models.vwGeofenceCombo { GEOFENCE_NAME = "ALL GEOFENCE", GEOFENCE_SID=null});
             foreach (DataRow row in result.Rows)
-            {   
-                list.Add(new Models.ModelGeofences(row));
+            {
+                vwGeofenceCombo objvwGeofenceCombo = new vwGeofenceCombo();
+                objvwGeofenceCombo.GEOFENCE_NAME = Convert.ToString(row["GEOFENCE_NAME"]);
+                objvwGeofenceCombo.GEOFENCE_SID = Convert.ToInt32(row["GEOFENCE_SID"]);
+                list.Add(objvwGeofenceCombo);
             }
             data = list;
-
             ViewBag.DataGeo = data;
 
         }
@@ -98,7 +98,7 @@ namespace DXWebApplication1.Controllers
         {
             if (Session["vwVehicleInGeofence"] != null)
             {
-                ViewBag.Datas = Session["vwVehicleInGeofence"];
+                ViewBag.Data = Session["vwVehicleInGeofence"];
                 return PartialView("_GridView1Partial");
             }
             else
@@ -108,62 +108,80 @@ namespace DXWebApplication1.Controllers
 
         }
 
-
-        public ActionResult getEvent(string FROM_DATE, string TO_DATE, string VehicleSid, string Geofence)
-        {
+        public ActionResult getViG(string VehicleSid, string FROM_DATE, string TO_DATE, Nullable<int> GeofenceSid)
+        {       
+    
             try
             {
+
                 LoadCombo();
-                object datas;
-                Dictionary<string, string> vehicles = new Dictionary<string, string>();
-                DataTable result = new DataTable();
+                object data;
+                DataTable VinGDataTable = new DataTable();
 
-                if (string.IsNullOrEmpty(VehicleSid))
+                //Get data through DataAdapter based on input value from ComboBox
+                if (string.IsNullOrEmpty(VehicleSid) && GeofenceSid != null)
                 {
-                    result = BusinessLogic.Report.VehicleInGeofence(FROM_DATE, TO_DATE, Geofence);
+                    VinGDataTable = BusinessLogic.Report.VehicleInGeofenceGeoName(FROM_DATE, TO_DATE, GeofenceSid);
+                }
+                else if (!string.IsNullOrEmpty(VehicleSid) && GeofenceSid == null)
+                {
+                    VinGDataTable = BusinessLogic.Report.VehicleInGeofenceRegNo(FROM_DATE, TO_DATE, VehicleSid);
+                }
+                else if (string.IsNullOrEmpty(VehicleSid) && GeofenceSid == null)
+                {
+                    VinGDataTable = BusinessLogic.Report.VehicleInGeofenceAll(FROM_DATE, TO_DATE);
+                }
+                else if (!string.IsNullOrEmpty(VehicleSid) && GeofenceSid != null)
+                {
+                    VinGDataTable = BusinessLogic.Report.VehicleInGeofenceRegNoAndGeofenceName(FROM_DATE, TO_DATE, GeofenceSid, VehicleSid);
+                }
 
-                }
-                else if (!string.IsNullOrEmpty(VehicleSid) && string.IsNullOrEmpty(Geofence))
-                {
-                    result = BusinessLogic.Report.VehicleInGeofenceRegNo(FROM_DATE, TO_DATE, VehicleSid);
-                }
-                else if (!string.IsNullOrEmpty(VehicleSid) && !string.IsNullOrEmpty(Geofence))
-                {
-                    result = BusinessLogic.Report.VehicleInGeofenceRegNoAndPolygon(FROM_DATE, TO_DATE, Geofence, VehicleSid);
-                }
+                List<vwVehicleInGeofence> VehicleInGeoLIst = new List<vwVehicleInGeofence>();
 
-                List<vwVehicleInGeofence> list = new List<vwVehicleInGeofence>();
-                for (int i = 0; i < result.Rows.Count; i++)
+                foreach (DataRow row in VinGDataTable.Rows)
                 {
                     try
                     {
-                        vwVehicleInGeofence dataVw = new vwVehicleInGeofence();
-                        dataVw.REG_NO = result.Rows[i]["REG_NO"].ToString();
-                        dataVw.Polygon = result.Rows[i]["Polygon"].ToString();
-                        dataVw.EnterTime = Convert.ToDateTime(result.Rows[i]["EnterTime"]);
-                        dataVw.ExitTime = Convert.ToDateTime(result.Rows[i]["ExitTime"]);
-                        var diffTicks = (dataVw.ExitTime - dataVw.EnterTime);
-                        dataVw.DURATION = diffTicks.Days + " Days " + diffTicks.Hours + " Hours :" + diffTicks.Minutes + " Minutes :" + diffTicks.Seconds + " Seconds :";
-                        list.Add(dataVw);
+                        vwVehicleInGeofence objVehicleInGeofence = new vwVehicleInGeofence();
+                        objVehicleInGeofence.VehicleSid = Convert.ToString(row["VehicleSid"]);
+                        objVehicleInGeofence.REG_NO = Convert.ToString(row["REG_NO"]);
+                        objVehicleInGeofence.GEOFENCE_NAME = Convert.ToString(row["GEOFENCE_NAME"]);
+                        objVehicleInGeofence.EnterDate = Convert.ToDateTime(row["EnterDate"]);
+                        objVehicleInGeofence.ExitDate = Convert.ToDateTime(row["ExitDate"]);
+                        var Times = objVehicleInGeofence.ExitDate - objVehicleInGeofence.EnterDate;
+                        if (Times.Days >0)
+                        {
+                            objVehicleInGeofence.DURATION = Times.ToString("%d") + " day(s) " +Times.ToString(@"hh\:mm\:ss");
+                        }
+                        else
+                        {
+                            objVehicleInGeofence.DURATION = Times.ToString(@"hh\:mm\:ss");
+                        }
+
+                        VehicleInGeoLIst.Add(objVehicleInGeofence);
                     }
                     catch (Exception e)
                     {
-
+                        
                     }
+                    
                 }
-                datas = list;
-                ViewBag.Datas = datas;
-                Session["vwVehicleInGeofence"] = list;
-                return PartialView("_GridView1Partial");
+                data = VehicleInGeoLIst;
+                ViewBag.Data = data;
+                Session["vwVehicleInGeofence"] = VehicleInGeoLIst;
+
+               return PartialView("_GridView1Partial");
+               //return View(data);
             }
+
             catch (Exception e)
             {
-
+                
+                
             }
+
             return null;
-
         }
-
 
         public ActionResult ExamplePartial()
         {
@@ -171,5 +189,6 @@ namespace DXWebApplication1.Controllers
                 Thread.Sleep(500);
             return null;
         }
+       
 	}
 }

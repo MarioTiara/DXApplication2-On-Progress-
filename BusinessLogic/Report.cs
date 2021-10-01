@@ -48,7 +48,6 @@ namespace BusinessLogic
            return null;
        }
 
-
        public static DataTable SpeedReport(string VehicleSid, string FROM_DATE, string TO_DATE)
        {
            try
@@ -66,113 +65,6 @@ namespace BusinessLogic
                            adapter.SelectCommand.Parameters.AddWithValue("@VEHICLE_SID", VehicleSid);
                            adapter.SelectCommand.Parameters.AddWithValue("@WP_FROM_DATE", Convert.ToDateTime(FROM_DATE));
                            adapter.SelectCommand.Parameters.AddWithValue("@WP_TO_DATE", Convert.ToDateTime(TO_DATE));
-                           adapter.Fill(table);
-                       }
-                   }
-
-                   return table;
-               }
-
-           }
-           catch (Exception e)
-           {
-
-           }
-
-           return null;
-       }
-
-       public static DataTable VehicleInGeofence(string STARTDATE, string ENDDATE, string POLYGON)
-       {
-
-
-           //IFormatProvider culture = new CultureInfo("en-US", true);
-           try
-           {
-               using (DataTable table = new DataTable("VehicleInGeofence"))
-               {
-
-                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
-                   {
-                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence);
-
-                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
-                       {
-                           adapter.SelectCommand.CommandType = CommandType.Text;
-                           adapter.SelectCommand.Parameters.AddWithValue("@STARTDATE", Convert.ToDateTime(STARTDATE));
-                           adapter.SelectCommand.Parameters.AddWithValue("@ENDDATE", Convert.ToDateTime(ENDDATE));
-                           adapter.SelectCommand.Parameters.AddWithValue("@POLYGON", POLYGON);
-                           adapter.Fill(table);
-                       }
-                   }
-
-                   return table;
-               }
-
-           }
-           catch (Exception e)
-           {
-
-           }
-
-           return null;
-       }
-
-
-       public static DataTable VehicleInGeofenceRegNo(string STARTDATE, string ENDDATE, string VehicleSid)
-       {
-
-
-           //IFormatProvider culture = new CultureInfo("en-US", true);
-           try
-           {
-               using (DataTable table = new DataTable("VehicleInGeofence"))
-               {
-
-                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
-                   {
-                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence_OnlyRegNo);
-
-                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
-                       {
-                           adapter.SelectCommand.CommandType = CommandType.Text;
-                           adapter.SelectCommand.Parameters.AddWithValue("@STARTDATE", Convert.ToDateTime(STARTDATE));
-                           adapter.SelectCommand.Parameters.AddWithValue("@ENDDATE", Convert.ToDateTime(ENDDATE));
-                           adapter.SelectCommand.Parameters.AddWithValue("@VehicleSid", VehicleSid);
-                           adapter.Fill(table);
-                       }
-                   }
-
-                   return table;
-               }
-
-           }
-           catch (Exception e)
-           {
-
-           }
-
-           return null;
-       }
-
-       public static DataTable VehicleInGeofenceRegNoAndPolygon(string STARTDATE, string ENDDATE, string POLYGON, string VehicleSid)
-       {
-           try
-           {
-               using (DataTable table = new DataTable("VehicleInGeofence"))
-               {
-
-                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
-                   {
-                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence_RegNoPolygon);
-
-                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
-                       {
-                           adapter.SelectCommand.CommandType = CommandType.Text;
-                           adapter.SelectCommand.Parameters.AddWithValue("@STARTDATE", Convert.ToDateTime(STARTDATE));
-                           adapter.SelectCommand.Parameters.AddWithValue("@ENDDATE", Convert.ToDateTime(ENDDATE));
-                           adapter.SelectCommand.Parameters.AddWithValue("@POLYGON", POLYGON);
-                           adapter.SelectCommand.Parameters.AddWithValue("@VehicleSid", VehicleSid);
                            adapter.Fill(table);
                        }
                    }
@@ -319,6 +211,140 @@ namespace BusinessLogic
 
            return null;
        }
+
+       public static DataTable VehicleInGeofenceAll(string FROM_DATE, string TO_DATE)
+       {
+           try
+           {
+               using (DataTable table = new DataTable("VehicleInGeofenceRegNo"))
+               {
+
+                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
+                   {
+                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence_All);
+
+                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
+                       {
+                           adapter.SelectCommand.CommandType = CommandType.Text;
+                           adapter.SelectCommand.Parameters.AddWithValue("@FROM_DATE", Convert.ToDateTime(FROM_DATE));
+                           adapter.SelectCommand.Parameters.AddWithValue("@TO_DATE", Convert.ToDateTime(TO_DATE));
+                           adapter.Fill(table);
+                       }
+                   }
+
+                   return table;
+               }
+
+           }
+           catch (Exception e)
+           {
+
+           }
+
+           return null;
+       }
+
+       public static DataTable VehicleInGeofenceRegNo(string FROM_DATE, string TO_DATE, string VehicleSid)
+       {
+           try
+           {
+               using (DataTable table = new DataTable("VehicleInGeofenceRegNo"))
+               {
+
+                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
+                   {
+                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence_OnlyRegNo);
+
+                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
+                       {
+                           adapter.SelectCommand.CommandType = CommandType.Text;
+                           adapter.SelectCommand.Parameters.AddWithValue("@VehicleSid", VehicleSid);
+                           adapter.SelectCommand.Parameters.AddWithValue("@FROM_DATE", Convert.ToDateTime(FROM_DATE));
+                           adapter.SelectCommand.Parameters.AddWithValue("@TO_DATE", Convert.ToDateTime(TO_DATE));
+                           adapter.Fill(table);
+                       }
+                   }
+
+                   return table;
+               }
+
+           }
+           catch (Exception e)
+           {
+
+           }
+
+           return null;
+       }
+
+       public static DataTable VehicleInGeofenceGeoName(string FROM_DATE, string TO_DATE, Nullable<int> GEOFENCE_SID)
+       {
+           try
+           {
+               using (DataTable table = new DataTable("VehicleInGeofenceGeoName"))
+               {
+
+                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
+                   {
+                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence_GeoName);
+
+                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
+                       {
+                           adapter.SelectCommand.CommandType = CommandType.Text;
+                           adapter.SelectCommand.Parameters.AddWithValue("@GEOFENCE_SID", GEOFENCE_SID);
+                           adapter.SelectCommand.Parameters.AddWithValue("@FROM_DATE", Convert.ToDateTime(FROM_DATE));
+                           adapter.SelectCommand.Parameters.AddWithValue("@TO_DATE", Convert.ToDateTime(TO_DATE));
+                           adapter.Fill(table);
+                       }
+                   }
+
+                   return table;
+               }
+
+           }
+           catch (Exception e)
+           {
+
+           }
+
+           return null;
+       }
+
+       public static DataTable VehicleInGeofenceRegNoAndGeofenceName(string FROM_DATE, string TO_DATE, Nullable<int> GEOFENCE_SID, string VehicleSid)
+       {
+           try
+           {
+               using (DataTable table = new DataTable("VehicleInGeofenceRegNoAndGeofenceName"))
+               {
+
+                   using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
+                   {
+                       string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Report.SQL__Vehicle_In_Geofence_RegNoAndGeofenceName);
+
+                       using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
+                       {
+                           adapter.SelectCommand.CommandType = CommandType.Text;
+                           adapter.SelectCommand.Parameters.AddWithValue("@VehicleSid", VehicleSid);
+                           adapter.SelectCommand.Parameters.AddWithValue("@GEOFENCE_SID", GEOFENCE_SID);
+                           adapter.SelectCommand.Parameters.AddWithValue("@FROM_DATE", Convert.ToDateTime(FROM_DATE));
+                           adapter.SelectCommand.Parameters.AddWithValue("@TO_DATE", Convert.ToDateTime(TO_DATE));
+                           adapter.Fill(table);
+                       }
+                   }
+
+                   return table;
+               }
+
+           }
+           catch (Exception e)
+           {
+
+           }
+
+           return null;
+       }
+
+       
     }
 
    public class EventReport

@@ -38,10 +38,13 @@ namespace DXWebApplication1.Controllers
                 }
                     getData();
                     getDataGeo();
+                    getLatLon();
                     ViewBag.DataNull = "Select";
                     ViewBag.Data = Session["Vehicle"];
                     ViewBag.GeoNull = "Select";
                     ViewBag.DataGeo = Session["Geo"];
+                    ViewBag.DataLatLOng = Session["LatLOng"];
+                
                     return View();
               
             }
@@ -549,7 +552,34 @@ namespace DXWebApplication1.Controllers
             return PartialView("FormGeofence");
         }
 
+        public ActionResult getLatLon()
+        {
+            try
+            {
+                object LatLongData;
 
+                DataTable GeofenceLatLongDataTable = new DataTable();
+                GeofenceLatLongDataTable = BusinessLogic.Geofences.GetGeofenceLatLong();
+                List<ModellatLong> LatLongDataList = new List<ModellatLong>();
+                foreach ( DataRow row in GeofenceLatLongDataTable.Rows)
+                {
+                    ModellatLong objlatLong = new ModellatLong();
+                    objlatLong.geofence_name = Convert.ToString(row["geofence_name"]);
+                    objlatLong.LatLong = Convert.ToString(row["latLong"]);
+                    LatLongDataList.Add(objlatLong);
+                }
+
+                LatLongData = LatLongDataList;
+                Session["LatLOng"] = LatLongData;
+            }
+            catch (Exception e)
+            {
+                
+                
+            }
+
+            return null; 
+        }
 
         //Get Geofence From LMS
 
@@ -652,8 +682,6 @@ namespace DXWebApplication1.Controllers
             }
             return null;
         }
-
-
 
 
         public ActionResult SaveNewGeofence
@@ -815,8 +843,6 @@ namespace DXWebApplication1.Controllers
                 return dataTable;
             }
         }
-
-
 
         public ActionResult ExamplePartial()
         {

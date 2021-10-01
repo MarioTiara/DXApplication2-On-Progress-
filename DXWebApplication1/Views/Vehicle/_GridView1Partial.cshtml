@@ -49,19 +49,6 @@
             columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
             columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
 
-
-            //columnSettings.SetEditItemTemplateContent(c =>
-            //{
-            //    Html.DevExpress().TextBox(textBoxSettings =>
-            //    {
-            //        textBoxSettings.Name = "VEHICLE NUMBER";
-            //        textBoxSettings.Text = (string)DataBinder.Eval(c.DataItem, "VEHICLE NUMBER");
-            //        columnSettings.Width = System.Web.UI.WebControls.Unit.Pixel(100);
-
-            //        textBoxSettings.Properties.ValidationSettings.ValidationGroup = c.ValidationGroup;
-            //        textBoxSettings.Properties.ValidationSettings.RequiredField.IsRequired = true;
-            //    }).Render();
-            //});
             columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
             columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
             columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
@@ -316,6 +303,21 @@
 
         $('#leaseDiv').show();
 
+    }
+
+    function gridView_DXCTMenu0_DXI0_()
+    {
+        try
+        {
+            var vec = comboboxvehicle.GetValue();
+            console.log(vec);
+        }
+        catch (err)
+        {
+
+        }
+        
+        
     }
 
 

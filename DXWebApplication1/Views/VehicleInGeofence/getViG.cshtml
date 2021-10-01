@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DXWebApplication1.Models.vwVehicleInGeofence>
+@{
+    ViewBag.Title = "getViG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>getViG</h2>
+
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>VehicleSid</th>
+            <th>REG_NO</th>
+            <th>Geofence</th>
+            <th>Enter Date</th>
+            <th>Exit Date</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var Data in Model)
+        {
+            <tr>
+                <td> @Data.VehicleSid</td>
+                <td>@Data.REG_NO</td>
+                <td>@Data.GEOFENCE_NAME</td>
+                <td>@Data.EnterDate</td>
+                <td>@Data.ExitDate</td>
+                <td>@Data.DURATION</td>
+             </tr>
+        }
+        
+    </tbody>
+</table>

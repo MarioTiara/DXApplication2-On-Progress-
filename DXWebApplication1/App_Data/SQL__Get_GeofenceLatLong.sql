@@ -1,0 +1,1 @@
+SELECT geofence_name, geofence_geom.STCentroid().ToString() AS latLong FROM GEOFENCE

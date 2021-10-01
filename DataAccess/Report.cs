@@ -10,9 +10,13 @@ namespace DataAccess
     {
         public const string SQL__Detail_Activity_Report = "~/App_Data/SQL__Detail_Activity_Reports.sql";
         public const string SQL__Speed_Report = "~/App_Data/SQL__Speed_Reports.sql";
-        public const string SQL__Vehicle_In_Geofence = "~/App_Data/SQL__Vehicle_In_Geofence.sql";
+
+        public const string SQL__Vehicle_In_Geofence_All = "~/App_Data/SQL__Vehicle_In_Geofence_All.sql";
         public const string SQL__Vehicle_In_Geofence_OnlyRegNo = "~/App_Data/SQL__Vehicle_In_Geofence_OnlyRegNo.sql";
-        public const string SQL__Vehicle_In_Geofence_RegNoPolygon = "~/App_Data/SQL__Vehicle_In_Geofence_RegNoPolygon.sql";
+        public const string SQL__Vehicle_In_Geofence_GeoName = "~/App_Data/SQL__Vehicle_In_Geofence_GeoName.sql";
+        public const string SQL__Vehicle_In_Geofence_RegNoAndGeofenceName = "~/App_Data/SQL__Vehicle_In_Geofence_RegNoAndGeofenceName.sql";
+
+
         public const string SQL__Vehicle_Report_OdoMeter = "~/App_Data/SQL__Vehicle_Report_OdoMeter.sql";
         public const string SQL__Vehicle_Report_OdoMeter_ByVehicle = "~/App_Data/SQL__Vehicle_Report_OdoMeter_ByVehicle.sql";
         public const string SQL__Camera_Report1 = "~/App_Data/SQL__Camera_Report1.sql";

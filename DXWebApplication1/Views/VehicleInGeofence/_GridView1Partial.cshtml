@@ -1,120 +1,129 @@
-@{
-    var grid = Html.DevExpress().GridView(settings =>
-    {
 
-        settings.Name = "gridView";
-        settings.KeyFieldName = "VehicleSid";
-        settings.CallbackRouteValues = new { Controller = "VehicleInGeofence", Action = "Grid" };
-        settings.EnablePagingGestures = AutoBoolean.Auto;
-        settings.ControlStyle.CssClass = "grid-view";
-        settings.Width = Unit.Percentage(100);
-        settings.Styles.Cell.Wrap = DefaultBoolean.True;
-        settings.Styles.PagerBottomPanel.CssClass = "pager";
-        settings.Styles.FocusedRow.CssClass = "focused";
-        settings.Styles.FocusedRow.BackColor = System.Drawing.Color.LightGray;
-        settings.SettingsBehavior.AllowFocusedRow = true;
-        settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
-        settings.SettingsEditing.EditFormColumnCount = 2;
-        settings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
-        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
-        settings.Settings.VerticalScrollableHeight = 330;
-        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
-        settings.Settings.ShowFilterRow = true;
-        settings.SettingsBehavior.AutoExpandAllGroups = true;
-        settings.Settings.ShowGroupPanel = true;
-        settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
-        settings.SettingsExport.EnableClientSideExportAPI = true;
-        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
-        settings.SettingsPager.PageSize = 10;
-        settings.SettingsPager.EnableAdaptivity = true;
-        settings.SettingsPager.PageSizeItemSettings.Visible = true;
-        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
-        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
-        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
-        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
-        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
 
-        settings.Toolbars.Add(x =>
+    @{
+        var grid = Html.DevExpress().GridView(settings =>
         {
-            x.Items.Add(GridViewToolbarCommand.ExportToXlsx);
-        });
 
-        settings.Columns.Add("REG_NO").GroupIndex = 0;
-        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "REG_NO");
-        settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Count, "REG_NO");
-        settings.Columns.Add(columnSettings =>
+            settings.Name = "gridView";
+            settings.KeyFieldName = "VehicleSid";
+            settings.CallbackRouteValues = new { Controller = "VehicleInGeofence", Action = "Grid" };
+            settings.EnablePagingGestures = AutoBoolean.Auto;
+            settings.ControlStyle.CssClass = "grid-view";
+            settings.Width = Unit.Percentage(100);
+            settings.Styles.Cell.Wrap = DefaultBoolean.True;
+            settings.Styles.PagerBottomPanel.CssClass = "pager";
+            settings.Styles.FocusedRow.CssClass = "focused";
+            settings.Styles.FocusedRow.BackColor = System.Drawing.Color.LightGray;
+            settings.SettingsBehavior.AllowFocusedRow = true;
+            settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+            settings.SettingsEditing.EditFormColumnCount = 2;
+            settings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+            settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+            settings.Settings.VerticalScrollableHeight = 330;
+            settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+            settings.Settings.ShowFilterRow = true;
+            settings.SettingsBehavior.AutoExpandAllGroups = false;
+            settings.Settings.ShowGroupPanel = true;
+            settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            settings.SettingsExport.EnableClientSideExportAPI = true;
+            settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+            settings.SettingsExport.FileName = DateTime.Now + "_Vehicle_in_Geofence";
+            settings.SettingsPager.PageSize = 10;
+            settings.SettingsPager.EnableAdaptivity = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+            settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+            settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+            settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+            settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+            settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+
+            settings.Toolbars.Add(x =>
+            {
+                x.Items.Add(GridViewToolbarCommand.ExportToXlsx);
+
+            });
+
+            settings.Columns.Add("REG_NO").GroupIndex = 0;
+            settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "REG_NO");
+            settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Count, "REG_NO");
+            settings.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "REG_NO";
+                columnSettings.Caption = "VEHICLE NUMBER";
+                columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+                columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
+                columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
+                columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+            });
+            settings.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "GEOFENCE_NAME";
+                columnSettings.Caption = "GEOFENCE";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+                columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.True;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+            });
+            settings.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "EnterDate";
+                columnSettings.Caption = "ENTER TIME";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.ColumnType = MVCxGridViewColumnType.DateEdit;
+                (columnSettings.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy HH:mm:ss";
+                (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+                (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
+
+            });
+            settings.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "ExitDate";
+                columnSettings.Caption = "EXIT TIME";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                columnSettings.ColumnType = MVCxGridViewColumnType.DateEdit;
+                (columnSettings.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy HH:mm:ss";
+                (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+                (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
+
+            });
+            settings.Columns.Add(columnSettings =>
+            {
+                columnSettings.FieldName = "DURATION";
+                columnSettings.Caption = "DURATION";
+                columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
+                columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
+                columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+                columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+            });
+
+        });
+        if (ViewData["EditError"] != null)
         {
-            columnSettings.FieldName = "REG_NO";
-            columnSettings.Caption = "VEHICLE NUMBER";
-            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-            columnSettings.CellStyle.HorizontalAlign = HorizontalAlign.Left;
-            columnSettings.ExportCellStyle.HorizontalAlign = HorizontalAlign.Left;
-            columnSettings.Settings.FilterMode = ColumnFilterMode.DisplayText;
-            columnSettings.Settings.SortMode = DevExpress.XtraGrid.ColumnSortMode.DisplayText;
-            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
-            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
-        });
-        settings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "Polygon";
-            columnSettings.Caption = "GEOFENCE";
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(40);
-            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
-            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.True;
-            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
-            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+            grid.SetEditErrorText((string)ViewData["EditError"]);
 
-        });
-        settings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "EnterTime";
-            columnSettings.Caption = "ENTER TIME";
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
-            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
-            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
-            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-            columnSettings.ColumnType = MVCxGridViewColumnType.DateEdit;
-            (columnSettings.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy HH:mm:ss";
-            (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
-            (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
-
-        });
-        settings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "ExitTime";
-            columnSettings.Caption = "EXIT TIME";
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
-            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
-            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
-            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-            columnSettings.ColumnType = MVCxGridViewColumnType.DateEdit;
-            (columnSettings.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy HH:mm:ss";
-            (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
-            (columnSettings.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
-
-        });
-        settings.Columns.Add(columnSettings =>
-        {
-            columnSettings.FieldName = "DURATION";
-            columnSettings.Caption = "DURATION";
-            columnSettings.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-            columnSettings.FixedStyle = GridViewColumnFixedStyle.Left;
-            columnSettings.Settings.AllowAutoFilter = DefaultBoolean.False;
-            columnSettings.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
-            columnSettings.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-
-        });
-
-    });
-    if (ViewData["EditError"] != null)
-    {
-        grid.SetEditErrorText((string)ViewData["EditError"]);
-
-    }
+        }
 
 }
 
-@grid.Bind(ViewBag.Datas).GetHtml()
+
+
+@grid.Bind(ViewBag.Data).GetHtml()
+
+

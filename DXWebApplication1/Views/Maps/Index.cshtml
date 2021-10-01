@@ -1,5 +1,4 @@
-﻿ 
-<style>
+﻿ <style>
     .dxflItemSys, .dxflGroupBoxSys {
         text-align: right;
     }
@@ -28,9 +27,34 @@
     body{
      overflow:hidden !important;
     }
+
+
+     /* ============================STYLES FOR DIRECTION POPUP IN MAP/INDEX.CSHMTL====================================== */
+
+     #cmbRouteBy_ET {
+         width: 450px !important;
+     }
+
+     #comboBoxGeoForDerectionStart,#comboBoxGeoForDerectionDest, #CoordinateStart, #CoordinateDestination{
+        float:right !important;
+     }
+
+     #cmbRouteBy_CC{
+        width: 70% !important;
+     }
+      #btnRouteDirection,#btnCancelDirection{
+       float:right !important;
+    }
+
+    #CoordinateStart_I,#CoordinateDestination_I{
+       width: 200px;
+    }
+
+     /* ============================end STYLES FOR DIRECTION POPUP IN MAP/INDEX.CSHMTL====================================== */
     
 </style>
-   @model DXWebApplication1.Model.GridViewModel
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+@model DXWebApplication1.Model.GridViewModel
 
 @{
     ViewBag.Title = "Maps";
@@ -43,48 +67,48 @@
 
 }
 
-@section PageToolbar {
-    @Html.DevExpress().Menu(menuSettings =>
+@section PageToolbar 
 {
-    menuSettings.Name = "pageToolbar";
+    @Html.DevExpress().Menu(menuSettings =>
+    {
+        menuSettings.Name = "pageToolbar";
 
 
-    menuSettings.ItemAutoWidth = false;
-    menuSettings.AllowSelectItem = false;
-    menuSettings.ApplyItemStyleToTemplates = true;
+        menuSettings.ItemAutoWidth = false;
+        menuSettings.AllowSelectItem = false;
+        menuSettings.ApplyItemStyleToTemplates = true;
 
-    menuSettings.SettingsAdaptivity.Enabled = true;
-    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
-    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
-    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+        menuSettings.SettingsAdaptivity.Enabled = true;
+        menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+        menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+        menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
 
-    menuSettings.Width = Unit.Percentage(100);
-    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
-    menuSettings.ControlStyle.CssClass = "page-toolbar";
+        menuSettings.Width = Unit.Percentage(100);
+        menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+        menuSettings.ControlStyle.CssClass = "page-toolbar";
 
-    menuSettings.Styles.Item.CssClass = "item";
-    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+        menuSettings.Styles.Item.CssClass = "item";
+        menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
 
-    menuSettings.Images.Item.Width = Unit.Pixel(16);
-    menuSettings.Images.Item.Height = Unit.Pixel(16);
+        menuSettings.Images.Item.Width = Unit.Pixel(16);
+        menuSettings.Images.Item.Height = Unit.Pixel(16);
 
-    //menuSettings.Items.Add(item =>
-    //{
-    //    item.Enabled = false;
-    //    item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>History Shippment</h1>"));
-    //});
+        //menuSettings.Items.Add(item =>
+        //{
+        //    item.Enabled = false;
+        //    item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>History Shippment</h1>"));
+        //});
 
-    //menuSettings.Items.Add(item =>
-    //{
-    //    item.Name = "Export";
-    //    item.Text = "Export";
-    //    item.Alignment = MenuItemAlignment.Right;
-    //    item.AdaptivePriority = 2;
-    //    item.Image.Url = "Content/Images/export.svg";
-    //});
+        //menuSettings.Items.Add(item =>
+        //{
+        //    item.Name = "Export";
+        //    item.Text = "Export";
+        //    item.Alignment = MenuItemAlignment.Right;
+        //    item.AdaptivePriority = 2;
+        //    item.Image.Url = "Content/Images/export.svg";
+        //});
 
-}).GetHtml()
-
+    }).GetHtml()
 }
 
 
@@ -150,244 +174,238 @@
     <div class="holder">
         <button id="mybutton"><i class="fa fa-bars"></i></button>
         <div class="formholder">
-
             @Html.DevExpress().PageControl(
-    settings =>
-    {
-        
-        settings.Name = "pcFeatures";
-        settings.ActivateTabPageAction = ActivateTabPageAction.Click;
-        settings.EnableHotTrack = true;
-        settings.SaveStateToCookies = true;
-        settings.TabAlign = TabAlign.Left;
-        settings.TabPosition = TabPosition.Top;
-        settings.Width = Unit.Percentage(100);
-        settings.ControlStyle.CssClass = "dxtcFixed";
-        MVCxTabPage tab = settings.TabPages.Add();  
-        tab.SetTabTemplateContent(c =>
-        {
-            ViewContext.Writer.Write(string.Format("<a class='dxtc-link' id='pcFeatures_T1T'><span class='dx-vam'><i class='fa fa-car fa-lg'></i></span></a>", c.TabPage.Text));
-        });
-        tab.SetContent(() =>
-        {
-         
-            @Html.DevExpress().ComboBox(settingscmb =>
-    {
-        settingscmb.Name = "comboBox";
-        settingscmb.Width = Unit.Percentage(100);
-        settingscmb.Properties.DropDownWidth = Unit.Percentage(90);
-        settingscmb.Properties.DropDownStyle = DropDownStyle.DropDownList;
-        settingscmb.Properties.CallbackPageSize = 15;
-        settingscmb.Properties.TextField = "REGNO";
-        settingscmb.Properties.FilterMinLength = 0;
-        settingscmb.Properties.TextFormatString = "{0}";
-        settingscmb.Properties.ValueField = "REGNO";
-        settingscmb.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ getVehicleInfo(s, e); }";
-        settingscmb.Properties.ValueType = typeof(string);
-      
-        }
-).BindList(ViewBag.Data).GetHtml();
-            
-            
-            ViewContext.Writer.Write("<hr>");
-            ViewContext.Writer.Write("<div class='information-row' style='height: 120px;'><label class='oviewLabel' id='streetName'></label></div>");
-            @Html.DevExpress().PageControl(settingsSub =>
+            settings =>
             {
-                settingsSub.Name = "pcFeaturesSub";
-                settingsSub.ActivateTabPageAction = ActivateTabPageAction.Click;
-                settingsSub.EnableHotTrack = true;
-                settingsSub.SaveStateToCookies = true;
-                settingsSub.TabAlign = TabAlign.Left;
-                settingsSub.TabPosition = TabPosition.Top;
-                settingsSub.Width = Unit.Percentage(100);
-                settingsSub.ControlStyle.CssClass = "dxtcFixed";
-                
-                settingsSub.TabPages.Add("Info").SetContent(() =>
+              settings.Name = "pcFeatures";
+              settings.ActivateTabPageAction = ActivateTabPageAction.Click;
+              settings.EnableHotTrack = true;
+              settings.SaveStateToCookies = true;
+              settings.TabAlign = TabAlign.Left;
+              settings.TabPosition = TabPosition.Top;
+              settings.Width = Unit.Percentage(100);
+              settings.ControlStyle.CssClass = "dxtcFixed";
+              MVCxTabPage tab = settings.TabPages.Add();  
+                tab.SetTabTemplateContent(c =>
                 {
-                    ViewContext.Writer.Write(
-                        "<div class='information-row'><label class='oviewLabel'>Vehicle Number</label><div class='oviewValue' id='vehicleNumber'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>GSM Number</label><div class='oviewValue' id='gsmNumber'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Position Time</label><div class='oviewValue' id='lastUpdate'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Position</label><div class='oviewValue' id='position'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Engine</label><div class='oviewValue' id='engine'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Speed</label><div class='oviewValue' id='speed'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Direction</label><div class='oviewValue' id='direction'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Odometer</label><div class='oviewValue' id='odometer'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Power Source</label><div class='oviewValue' id='powerSource'></div></div>"
-                        );
+                    ViewContext.Writer.Write(string.Format("<a class='dxtc-link' id='pcFeatures_T1T'><span class='dx-vam'><i class='fa fa-car fa-lg'></i></span></a>", c.TabPage.Text));
                 });
-                settingsSub.TabPages.Add("Sensor").SetContent(() =>
+                tab.SetContent(() =>
                 {
-                    ViewContext.Writer.Write(
-                        "<div class='information-row'><label id='input1' class='oviewLabel'>Input 1</label><div class='oviewValue' id='valinput1'></div></div>" +
-                        "<div class='information-row'><label id='input2' class='oviewLabel'>Input 2</label><div class='oviewValue' id='valinput2'></div></div>" +
-                        "<div class='information-row'><label id='input3' class='oviewLabel'>Input 3</label><div class='oviewValue' id='valinput3'></div></div>" +
-                        "<div class='information-row'><label id='input4' class='oviewLabel'>Input 4</label><div class='oviewValue' id='valinput4'></div></div>" +
-                        "<div class='information-row'><label id='temp1' class='oviewLabel'>Temp 1</label><div class='oviewValue' id='valtemp1'></div></div>" +
-                        "<div class='information-row'><label id='temp2' class='oviewLabel'>Temp 2</label><div class='oviewValue' id='valtemp2'></div></div>"
+                  @Html.DevExpress().ComboBox(settingscmb =>
+                  {
+                    settingscmb.Name = "comboBox";
+                    settingscmb.Width = Unit.Percentage(100);
+                    settingscmb.Properties.DropDownWidth = Unit.Percentage(90);
+                    settingscmb.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                    settingscmb.Properties.CallbackPageSize = 15;
+                    settingscmb.Properties.TextField = "REGNO";
+                    settingscmb.Properties.FilterMinLength = 0;
+                    settingscmb.Properties.TextFormatString = "{0}";
+                    settingscmb.Properties.ValueField = "REGNO";
+                    settingscmb.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ getVehicleInfo(s, e); }";
+                    settingscmb.Properties.ValueType = typeof(string);
+                  }).BindList(ViewBag.Data).GetHtml();
+                    ViewContext.Writer.Write("<hr>");
+                    ViewContext.Writer.Write("<div class='information-row' style='height: 120px;'><label class='oviewLabel' id='streetName'></label></div>");
+                    @Html.DevExpress().PageControl(settingsSub =>
+                    {
+                      settingsSub.Name = "pcFeaturesSub";
+                      settingsSub.ActivateTabPageAction = ActivateTabPageAction.Click;
+                      settingsSub.EnableHotTrack = true;
+                      settingsSub.SaveStateToCookies = true;
+                      settingsSub.TabAlign = TabAlign.Left;
+                      settingsSub.TabPosition = TabPosition.Top;
+                      settingsSub.Width = Unit.Percentage(100);
+                      settingsSub.ControlStyle.CssClass = "dxtcFixed";
+                      settingsSub.TabPages.Add("Info").SetContent(() =>
+                      {
+                        ViewContext.Writer.Write
+                        (
+                          "<div class='information-row'><label class='oviewLabel'>Vehicle Number</label><div class='oviewValue' id='vehicleNumber'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>GSM Number</label><div class='oviewValue' id='gsmNumber'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Position Time</label><div class='oviewValue' id='lastUpdate'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Position</label><div class='oviewValue' id='position'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Engine</label><div class='oviewValue' id='engine'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Speed</label><div class='oviewValue' id='speed'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Direction</label><div class='oviewValue' id='direction'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Odometer</label><div class='oviewValue' id='odometer'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Power Source</label><div class='oviewValue' id='powerSource'></div></div>"
                         );
-                 });
-                settingsSub.TabPages.Add("Order").SetContent(() =>
-                {
-                    ViewContext.Writer.Write(
-                        "<div class='information-row'><label class='oviewLabel'>Order Number</label><div class='oviewValue' id='orderNumber'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Status</label><div class='oviewValue' id='statusOrder'></div></div>"+
-                        "<div class='information-row' style='height: 96px;'><label class='oviewLabel' id='originOrder'></label></div>"+
-                        "<div class='information-row' style='height: 96px;'><label class='oviewLabel' id='destinOrder'></label></div>"
-                    );
+                      });
+                      settingsSub.TabPages.Add("Sensor").SetContent(() =>
+                      {
+                        ViewContext.Writer.Write
+                        (
+                          "<div class='information-row'><label id='input1' class='oviewLabel'>Input 1</label><div class='oviewValue' id='valinput1'></div></div>" +
+                          "<div class='information-row'><label id='input2' class='oviewLabel'>Input 2</label><div class='oviewValue' id='valinput2'></div></div>" +
+                          "<div class='information-row'><label id='input3' class='oviewLabel'>Input 3</label><div class='oviewValue' id='valinput3'></div></div>" +
+                          "<div class='information-row'><label id='input4' class='oviewLabel'>Input 4</label><div class='oviewValue' id='valinput4'></div></div>" +
+                          "<div class='information-row'><label id='temp1' class='oviewLabel'>Temp 1</label><div class='oviewValue' id='valtemp1'></div></div>" +
+                          "<div class='information-row'><label id='temp2' class='oviewLabel'>Temp 2</label><div class='oviewValue' id='valtemp2'></div></div>"
+                        );
+                      });
+                      settingsSub.TabPages.Add("Order").SetContent(() =>
+                      {
+                        ViewContext.Writer.Write
+                        (
+                          "<div class='information-row'><label class='oviewLabel'>Order Number</label><div class='oviewValue' id='orderNumber'></div></div>"+
+                          "<div class='information-row'><label class='oviewLabel'>Status</label><div class='oviewValue' id='statusOrder'></div></div>"+
+                          "<div class='information-row' style='height: 96px;'><label class='oviewLabel' id='originOrder'></label></div>"+
+                          "<div class='information-row' style='height: 96px;'><label class='oviewLabel' id='destinOrder'></label></div>"
+                        );
+                      });
+                    }).GetHtml();
                 });
-            }).GetHtml();
-        });
-        MVCxTabPage tabChart = settings.TabPages.Add();
-        tabChart.SetTabTemplateContent(c =>
-        {
-            ViewContext.Writer.Write(string.Format("<a class='dxtc-link' id='pcFeatures_T1T'><span class='dx-vam'><i class='fa fa-pie-chart fa-lg'></i></span></a>", c.TabPage.Text));
-        });
-        tabChart.SetContent(() =>
-        {
-            ViewContext.Writer.Write(
-            "<table style='width: 100%;'>"+
-            "<tr>"+
-                "<td style='text-align: center;' colspan='3'>"+
-                    "<div><p>No Orders</p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td>"+
-                    "<div class='containerCard' title='GPS OFF' style='background-color: #a1aaa1;'><p id='ofgoensn'></p></div>"+
-                "</td>"+
-                "<td>"+
-                    "<div class='containerCard' title='Engine ON' style='background-color: #219ebc;'><p id='ofguetsn'></p></div>"+
-                "</td>"+
-                "<td>"+
-                    "<div class='containerCard' title='Engine OFF' style='background-color: #161a1d;'><p id='ofguefsn'></p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td style='text-align: center;' colspan='3'>"+
-                    "<div><p>With Orders</p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td>"+
-                    "<div class='containerCard' title='GPS Delay' style='background-color: #ff7aa2;'><p id='otgdensn'></p></div>"+
-                "</td>"+
-                "<td>"+
-                    "<div class='containerCard' title='Overstay' style='background-color: #a9845a;'><p id='otgueosovs'></p></div>"+
-                "</td>"+
-                "<td>"+
-                    "<div class='containerCard' title='Without Load' style='background-color: #ffd166;'><p id='otguensnld'></p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td>"+
-                    "<div class='containerCard' title='Waiting' style='background-color: #ff7f51;'><p id='otguenswtg'></p></div>"+
-                "</td>"+
-                "<td>"+
-                    "<div class='containerCard' title='On Delivery' style='background-color: #0ead69;'><p id='otguensond'></p></div>"+
-                "</td>"+
-                "<td>"+
-                    "<div class='containerCard' title='Overnight' style='background-color: #0b4f6c;'><p id='otguensovn'></p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td style='text-align: center;' colspan='3'>"+
-                    "<div class='containerCard' title='Abnormal' style='background-color: #bc4749;'><p id='otguensabn'></p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td style='text-align: center;' colspan='3'>"+
-                    "<div><p>GPS Status</p></div>"+
-                "</td>"+
-            "</tr>"+
-            "<tr>"+
-                "<td style='text-align: center; padding: 0;' colspan='3'>"+
-                    "<div id='containerPie'></div>"+
-                "</td>"+
-            "</tr>"+
-        "</table>");
-        });
-        MVCxTabPage tabGeo = settings.TabPages.Add();
-        tabGeo.SetTabTemplateContent(c =>
-        {
-            ViewContext.Writer.Write(string.Format("<a class='dxtc-link' id='pcFeatures_T1T'><span class='dx-vam'><i class='fa fa-map fa-lg'></i></span></a>", c.TabPage.Text));
-        });
-        tabGeo.SetContent(() =>
-        {
 
-            @Html.DevExpress().ComboBox(settingscmb =>
-            {
-                settingscmb.Name = "comboBoxGeo";
-                settingscmb.Width = Unit.Percentage(100);
-                settingscmb.Properties.DropDownWidth = Unit.Percentage(90);
-                settingscmb.Properties.DropDownStyle = DropDownStyle.DropDownList;
-                settingscmb.Properties.CallbackPageSize = 15;
-                settingscmb.Properties.TextField = "GEOFENCE_NAME";
-                settingscmb.Properties.FilterMinLength = 0;
-                settingscmb.Properties.TextFormatString = "{0}";
-                settingscmb.Properties.ValueField = "GEOFENCE_NAME";
-                settingscmb.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ getGeofencesInfo(s, e); }";
-                settingscmb.Properties.ValueType = typeof(string);
-              
-            }
-            ).BindList(ViewBag.DataGeo).GetHtml();
-            ViewContext.Writer.Write("<hr>");
-              ViewContext.Writer.Write(
-                        "<div id='infogeo'>"+
-                        "<div class='information-row' style='height: 96px;'><label class='oviewLabel' id='geofenceName'></label></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Geofence Code</label><div class='oviewValue' id='geofenceCode'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Geofence Type</label><div class='oviewValue' id='geofenceType'></div></div>"+
-                        "<div class='information-row'><label class='oviewLabel'>Speed Limit</label><div class='oviewValue' id='geofenceSpeed'></div></div>"+
-                        "</div>"+
-                        "<div id='formgeo'></div>"
-                    );
-            
-              @Html.DevExpress().Button(btnAdd =>
-              {
-                  btnAdd.Name = "btnAdd";
-                  btnAdd.Width = 100;
-                  btnAdd.Text = "Add";
-                  btnAdd.RenderMode = ButtonRenderMode.Secondary;
-                  btnAdd.EnableClientSideAPI = true;
-                  btnAdd.ClientSideEvents.Click = "function(s, e) { addPolygon(); }";  
+                MVCxTabPage tabChart = settings.TabPages.Add();
+                tabChart.SetTabTemplateContent(c =>
+                {
+                  ViewContext.Writer.Write(string.Format("<a class='dxtc-link' id='pcFeatures_T1T'><span class='dx-vam'><i class='fa fa-pie-chart fa-lg'></i></span></a>", c.TabPage.Text));
+                });
+                tabChart.SetContent(() =>
+                {
+                  ViewContext.Writer.Write(
+                    "<table style='width: 100%;'>"+
+                      "<tr>"+
+                          "<td style='text-align: center;' colspan='3'>"+
+                              "<div><p>No Orders</p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td>"+
+                              "<div class='containerCard' title='GPS OFF' style='background-color: #a1aaa1;'><p id='ofgoensn'></p></div>"+
+                          "</td>"+
+                          "<td>"+
+                              "<div class='containerCard' title='Engine ON' style='background-color: #219ebc;'><p id='ofguetsn'></p></div>"+
+                          "</td>"+
+                          "<td>"+
+                              "<div class='containerCard' title='Engine OFF' style='background-color: #161a1d;'><p id='ofguefsn'></p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td style='text-align: center;' colspan='3'>"+
+                              "<div><p>With Orders</p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td>"+
+                              "<div class='containerCard' title='GPS Delay' style='background-color: #ff7aa2;'><p id='otgdensn'></p></div>"+
+                          "</td>"+
+                          "<td>"+
+                              "<div class='containerCard' title='Overstay' style='background-color: #a9845a;'><p id='otgueosovs'></p></div>"+
+                          "</td>"+
+                          "<td>"+
+                              "<div class='containerCard' title='Without Load' style='background-color: #ffd166;'><p id='otguensnld'></p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td>"+
+                              "<div class='containerCard' title='Waiting' style='background-color: #ff7f51;'><p id='otguenswtg'></p></div>"+
+                          "</td>"+
+                          "<td>"+
+                              "<div class='containerCard' title='On Delivery' style='background-color: #0ead69;'><p id='otguensond'></p></div>"+
+                          "</td>"+
+                          "<td>"+
+                              "<div class='containerCard' title='Overnight' style='background-color: #0b4f6c;'><p id='otguensovn'></p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td style='text-align: center;' colspan='3'>"+
+                              "<div class='containerCard' title='Abnormal' style='background-color: #bc4749;'><p id='otguensabn'></p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td style='text-align: center;' colspan='3'>"+
+                              "<div><p>GPS Status</p></div>"+
+                          "</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                          "<td style='text-align: center; padding: 0;' colspan='3'>"+
+                              "<div id='containerPie'></div>"+
+                          "</td>"+
+                      "</tr>"+
+                    "</table>");
+                });
+
+                MVCxTabPage tabGeo = settings.TabPages.Add();
+                tabGeo.SetTabTemplateContent(c =>
+                {
+                    ViewContext.Writer.Write(string.Format("<a class='dxtc-link' id='pcFeatures_T1T'><span class='dx-vam'><i class='fa fa-map fa-lg'></i></span></a>", c.TabPage.Text));
+                });
+                tabGeo.SetContent(() =>
+                {
+                  @Html.DevExpress().ComboBox(settingscmb =>
+                  {
+                      settingscmb.Name = "comboBoxGeo";
+                      settingscmb.Width = Unit.Percentage(100);
+                      settingscmb.Properties.DropDownWidth = Unit.Percentage(90);
+                      settingscmb.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                      settingscmb.Properties.CallbackPageSize = 15;
+                      settingscmb.Properties.TextField = "GEOFENCE_NAME";
+                      settingscmb.Properties.FilterMinLength = 0;
+                      settingscmb.Properties.TextFormatString = "{0}";
+                      settingscmb.Properties.ValueField = "GEOFENCE_NAME";
+                      settingscmb.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ getGeofencesInfo(s, e); }";
+                      settingscmb.Properties.ValueType = typeof(string);
+                  }).BindList(ViewBag.DataGeo).GetHtml();
+                    ViewContext.Writer.Write("<hr>");
+                    ViewContext.Writer.Write(
+                                "<div id='infogeo'>"+
+                                "<div class='information-row' style='height: 96px;'><label class='oviewLabel' id='geofenceName'></label></div>"+
+                                "<div class='information-row'><label class='oviewLabel'>Geofence Code</label><div class='oviewValue' id='geofenceCode'></div></div>"+
+                                "<div class='information-row'><label class='oviewLabel'>Geofence Type</label><div class='oviewValue' id='geofenceType'></div></div>"+
+                                "<div class='information-row'><label class='oviewLabel'>Speed Limit</label><div class='oviewValue' id='geofenceSpeed'></div></div>"+
+                                "</div>"+
+                                "<div id='formgeo'></div>"
+                            );
+                    
+                    @Html.DevExpress().Button(btnAdd =>
+                    {
+                        btnAdd.Name = "btnAdd";
+                        btnAdd.Width = 100;
+                        btnAdd.Text = "Add";
+                        btnAdd.RenderMode = ButtonRenderMode.Secondary;
+                        btnAdd.EnableClientSideAPI = true;
+                        btnAdd.ClientSideEvents.Click = "function(s, e) { addPolygon(); }";  
+                        
+                    }).GetHtml();
+
+                    @Html.DevExpress().Button(btnEdit =>
+                    {
+                        btnEdit.Name = "btnEdit";
+                        btnEdit.Width = 100;
+                        btnEdit.Text = "Edit";
+                        btnEdit.RenderMode = ButtonRenderMode.Secondary;
+                        btnEdit.EnableClientSideAPI = true;
+                        btnEdit.ClientSideEvents.Click = "function(s, e) { editGeofence(); }";
+                    }).GetHtml();
+
+
+                    @Html.DevExpress().Button(btnAdd =>
+                    {
+                        btnAdd.Name = "btnSave";
+                        btnAdd.Width = 100;
+                        btnAdd.Text = "Save";
+                        btnAdd.RenderMode = ButtonRenderMode.Secondary;
+                        btnAdd.EnableClientSideAPI = true;
+                        btnAdd.ClientSideEvents.Click = "function(s, e) { submitGeofence(); }";
+
+                    }).GetHtml();
+
+                    @Html.DevExpress().Button(btnEdit =>
+                    {
+                        btnEdit.Name = "btnCancelGeo";
+                        btnEdit.Width = 100;
+                        btnEdit.Text = "Cancel";
+                        btnEdit.RenderMode = ButtonRenderMode.Secondary;
+                        btnEdit.EnableClientSideAPI = true;
+                        btnEdit.ClientSideEvents.Click = "function(s, e) { cancelFormGeo(); }";
+                    }).GetHtml();
                 
-              }).GetHtml();
+                });
 
-              @Html.DevExpress().Button(btnEdit =>
-              {
-                  btnEdit.Name = "btnEdit";
-                  btnEdit.Width = 100;
-                  btnEdit.Text = "Edit";
-                  btnEdit.RenderMode = ButtonRenderMode.Secondary;
-                  btnEdit.EnableClientSideAPI = true;
-                  btnEdit.ClientSideEvents.Click = "function(s, e) { editGeofence(); }";
-              }).GetHtml();
-
-
-              @Html.DevExpress().Button(btnAdd =>
-              {
-                  btnAdd.Name = "btnSave";
-                  btnAdd.Width = 100;
-                  btnAdd.Text = "Save";
-                  btnAdd.RenderMode = ButtonRenderMode.Secondary;
-                  btnAdd.EnableClientSideAPI = true;
-                  btnAdd.ClientSideEvents.Click = "function(s, e) { submitGeofence(); }";
-
-              }).GetHtml();
-
-              @Html.DevExpress().Button(btnEdit =>
-              {
-                  btnEdit.Name = "btnCancelGeo";
-                  btnEdit.Width = 100;
-                  btnEdit.Text = "Cancel";
-                  btnEdit.RenderMode = ButtonRenderMode.Secondary;
-                  btnEdit.EnableClientSideAPI = true;
-                  btnEdit.ClientSideEvents.Click = "function(s, e) { cancelFormGeo(); }";
-              }).GetHtml();
-          
-        });
-
-    }).GetHtml()
+            }).GetHtml()
         </div>
         
     </div>
@@ -421,6 +439,135 @@
         });
     }).GetHtml()
 }
+
+    @* =========================DESTINATION POPUP============================================== *@
+
+@Html.DevExpress().PopupControl(
+   settings =>
+   {
+      settings.Name = "pcModalDirection";
+      settings.Width = 450;
+      settings.AllowDragging = true;
+      settings.CloseAction = CloseAction.None;
+      settings.PopupAnimationType = AnimationType.Fade;
+      settings.HeaderText = "Direction";
+      settings.Modal = true;
+      settings.AutoUpdatePosition = true;
+      settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+      settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+      settings.SetContent(() =>
+      {
+         @Html.DevExpress().FormLayout(s =>
+            {
+               s.Name = "ModalDirectionFormLayout";
+               s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+               s.Width = Unit.Percentage(100);
+               s.Height = Unit.Percentage(5);
+               s.NestedExtensionWidth = Unit.Percentage(100);
+            }).Render();
+         ViewContext.Writer.Write("<table>");
+         ViewContext.Writer.Write("<tr>");
+         ViewContext.Writer.Write("<td  id='tdcmbRouteBy' style='padding:5px;'>");
+                  @Html.DevExpress().ComboBox(settingscmb =>
+                  {
+                     settingscmb.Name = "cmbRouteBy";
+                     settingscmb.Width = Unit.Percentage(40);               
+                     settingscmb.SelectedIndex = 0;
+                     settingscmb.Properties.Caption = "Route By :";
+                     settingscmb.Properties.DisplayFormatString = "Chose route by";
+                     settingscmb.Properties.ValueType = typeof(string);
+                     settingscmb.Properties.ClientInstanceName = "cmbRouteBy";
+                     settingscmb.Properties.Items.Add("--Select Route By--");
+                     settingscmb.Properties.Items.Add("Geofence");
+                     settingscmb.Properties.Items.Add("Coordinate");
+                     settingscmb.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e){ RouteBy(s, e); }";
+                  
+                  }).GetHtml();
+               ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td id='tdCoordinateStart' style='padding:5px;'>");
+                  @Html.DevExpress().TextBox(settingstxb =>
+                  {
+                     settingstxb.Name = "CoordinateStart";                     
+                     settingstxb.Width = Unit.Percentage(70);
+                     settingstxb.Properties.NullText = "Enter start coordinate";
+                     settingstxb.Properties.ClientInstanceName="CoordinateStart";
+                  }).GetHtml();
+               ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td id='tdcomboBoxGeoForDerectionStart' style='padding:5px;'>");
+                  @Html.DevExpress().ComboBox(settingscmb =>
+                  {
+                      settingscmb.Name = "comboBoxGeoForDerectionStart";                      
+                      settingscmb.Width = Unit.Percentage(70);
+                      settingscmb.Properties.DropDownWidth = Unit.Percentage(90);
+                      settingscmb.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                      settingscmb.Properties.CallbackPageSize = 15;
+                      settingscmb.Properties.TextField = "geofence_name";
+                      settingscmb.Properties.FilterMinLength = 0;
+                      settingscmb.Properties.TextFormatString = "{0}";
+                      settingscmb.Properties.ValueField = "LatLong";
+                      settingscmb.Properties.ClientInstanceName = "comboBoxGeoForDerectionStart";                    
+                      settingscmb.Properties.ValueType = typeof(string);
+                  }).BindList(ViewBag.DataLatLOng).GetHtml();
+               ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td id='tdCoordinateDestination' style='padding:5px;'>");
+                  @Html.DevExpress().TextBox(settingstxb =>
+                  {
+                     settingstxb.Name = "CoordinateDestination";
+                     settingstxb.Width = Unit.Percentage(70);
+                     settingstxb.Properties.NullText = "Enter destination coordinate";
+                     settingstxb.Properties.ClientInstanceName="CoordinateDestination";
+                  }).GetHtml();
+               ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td id='tdcomboBoxGeoForDerectionDest' style='padding:5px;'>");
+                  @Html.DevExpress().ComboBox(settingscmb =>
+                  {
+                      settingscmb.Name = "comboBoxGeoForDerectionDest";
+                      settingscmb.Width = Unit.Percentage(70);
+                      settingscmb.Properties.DropDownWidth = Unit.Percentage(90);
+                      settingscmb.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                      settingscmb.Properties.CallbackPageSize = 15;
+                      settingscmb.Properties.TextField = "geofence_name";
+                      settingscmb.Properties.FilterMinLength = 0;
+                      settingscmb.Properties.TextFormatString = "{0}";
+                      settingscmb.Properties.ValueField = "LatLong";
+                      settingscmb.Properties.ClientInstanceName="comboBoxGeoForDerectionDest";
+                      settingscmb.Properties.ValueType = typeof(string);
+                  }).BindList(ViewBag.DataLatLOng).GetHtml();
+               ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td id='tdButton' style='padding-top:20px;'>");
+                @Html.DevExpress().Button(settingsBtn =>
+                {
+                    settingsBtn.Name = "btnRouteDirection";
+                    settingsBtn.Width = Unit.Percentage(20);
+                    settingsBtn.ClientSideEvents.Click = "function(s, e){ RotesDirection(s, e); }";
+                    settingsBtn.Text = "Routes";
+                }).GetHtml();        
+                @Html.DevExpress().Button(settingsBtn =>
+                {
+                    settingsBtn.Name = "btnCancelDirection";
+                    settingsBtn.Width = Unit.Percentage(20);
+                    settingsBtn.ClientSideEvents.Click = "function(s, e){ CloseDirection(s, e); }";
+                    settingsBtn.Text = "Close";
+                }).GetHtml();
+               ViewContext.Writer.Write("</td>");                       
+            ViewContext.Writer.Write("</tr>");           
+         ViewContext.Writer.Write("</table>");
+   });}).GetHtml()
+}
+@* ===============================END DESTINATION POPUP========================================= *@
+
+
+
 @Html.DevExpress().PopupControl(
     settings =>
     {
@@ -571,4 +718,7 @@
                             }
                         ).GetHtml()
 
+
+
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/Map/MainMap.js")"></script>

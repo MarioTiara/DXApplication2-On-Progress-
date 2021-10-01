@@ -132,7 +132,6 @@ namespace BusinessLogic
             return null;
         }
 
-
         public static DataTable GetGeofenceInfoLMS(string GEOFENCE_CODE)
         {
             try
@@ -164,6 +163,38 @@ namespace BusinessLogic
             return null;
         }
 
+        public static DataTable GetGeofenceLatLong()
+        {
+            try
+            {
+                using (DataTable table = new DataTable("GeofencesLatLong"))
+                {
+
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString))
+                    {
+                        string cmdText = DataAccess.DataAccess.GetCommandText(DataAccess.Geofences.SQL__Get_GeofenceLatLong);
+
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmdText, conn))
+                        {
+                            adapter.SelectCommand.CommandType = CommandType.Text;
+                            adapter.Fill(table);
+                        }
+                    }
+
+                    return table;
+                }
+
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return null;
+        }
+        
+        
+        
         public static int Insert(
                string COMPANY_SID,
                string DIVISION_SID,
