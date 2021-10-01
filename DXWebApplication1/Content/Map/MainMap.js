@@ -73,7 +73,7 @@
     var value = '@Request.RequestContext.HttpContext.Session["ACCOUNT_SID"]';
     
     var LinemarkersLayer;
-    var StartPointsMarkersLayer, DestPointsMarkersLayer;
+    var PointsMarkersLayer;
     
     if (value == null) {
 
@@ -1610,6 +1610,12 @@
 
     function CloseDirection(s, e) {
         pcModalDirection.Hide();
+        if (PointsMarkersLayer) {
+            map.removeLayer(PointsMarkersLayer);
+        }
+        if (LinemarkersLayer) {
+            map.removeLayer(LinemarkersLayer);
+        }
         
      
 
@@ -1624,8 +1630,8 @@
 
         
 
-        if (StartPointsMarkersLayer) {
-            map.removeLayer(StartPointsMarkersLayer);
+        if (PointsMarkersLayer) {
+            map.removeLayer(PointsMarkersLayer);
         }
 
         var routeMethod = RouteBy();
@@ -1639,7 +1645,7 @@
         var routeLine = []
         var Points;
 
-        StartPointsMarkersLayer = new L.LayerGroup().addTo(map);
+        PointsMarkersLayer = new L.LayerGroup().addTo(map);
         LinemarkersLayer = new L.LayerGroup().addTo(map);
         if (routeMethod == "Geofence")
         {
@@ -1668,7 +1674,7 @@
             success: function (data) {
                 DataAllStep = data;
                 console.log(data);
-                StartPointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
+                PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
                 var dataCoordinates = data.routes[0].geometry.coordinates
 
                 lengStepData = data.routes[0].legs[0].steps.length - 1;
@@ -1683,7 +1689,7 @@
                         LinemarkersLayer.addLayer(routeLine[z]);
                     }
                 }
-                StartPointsMarkersLayer.addLayer(L.marker([DesLat, DesLong]));
+                PointsMarkersLayer.addLayer(L.marker([DesLat, DesLong]));
                 map.fitBounds([[strLat, strLong], [DesLat, DesLong]]);
             }
 
