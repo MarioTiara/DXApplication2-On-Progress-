@@ -258,6 +258,8 @@
     <Content Include="Content\jquery-3.5.1.js" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\MainContent.css" />
+    <Content Include="Content\Map\Images\marker-icon-2x-green.png" />
+    <Content Include="Content\Map\Images\marker-shadow.png" />
     <Content Include="Content\Map\leaflet.rotatedMarker.js" />
     <Content Include="Content\Map\MainMap.js" />
     <Content Include="Content\Map\Map.SelectArea.js" />

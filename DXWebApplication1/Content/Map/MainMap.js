@@ -1575,7 +1575,7 @@
     {
         var RouteByValue = cmbRouteBy.GetValue();
         if (RouteByValue == "Geofence") {
-            $('#comboBoxGeoForDerectionStart').css('marginTop', '10px');
+            $('#comboBoxGeoForDerectionStart').css('marginTop', '5px');
             $('#CoordinateStart').css('display', 'none');
             $('#CoordinateDestination').css('display', 'none');
             $('#comboBoxGeoForDerectionStart').css('display', 'block');
@@ -1591,7 +1591,7 @@
             $('#comboBoxGeoForDerectionDest').css('display', 'none');
             $('#CoordinateStart').css('display', 'block');
             $('#CoordinateDestination').css('display', 'block');
-            $('#CoordinateStart').css('marginTop', '10px');
+            $('#CoordinateStart').css('marginTop', '5px');
             $('#tdcomboBoxGeoForDerectionStart').css('padding', '0px');
             $('#tdcomboBoxGeoForDerectionDest').css('padding', '0px');
             $('#tdCoordinateStart').css('padding', '5px');
@@ -1643,13 +1643,15 @@
 
         var routeMethod = RouteBy();
         var latLongStart, latLongDest;
-        var strLat, strLong, DesLat, DesLong;        
+        var strLat, strLong, DesLat, DesLong;
+
+        
         var routeLine = [];
         var stepsDot = [];
         var Points;
         var StepsIcon = L.divIcon({ className: "instructionMark" });
         var greenIcon = new L.Icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',           
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],

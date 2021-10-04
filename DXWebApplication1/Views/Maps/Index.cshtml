@@ -32,11 +32,16 @@
      /* ============================STYLES FOR DIRECTION POPUP IN MAP/INDEX.CSHMTL====================================== */
 
      #cmbRouteBy_ET {
-         width: 450px !important;
+         width: 300px !important;
      }
 
-     #comboBoxGeoForDerectionStart,#comboBoxGeoForDerectionDest, #CoordinateStart, #CoordinateDestination{
-        float:right !important;
+     #cmbRouteBy_CapC {
+         padding-right:7px !important;
+         width:50px !important;
+     }
+     
+      #comboBoxGeoForDerectionStart, #comboBoxGeoForDerectionDest, #CoordinateStart, #CoordinateDestination {
+         float: right !important;
      }
 
      #cmbRouteBy_CC{
@@ -456,7 +461,7 @@
    settings =>
    {
       settings.Name = "pcModalDirection";
-      settings.Width = 450;
+      settings.Width = 350;
       settings.AllowDragging = true;
       settings.CloseAction = CloseAction.None;
       settings.PopupAnimationType = AnimationType.Fade;
@@ -501,7 +506,7 @@
                   {
                      settingstxb.Name = "CoordinateStart";                     
                      settingstxb.Width = Unit.Percentage(70);
-                     settingstxb.Properties.NullText = "Enter start coordinate";
+                     settingstxb.Properties.NullText = "Enter origin coordinate (Lat,Long)";
                      settingstxb.Properties.ClientInstanceName="CoordinateStart";
                   }).GetHtml();
                ViewContext.Writer.Write("</td>");
@@ -530,7 +535,7 @@
                   {
                      settingstxb.Name = "CoordinateDestination";
                      settingstxb.Width = Unit.Percentage(70);
-                     settingstxb.Properties.NullText = "Enter destination coordinate";
+                     settingstxb.Properties.NullText = "Enter destination coordinate (Lat,Long)";
                      settingstxb.Properties.ClientInstanceName="CoordinateDestination";
                   }).GetHtml();
                ViewContext.Writer.Write("</td>");
@@ -546,7 +551,7 @@
                       settingscmb.Properties.CallbackPageSize = 15;
                       settingscmb.Properties.TextField = "geofence_name";
                       settingscmb.Properties.FilterMinLength = 0;
-                      settingscmb.Properties.TextFormatString = "{0}";
+                      settingscmb.Properties.TextFormatString = "{0}";                    
                       settingscmb.Properties.ValueField = "LatLong";
                       settingscmb.Properties.ClientInstanceName="comboBoxGeoForDerectionDest";
                       settingscmb.Properties.ValueType = typeof(string);
@@ -554,7 +559,7 @@
                ViewContext.Writer.Write("</td>");
             ViewContext.Writer.Write("</tr>");
             ViewContext.Writer.Write("<tr>");
-            ViewContext.Writer.Write("<td id='tdButton' style='padding-top:20px;'>");
+            ViewContext.Writer.Write("<td id='tdButton' style='padding-top:10px;'>");
                 @Html.DevExpress().Button(settingsBtn =>
                 {
                     settingsBtn.Name = "btnRouteDirection";
