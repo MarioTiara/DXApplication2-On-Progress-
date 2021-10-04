@@ -74,6 +74,7 @@
     
     var LinemarkersLayer;
     var PointsMarkersLayer;
+    var StepsMarkersLayer;
     
     if (value == null) {
 
@@ -1617,45 +1618,69 @@
             map.removeLayer(LinemarkersLayer);
         }
         
-     
+        if (StepsMarkersLayer) {
+            map.removeLayer(StepsMarkersLayer);
+        }
 
     }
 
 
     function RotesDirection() 
     {
+        
         if (LinemarkersLayer) {
             map.removeLayer(LinemarkersLayer);
-        }
-
-        
+        }  
 
         if (PointsMarkersLayer) {
             map.removeLayer(PointsMarkersLayer);
         }
 
+        if (StepsMarkersLayer) {
+            map.removeLayer(StepsMarkersLayer);
+        }
+
+
         var routeMethod = RouteBy();
         var latLongStart, latLongDest;
-        var strLat, strLong, DesLat, DesLong;
-        var lat, Long;
-        var RouteControl = null;
-        var Strmarker = null;
-        var DesMarker = null;
-        var WayPoints = [];
-        var routeLine = []
+        var strLat, strLong, DesLat, DesLong;        
+        var routeLine = [];
+        var stepsDot = [];
         var Points;
-
+        var StepsIcon = L.divIcon({ className: "instructionMark" });
+        var greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var DestMarkerCaption;
+        var OriginMarkerCaption
+        var lastDistance = 0;
+        var lastDuration = 0;
+        var stepsLocation;
+        var stepsName;
         PointsMarkersLayer = new L.LayerGroup().addTo(map);
         LinemarkersLayer = new L.LayerGroup().addTo(map);
+        StepsMarkersLayer = new L.LayerGroup().addTo(map);
+
         if (routeMethod == "Geofence")
         {
             latLongStart = comboBoxGeoForDerectionStart.GetValue().slice(7,-1);
             latLongDest = comboBoxGeoForDerectionDest.GetValue().slice(7, -1);
+            var strGeoName = comboBoxGeoForDerectionStart.GetText();
+            var destGeoName = comboBoxGeoForDerectionDest.GetText();
 
             strLat = latLongStart.split(" ")[1];
             strLong = latLongStart.split(" ")[0];
             DesLat = latLongDest.split(" ")[1];
             DesLong = latLongDest.split(" ")[0];
+
+            OriginMarkerCaption = strGeoName;
+            DestMarkerCaption = destGeoName;
+
         }
 
         else if (routeMethod == "Coordinate")
@@ -1667,42 +1692,72 @@
             strLong = latLongStart.split(",")[1];
             DesLat = latLongDest.split(",")[0];
             DesLong = latLongDest.split(",")[1];
-        }                
-        $.ajax({
-            type: "GET",
-            url: "https://api.mapbox.com/directions/v5/mapbox/driving/" + strLong+","+strLat + ";" + DesLong+","+DesLat+ "?access_token=pk.eyJ1Ijoic2Vpbm9rYWhmaSIsImEiOiJja285aWY5NHcwNHlyMm9xbWY3ZWhlcm0wIn0.kUzmIB4Vzg0A9XKE6O1ipA&geometries=geojson&steps=true",
-            success: function (data) {
-                DataAllStep = data;
-                console.log(data);
-                PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
-                var dataCoordinates = data.routes[0].geometry.coordinates
+            OriginMarkerCaption=latLongStart;
+            DestMarkerCaption = latLongDest;
 
-                lengStepData = data.routes[0].legs[0].steps.length - 1;
-                for (y = 0 ; y < lengStepData; y++) {
-                    lengRouteData = data.routes[0].legs[0].steps[y].geometry.coordinates.length - 1;
-                    for (z = 0; z < lengRouteData; z++) {
-                        var a = data.routes[0].legs[0].steps[y].geometry.coordinates[z][1];
-                        var b = data.routes[0].legs[0].steps[y].geometry.coordinates[z][0];
-                        var e = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][1];
-                        var f = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][0];
-                        routeLine[z] = L.polyline([[a, b], [e, f]], { color: "red", weight: 3 });
-                        LinemarkersLayer.addLayer(routeLine[z]);
+        }
+
+        if (latLongStart == latLongDest)
+        {
+            alert("Your input data is duplicated.")
+        }
+        else
+        {
+            $.ajax({
+                type: "GET",
+                url: "https://api.mapbox.com/directions/v5/mapbox/driving/" + strLong + "," + strLat + ";" + DesLong + "," + DesLat + "?access_token=pk.eyJ1Ijoic2Vpbm9rYWhmaSIsImEiOiJja285aWY5NHcwNHlyMm9xbWY3ZWhlcm0wIn0.kUzmIB4Vzg0A9XKE6O1ipA&geometries=geojson&steps=true",
+                success: function (data) {
+                    DataAllStep = data;
+
+                    PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
+                    console.log(data);
+                    var distances = data.routes[0].legs[0].distance / 1000;
+                    var duration = data.routes[0].legs[0].duration;
+
+                    lengStepData = data.routes[0].legs[0].steps.length - 1;
+                    for (y = 0 ; y < lengStepData; y++) {
+                        lengRouteData = data.routes[0].legs[0].steps[y].geometry.coordinates.length - 1;
+                        for (z = 0; z < lengRouteData; z++) {
+                            let a = data.routes[0].legs[0].steps[y].geometry.coordinates[z][1];
+                            let b = data.routes[0].legs[0].steps[y].geometry.coordinates[z][0];
+                            let e = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][1];
+                            let f = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][0];
+                            routeLine[z] = L.polyline([[a, b], [e, f]], { color: "red", weight: 5 });
+                            LinemarkersLayer.addLayer(routeLine[z]);
+                        }
+
+                        stepsLocation = data.routes[0].legs[0].steps[y].maneuver.location;
+                        lastDistance = lastDistance + (data.routes[0].legs[0].steps[y].distance / 1000);
+                        lastDuration = lastDuration + data.routes[0].legs[0].steps[y].duration;
+                        leftDistance = distances - lastDistance;
+                        leftDuration = duration - lastDuration;
+                        stepsName = data.routes[0].legs[0].steps[y].name;
+                        if (stepsName == "") {
+                            stepsName = "---";
+                        }
+
+                        stepsDot[y] = L.marker([stepsLocation[1], stepsLocation[0]], { icon: StepsIcon });
+                        stepsDot[y].bindTooltip(stepsName +
+                                                "<br> Distance: " + lastDistance.toFixed(3) + " Km <br> Duration: "
+                                                + convertHMS(lastDuration)).openTooltip();
+
+                        StepsMarkersLayer.addLayer(stepsDot[y]);
                     }
+
+                    PointsMarkersLayer.addLayer(L.marker([DesLat, DesLong], { icon: greenIcon }));
+                    let destmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[1]];
+                    let Originmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[0]];
+
+                    destmarker.bindTooltip(DestMarkerCaption + "<br>Total Distance: " + distances.toFixed(3) + " Km <br>" + " Total Duration: " + convertHMS(duration), { permanent: true }).openTooltip();
+                    Originmarker.bindTooltip(OriginMarkerCaption, { permanent: true }).openTooltip();
+                    map.fitBounds([[strLat, strLong], [DesLat, DesLong]]);
                 }
-                PointsMarkersLayer.addLayer(L.marker([DesLat, DesLong]));
-                map.fitBounds([[strLat, strLong], [DesLat, DesLong]]);
-            }
 
-        });
+            });
+
+        }
+      
        
-
-
-
-
-
-
-
-
     }
 
 //  ========================================end SCRIPT DESTINATION POPUP==============================================================

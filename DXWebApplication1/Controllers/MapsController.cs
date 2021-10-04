@@ -559,8 +559,9 @@ namespace DXWebApplication1.Controllers
                 object LatLongData;
 
                 DataTable GeofenceLatLongDataTable = new DataTable();
-                GeofenceLatLongDataTable = BusinessLogic.Geofences.GetGeofenceLatLong();
+                GeofenceLatLongDataTable = BusinessLogic.Geofences.GetGeofenceLatLong();              
                 List<ModellatLong> LatLongDataList = new List<ModellatLong>();
+                LatLongDataList.Add(new ModellatLong { geofence_name = "--Select Geofence--",LatLong=null });
                 foreach ( DataRow row in GeofenceLatLongDataTable.Rows)
                 {
                     ModellatLong objlatLong = new ModellatLong();
