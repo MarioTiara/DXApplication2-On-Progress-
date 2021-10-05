@@ -1707,7 +1707,7 @@
         {
             $.ajax({
                 type: "GET",
-                url: "https://api.mapbox.com/directions/v5/mapbox/driving/" + strLong + "," + strLat + ";" + DesLong + "," + DesLat + "?access_token=pk.eyJ1Ijoic2Vpbm9rYWhmaSIsImEiOiJja285aWY5NHcwNHlyMm9xbWY3ZWhlcm0wIn0.kUzmIB4Vzg0A9XKE6O1ipA&geometries=geojson&steps=true",
+                url: "https://api.mapbox.com/directions/v5/mapbox/driving/" + strLong + "," + strLat + ";" + DesLong + "," + DesLat + "?access_token=pk.eyJ1Ijoic2Vpbm9rYWhmaSIsImEiOiJja285aWY5NHcwNHlyMm9xbWY3ZWhlcm0wIn0.kUzmIB4Vzg0A9XKE6O1ipA&geometries=geojson&steps=true&alternatives=true",
                 success: function (data) {
                     DataAllStep = data;
 
@@ -1717,6 +1717,10 @@
                     var duration = data.routes[0].legs[0].duration;
 
                     lengStepData = data.routes[0].legs[0].steps.length - 1;
+                    for (n = 0; n <= data.routes.length; n++)
+                    {
+                        console.log(data.routes[n]);
+                    }
                     for (y = 0 ; y < lengStepData; y++) {
                         lengRouteData = data.routes[0].legs[0].steps[y].geometry.coordinates.length - 1;
                         for (z = 0; z < lengRouteData; z++) {
@@ -1724,10 +1728,10 @@
                             let b = data.routes[0].legs[0].steps[y].geometry.coordinates[z][0];
                             let e = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][1];
                             let f = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][0];
-                            routeLine[z] = L.polyline([[a, b], [e, f]], { color: "red", weight: 5 });
+                            routeLine[z] = L.polyline([[a, b], [e, f]], { color: "blue", weight: 5 }).on('click', routeLineOnClicts);
                             LinemarkersLayer.addLayer(routeLine[z]);
                         }
-
+                       
                         stepsLocation = data.routes[0].legs[0].steps[y].maneuver.location;
                         lastDistance = lastDistance + (data.routes[0].legs[0].steps[y].distance / 1000);
                         lastDuration = lastDuration + data.routes[0].legs[0].steps[y].duration;
@@ -1746,6 +1750,20 @@
                         StepsMarkersLayer.addLayer(stepsDot[y]);
                     }
 
+                    function routeLineOnClicts(e) {                      
+                        console.log(LinemarkersLayer._layers);
+
+                        for( var data in LinemarkersLayer._layers)
+                        {
+                            LinemarkersLayer._layers[data].setStyle({
+                                color: 'red',
+                                weight: 8
+                                    });
+                        }
+                        
+                    }
+
+
                     PointsMarkersLayer.addLayer(L.marker([DesLat, DesLong], { icon: greenIcon }));
                     let destmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[1]];
                     let Originmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[0]];
@@ -1756,6 +1774,8 @@
                 }
 
             });
+
+           
 
         }
       
