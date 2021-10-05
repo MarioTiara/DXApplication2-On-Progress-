@@ -1645,7 +1645,7 @@
         var latLongStart, latLongDest;
         var strLat, strLong, DesLat, DesLong;
 
-        
+        var routeLines=new Array();
         var routeLine = [];
         var stepsDot = [];
         var Points;
@@ -1711,66 +1711,57 @@
                 success: function (data) {
                     DataAllStep = data;
 
-                    PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
+                   // PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
                     console.log(data);
                     var distances = data.routes[0].legs[0].distance / 1000;
                     var duration = data.routes[0].legs[0].duration;
 
                     lengStepData = data.routes[0].legs[0].steps.length - 1;
-                    for (n = 0; n <= data.routes.length; n++)
+
+                    for (n = 0; n < data.routes.length; n++)
                     {
-                        console.log(data.routes[n]);
-                    }
-                    for (y = 0 ; y < lengStepData; y++) {
-                        lengRouteData = data.routes[0].legs[0].steps[y].geometry.coordinates.length - 1;
-                        for (z = 0; z < lengRouteData; z++) {
-                            let a = data.routes[0].legs[0].steps[y].geometry.coordinates[z][1];
-                            let b = data.routes[0].legs[0].steps[y].geometry.coordinates[z][0];
-                            let e = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][1];
-                            let f = data.routes[0].legs[0].steps[y].geometry.coordinates[z + 1][0];
-                            routeLine[z] = L.polyline([[a, b], [e, f]], { color: "blue", weight: 5 }).on('click', routeLineOnClicts);
-                            LinemarkersLayer.addLayer(routeLine[z]);
-                        }
-                       
-                        stepsLocation = data.routes[0].legs[0].steps[y].maneuver.location;
-                        lastDistance = lastDistance + (data.routes[0].legs[0].steps[y].distance / 1000);
-                        lastDuration = lastDuration + data.routes[0].legs[0].steps[y].duration;
-                        leftDistance = distances - lastDistance;
-                        leftDuration = duration - lastDuration;
-                        stepsName = data.routes[0].legs[0].steps[y].name;
-                        if (stepsName == "") {
-                            stepsName = "---";
-                        }
-
-                        stepsDot[y] = L.marker([stepsLocation[1], stepsLocation[0]], { icon: StepsIcon });
-                        stepsDot[y].bindTooltip(stepsName +
-                                                "<br> Distance: " + lastDistance.toFixed(3) + " Km <br> Duration: "
-                                                + convertHMS(lastDuration)).openTooltip();
-
-                        StepsMarkersLayer.addLayer(stepsDot[y]);
-                    }
-
-                    function routeLineOnClicts(e) {                      
-                        console.log(LinemarkersLayer._layers);
-
-                        for( var data in LinemarkersLayer._layers)
+                        let tempLines = [];
+                        lengStepData = data.routes[n].legs[0].steps.length - 1;
+                        for (y = 0 ; y < lengStepData; y++) 
                         {
+                            lengRouteData = data.routes[n].legs[0].steps[y].geometry.coordinates.length - 1;
+                            for (z = 0; z < lengRouteData; z++) 
+                            {
+                                
+                                let a = data.routes[n].legs[0].steps[y].geometry.coordinates[z][1];
+                                let b = data.routes[n].legs[0].steps[y].geometry.coordinates[z][0];
+                                let e = data.routes[n].legs[0].steps[y].geometry.coordinates[z + 1][1];
+                                let f = data.routes[n].legs[0].steps[y].geometry.coordinates[z + 1][0];
+                                routeLine[z] = L.polyline([[a, b], [e, f]], { attribution: n, color: "red", weight: 7 });                              
+                                if (n !=0)
+                                {
+                                    routeLine[z] = L.polyline([[a, b], [e, f]], { attribution: n, color: "blue ", weight: 3, opacity: 0.7 });
+                                    
+                                }                             
+                                routeLine[z].on('click', routeLineOnClicts);
+                                tempLines.push(routeLine[z]);
+                                LinemarkersLayer.addLayer(routeLine[z]);
+                                tempLines.push(LinemarkersLayer.addLayer(routeLine[z]));
+                            }                                             
+                        }
+                        routeLines.push(tempLines);                      
+                    }
+                   
+                    console.log(LinemarkersLayer);
+                    console.log(routeLines);
+                    map.fitBounds([[strLat, strLong], [DesLat, DesLong]]);
+                    function routeLineOnClicts(e)
+                    {
+                        for (var data in LinemarkersLayer._layers) {
                             LinemarkersLayer._layers[data].setStyle({
                                 color: 'red',
                                 weight: 8
-                                    });
+                            });
                         }
-                        
+                     
                     }
+                    
 
-
-                    PointsMarkersLayer.addLayer(L.marker([DesLat, DesLong], { icon: greenIcon }));
-                    let destmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[1]];
-                    let Originmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[0]];
-
-                    destmarker.bindTooltip(DestMarkerCaption + "<br>Total Distance: " + distances.toFixed(3) + " Km <br>" + " Total Duration: " + convertHMS(duration), { permanent: true }).openTooltip();
-                    Originmarker.bindTooltip(OriginMarkerCaption, { permanent: true }).openTooltip();
-                    map.fitBounds([[strLat, strLong], [DesLat, DesLong]]);
                 }
 
             });
