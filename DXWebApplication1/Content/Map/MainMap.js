@@ -1648,7 +1648,8 @@
         var routeLines=new Array();
         var routeLine = [];
         var stepsDot = [];
-        var Points;
+        var distances=[];
+        var duration =[];
         var StepsIcon = L.divIcon({ className: "instructionMark" });
         var greenIcon = new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',           
@@ -1710,20 +1711,23 @@
                 url: "https://api.mapbox.com/directions/v5/mapbox/driving/" + strLong + "," + strLat + ";" + DesLong + "," + DesLat + "?access_token=pk.eyJ1Ijoic2Vpbm9rYWhmaSIsImEiOiJja285aWY5NHcwNHlyMm9xbWY3ZWhlcm0wIn0.kUzmIB4Vzg0A9XKE6O1ipA&geometries=geojson&steps=true&alternatives=true",
                 success: function (data) {
                     DataAllStep = data;
-
-                   // PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))
                     console.log(data);
-                    var distances = data.routes[0].legs[0].distance / 1000;
-                    var duration = data.routes[0].legs[0].duration;
-
+                    PointsMarkersLayer.addLayer(L.marker([strLat, strLong]))                   
+                     
+                                      
+                    let tempLines = [];
+                    let tempPlyLines = [];
+                    let attrib = 0;
                     lengStepData = data.routes[0].legs[0].steps.length - 1;
-
-                    for (n = 0; n < data.routes.length; n++)
+                    for (n = data.routes.length-1; n >=0; n--)
                     {
-                        let tempLines = [];
+                     distances.push(data.routes[n].legs[0].distance / 1000);
+                     duration.push(data.routes[n].legs[0].duration);
+                        tempLines = [];
                         lengStepData = data.routes[n].legs[0].steps.length - 1;
                         for (y = 0 ; y < lengStepData; y++) 
                         {
+
                             lengRouteData = data.routes[n].legs[0].steps[y].geometry.coordinates.length - 1;
                             for (z = 0; z < lengRouteData; z++) 
                             {
@@ -1732,33 +1736,117 @@
                                 let b = data.routes[n].legs[0].steps[y].geometry.coordinates[z][0];
                                 let e = data.routes[n].legs[0].steps[y].geometry.coordinates[z + 1][1];
                                 let f = data.routes[n].legs[0].steps[y].geometry.coordinates[z + 1][0];
-                                routeLine[z] = L.polyline([[a, b], [e, f]], { attribution: n, color: "red", weight: 7 });                              
+                                routeLine[z] = L.polyline([[a, b], [e, f]], { attribution: attrib, color: "red", weight: 5, opacity: 0.8 });
                                 if (n !=0)
                                 {
-                                    routeLine[z] = L.polyline([[a, b], [e, f]], { attribution: n, color: "blue ", weight: 3, opacity: 0.7 });
+                                    routeLine[z] = L.polyline([[a, b], [e, f]], { attribution: attrib, color: "grey", weight: 5, opacity: 0.8 });
                                     
                                 }                             
                                 routeLine[z].on('click', routeLineOnClicts);
-                                tempLines.push(routeLine[z]);
-                                LinemarkersLayer.addLayer(routeLine[z]);
-                                tempLines.push(LinemarkersLayer.addLayer(routeLine[z]));
-                            }                                             
+                                
+                                LinemarkersLayer.addLayer(routeLine[z])
+                                tempLines.push(routeLine[z]);                                                             
+                            }  
+                            
+                            stepsLocation = data.routes[n].legs[0].steps[y].maneuver.location;
+                            lastDistance = lastDistance + (data.routes[n].legs[0].steps[y].distance / 1000);
+                            lastDuration = lastDuration + data.routes[n].legs[0].steps[y].duration;
+                            stepsName = data.routes[n].legs[0].steps[y].name;
+                            if (stepsName == "") {
+                                stepsName = "---";
+                            }
+
+                            stepsDot[y] = L.marker([stepsLocation[1], stepsLocation[0]], { icon: StepsIcon });
+                            stepsDot[y].bindTooltip(stepsName +
+                                                    "<br> Distance: " + lastDistance.toFixed(3) + " Km <br> Duration: "
+                                                    + convertHMS(lastDuration)).openTooltip();
+
+                            StepsMarkersLayer.addLayer(stepsDot[y]);
                         }
-                        routeLines.push(tempLines);                      
+                                               
+                        routeLines.push(tempLines);
+                        attrib = +1;
                     }
-                   
-                    console.log(LinemarkersLayer);
-                    console.log(routeLines);
+                    
+                    PointsMarkersLayer.addLayer(L.marker([DesLat, DesLong], { icon: greenIcon }));
+
+
+
+                    let destmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[1]];
+                    let Originmarker = PointsMarkersLayer._layers[Object.keys(PointsMarkersLayer._layers)[0]];
+                  
+                    console.log(distances);
+                    console.log(distances[distances.length - 1]);
+                    console.log(duration);
+                    console.log(duration[duration.length - 1]);
+                    destmarker.bindTooltip(DestMarkerCaption + "<br>Total Distance: " + distances[distances.length - 1].toFixed(3) + " Km <br>" + " Total Duration: " + convertHMS(duration[duration.length-1]), { permanent: true }).openTooltip();
+                    Originmarker.bindTooltip(OriginMarkerCaption, { permanent: true }).openTooltip();
                     map.fitBounds([[strLat, strLong], [DesLat, DesLong]]);
+
+                    
+
+
                     function routeLineOnClicts(e)
-                    {
-                        for (var data in LinemarkersLayer._layers) {
-                            LinemarkersLayer._layers[data].setStyle({
-                                color: 'red',
-                                weight: 8
-                            });
+                    {                          
+                        map.removeLayer(LinemarkersLayer);
+                        
+                        let index = e.sourceTarget.options.attribution;
+                        LinemarkersLayer = new L.LayerGroup().addTo(map);
+                        console.log(index);
+                        tempPlyLines = [];                        
+                    
+                        if (index == 0)
+                        {
+                            for (n = routeLines.length - 1 ; n >= 0; n--) {
+                                tempLines = [];
+                                for (z = 0; z < routeLines[n].length; z++) {
+                                    routeLines[n][z].setStyle({ color: 'grey' });
+                                    if (n == index) {
+
+                                        routeLines[n][z].setStyle({ color: 'red' });
+
+                                    }
+
+                                    LinemarkersLayer.addLayer(routeLines[n][z]);
+
+                                    tempLines.push(routeLines[n][z]);
+                                }
+
+                                tempPlyLines.push(tempLines);
+                            }
                         }
-                     
+
+                        else {
+                            for (n = routeLines.length - 1 ; n >= 0; n--) {
+                                tempLines = [];
+                                for (z = 0; z < routeLines[n].length; z++) {
+                                    routeLines[n][z].setStyle({ color: 'grey' });
+                                    if (n != index) {
+
+                                        routeLines[n][z].setStyle({ color: 'red' });
+
+                                    }
+
+                                    LinemarkersLayer.addLayer(routeLines[n][z]);
+                                    tempLines.push(routeLines[n][z]);
+                                }
+
+                                tempPlyLines.push(tempLines);
+                            }
+                        }
+
+
+
+
+
+
+                        routeLines = [];
+                        for (i=0;i<tempPlyLines.length;i++)
+                        {
+                            
+                            routeLines.push(tempPlyLines[i]);
+                        }
+                        console.log(routeLines);
                     }
                     
 
